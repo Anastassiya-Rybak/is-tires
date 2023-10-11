@@ -1,6 +1,7 @@
 {
-  "name": "nuxt-app",
+  "name": "iskra-tires",
   "private": true,
+  "homepage": "https://anastassiya-rybak.github.io/is-tires/",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

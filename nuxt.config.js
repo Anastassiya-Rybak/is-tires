@@ -2,7 +2,10 @@
 import { DefineNuxtConfig } from "nuxt/config"
 
 export default {
-  target: 'server',
+  target: 'static',
+  router: {
+    base: '/is-tires/'
+  },
   head: {
     htmlAttrs: {
       lang: 'ru'
@@ -21,6 +24,7 @@ export default {
     //   { src: 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver' }
     // ]
   },
+  components: true,
   devtools: { enabled: true },
   build: {
     transpile: ['swiper'],
