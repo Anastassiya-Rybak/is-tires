@@ -2,6 +2,7 @@
 import { DefineNuxtConfig } from "nuxt/config"
 
 export default {
+  target: 'server',
   head: {
     htmlAttrs: {
       lang: 'ru'
@@ -24,6 +25,15 @@ export default {
   build: {
     transpile: ['swiper'],
   },
+  // router: {
+  //   extendRoutes(routes: { name: string; path: string; component: any }[], resolve: (arg0: string, arg1: string) => any) {
+  //     routes.push({
+  //       name: 'about',
+  //       path: '/about',
+  //       component: resolve(__dirname, 'pages/about.vue')
+  //     })
+  //   }
+  // }
   // ssr: true,
 
 }

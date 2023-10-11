@@ -1,5 +1,8 @@
 <template>
     <section class="product-card-page-wrap">
+        <div class="back-btn content">
+            <ButtonGreen text = "НАЗАД" @click="$router.back()" />
+        </div>
         <div class="product-card-page content">
             <div class="product-img-wrap">
                 <img :src='image' :alt="name">
@@ -7,43 +10,48 @@
             <div class="text-part-product-page">
                 <div class="full-name">
                     <h2>{{ name }}</h2>
-                    <span>{{ productInfo.class }}</span>
+                    <ClientOnly>
+                        <span>{{ productInfo.class }}</span>
+                    </ClientOnly>
                 </div>
-                <span class="type-rd" v-show="productInfo.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  НА {{ productInfo.type }}</span>
-                <span class="type-rd" v-show="productInfo.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  НА {{ productInfo.type }}</span>
-                <div class="description">
-                    <ol v-for="n in productInfo.desc" :key="n">
-                        <li>{{ n }}</li>
-                    </ol>
-                </div>
-                <table>
-                    <caption>Спецификации</caption>
-                    <thead>
-                        <tr>
-                            <th>РАЗМЕР</th>
-                            <th>ИНДЕКС ПРОЧНОСТИ КАРКАСА</th>
-                            <th>КАМЕРА TT/TL</th>
-                            <th>LI/SS</th>
-                        </tr>
-                    </thead>
-                    <tbody v-if="productInfo.var">
-                        <tr v-for="v in productInfo.var" :key="v">
-                            <td>{{ v.size }}</td>
-                            <td>{{ v.idx_frame }}</td>
-                            <td>{{ v.tube }}</td>
-                            <td>{{ v.li_ss }}</td>
-                        </tr>
-                    </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>{{ productInfo.size }}</td>
-                            <td>{{ productInfo.idx_frame }}</td>
-                            <td>{{ productInfo.tube }}</td>
-                            <td>{{ productInfo.li_ss }}</td>
-                        </tr>
-                    </tbody>
-
-                </table>
+                <ClientOnly>
+                    <span class="type-rd" v-show="productInfo.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  НА {{ productInfo.type }}</span>
+                    <span class="type-rd" v-show="productInfo.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  НА {{ productInfo.type }}</span>
+                    <div class="description">
+                        <ol v-for="n in productInfo.desc" :key="n">
+                            <li>{{ n }}</li>
+                        </ol>
+                    </div>
+                </ClientOnly>
+                <ClientOnly>
+                    <table>
+                        <caption>Спецификации</caption>
+                        <thead>
+                            <tr>
+                                <th>РАЗМЕР</th>
+                                <th>ИНДЕКС ПРОЧНОСТИ КАРКАСА</th>
+                                <th>КАМЕРА TT/TL</th>
+                                <th>LI/SS</th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="productInfo.var">
+                            <tr v-for="v in productInfo.var" :key="v">
+                                <td>{{ v.size }}</td>
+                                <td>{{ v.idx_frame }}</td>
+                                <td>{{ v.tube }}</td>
+                                <td>{{ v.li_ss }}</td>
+                            </tr>
+                        </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td>{{ productInfo.size }}</td>
+                                <td>{{ productInfo.idx_frame }}</td>
+                                <td>{{ productInfo.tube }}</td>
+                                <td>{{ productInfo.li_ss }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ClientOnly>
                 <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="application" @click="openModal"/>
                 <CallModal v-show = "visible" from="form" @close-modal="visible = false" />
             </div>
@@ -60,27 +68,35 @@
         components: { CallModal, ButtonGreen },
         setup() {
             const { name } = useRoute().params;
-            const { products } = JSON;
-            let productInfo;
-
-            products.forEach(product => {
-                if (product.name === name) {
-                    productInfo = product;
-                }
-            });
 
             return {
                 name,
-                productInfo
             };
         },
         data() {
             return {
                 image: `/images/${this.name}.png`,
                 visible: false,
+                products: JSON.products,
+                productInfo: {}
             }
         },
+        beforeMount() {
+            this.findCurrentProduct();
+        },
         methods: {
+            findCurrentProduct() {
+                for (let i = 0; i < this.products.length; i++) {
+                    if (this.products[i].name === this.name) {
+                        this.productInfo = this.products[i];
+                    }
+                }
+                // this.products.forEach(product => {
+                //     if (product.name === this.name) {
+                //         this.productInfo = product;
+                //     }
+                // });
+            },
             openModal() {
                 this.visible = true;
             },
@@ -89,9 +105,13 @@
 </script>
     
 <style scoped>
+    .back-btn {
+        margin-bottom: 20px;
+    }
+
     .product-card-page-wrap {
         background-color: #f1f1f1;
-        padding: 50px 0;
+        padding: 20px 0 50px;
     }
 
     .product-card-page {

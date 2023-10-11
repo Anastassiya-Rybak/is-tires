@@ -7,7 +7,7 @@
         <div class="product-card-btns">
             <ButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="openModal('form')"/>
             <CallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
-            <nuxt-link :to="link" class="more" target="_blank">ПОДРОБНЕЕ . . .</nuxt-link>
+            <nuxt-link :to="link" class="more" >ПОДРОБНЕЕ . . .</nuxt-link>
         </div>
     </div>
 </template>
