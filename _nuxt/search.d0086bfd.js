@@ -1,0 +1,1 @@
+import{_ as e,c as r,o as t}from"./entry.7009b056.js";const o={beforeMount(){this.openSearch()},methods:{openSearch(){this.$router.push({path:"/catalog",query:{param:this.$route.query.param}})}}};function a(s,c,n,p,h,u){return t(),r("div")}const i=e(o,[["render",a]]);export{i as default};
