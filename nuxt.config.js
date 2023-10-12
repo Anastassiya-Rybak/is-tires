@@ -31,5 +31,4 @@ export default {
   build: {
     transpile: ['swiper'],
   },
-  ssr: false
 }
