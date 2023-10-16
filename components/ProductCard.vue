@@ -7,7 +7,7 @@
         <div class="product-card-btns">
             <ButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="openModal('form')"/>
             <CallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
-            <nuxt-link :to="link" class="more" >ПОДРОБНЕЕ . . .</nuxt-link>
+            <nuxt-link :to="link" class="more" :class="{full: !noSlide}">ПОДРОБНЕЕ . . .</nuxt-link>
         </div>
     </div>
 </template>
@@ -46,7 +46,7 @@ import CallModal from './CallModal.vue'
     }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
     .product-card {
         width: 30%;
         display: flex;
@@ -67,32 +67,33 @@ import CallModal from './CallModal.vue'
 
     h3 {
         font-size: 32px;
-        text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+        color: rgb(22, 22, 22);
+        text-shadow: 0px 0.08em 0.28em rgba(0, 0, 0, 0.25);
         margin-bottom: 30px;
     }
 
     .product-card-btns {
-        width: 85%;
+        width: 87%;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         margin-bottom: 20px;
     }
 
     .product-card-btns button {
-        padding: 12px 12px;
+        padding: 0.8em 0.8em;
         font-size: 14px;
-
+        width: calc(50% - 5px);
     }
     
     .more {
         width: calc(50% - 5px);
-        padding: 12px 12px;
-        border-radius: 15px;
+        padding: 0.8em 0.8em;
+        border-radius: 1.08em;
         cursor: pointer;
         color: #ffffff;
         font-size: 14px;
         border: none;
-        box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.43) inset;
+        box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.43) inset;
     }
 
     .more:hover {
@@ -104,6 +105,111 @@ import CallModal from './CallModal.vue'
     }
 
     .more {
-        background-color: #000;
+        background-color: rgb(19, 19, 19);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
+
+    .full {
+        width: 100% !important;
+    }
+
+    @media (max-width: 1265px) {
+        .product-card-btns button {
+            padding: 8px 6px;
+            font-size: 10px;
+        }
+        
+        .more {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 1170px) {
+        .product-card-img {
+            max-height: 200px;
+            margin: 10px 0;
+        }
+    }
+
+    @media (max-width: 920px) {
+        .product-card-btns button,
+        .more {
+            width: 49%;
+            padding: 0.8em 0.6em;
+            font-size: 8px;
+        }
+
+        .product-card-img {
+            max-height: 180px;
+        }
+
+        h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 770px) {
+        .product-card-img {
+            max-height: 150px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .product-card-btns {
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            row-gap: 3px;
+        }
+
+        .product-card-img {
+            max-height: 150px;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .product-card-btns button,
+        .more {
+            width: 90%;
+            font-size: 8px;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .product-card-img {
+            max-height: 120px;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        .product-card-btns {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .product-card-img {
+            max-height: 110px;
+        }
+
+        h3 {
+            font-size: 12px;
+        }
+
+        .product-card-btns button,
+        .more {
+            width: 95%;
+            font-size: 7px;
+        }
+    }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
     <section class="product-card-page-wrap">
         <div class="back-btn content">
-            <ButtonGreen text = "НАЗАД" @click="$router.back()" />
+            <ButtonGreen class="back-btn-in" text = "НАЗАД" @click="$router.back()" />
         </div>
         <div class="product-card-page content">
             <div class="product-img-wrap">
@@ -188,4 +188,116 @@
         padding: 12px 12px;
         font-size: 14px;
     }
+
+    @media (max-width: 1250px) {
+        .product-card-page {
+            padding: 20px;
+        }
+
+        .product-img-wrap {
+            width: 45%;
+        }
+
+        .text-part-product-page {
+            width: 55%;
+        }
+
+        .full-name {
+            font-size: 32px;
+        }
+
+        .description {
+            padding-left: 25px;
+            font-size: 12px;
+        }
+
+        caption {
+            padding: 5px 0;
+        }
+
+        table {
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        td {
+            font-size: 12px;
+        }
+
+        th {
+            font-size: 14px;
+        }
+
+        .application {
+            margin: 2dvh auto 0;
+        }
+    }
+
+    @media (max-width: 950px) {
+        .full-name {
+            font-size: 28px;
+        }
+
+        caption {
+            font-size: 14px;
+        }
+
+        td {
+            font-size: 10px;
+        }
+
+        th {
+            font-size: 10px;
+        }
+
+    }
+
+    @media (max-width: 840px) {
+        .product-card-page-wrap {
+            padding: 60px 0 30px;
+        }
+
+    }
+
+    @media (max-width: 780px) {
+        .back-btn-in {
+            font-size: 10px;
+        }
+        .product-card-page-wrap {
+            padding: 60px 0 30px;
+        }
+
+        .product-card-page {
+            flex-direction: column;
+        }
+
+        .product-img-wrap {
+            width: 75%;
+        }
+
+        .text-part-product-page {
+            width: 90%;
+        }
+    }
+
+    @media (max-width: 510px) {
+
+        .text-part-product-page {
+            width: 98%;
+        }
+
+        .full-name {
+            font-size: 18px;
+        }
+
+        .type-rd {
+            font-size: 14px;
+        }
+        
+        th {
+            padding: 5px 10px 5px 10px;
+        }
+
+    }
+
 </style>

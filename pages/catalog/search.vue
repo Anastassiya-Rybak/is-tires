@@ -1,8 +1,8 @@
-<template>
+<!-- <template>
     <div>
 
     </div>
-</template>
+</template> -->
 
 <script>
     export default {
@@ -18,6 +18,6 @@
     }
 </script>
 
-<style scoped>
+<!-- <style scoped>
 
-</style>
+</style> -->

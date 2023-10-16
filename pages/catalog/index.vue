@@ -63,26 +63,26 @@
             </div>
         </div>
         <div class="product-cards content" v-if="productsSort.length === 0 && !notany">
-            <ProductCardVue v-for="product in products" :key="product"
+            <ProductCard class="product-card-catalog" v-for="product in products" :key="product"
             :productName="product.name" />
         </div>
         <div class="product-cards content" v-else-if="notany">
             <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
         </div>
         <div class="product-cards content" v-else>
-            <ProductCardVue v-for="product in productsSort" :key="product"
+            <ProductCard class="product-card-catalog" v-for="product in productsSort" :key="product"
             :productName="product.name" />
         </div>
     </section>
 </template>
 
 <script>
-    import ProductCardVue from "~/components/ProductCard.vue";
+    import ProductCard from '~/components/ProductCard.vue';
     import JSON from '~/static/bd.json'
 
     export default {
         name: 'catalog',
-        components: { ProductCardVue },
+        components: { ProductCard },
         data() {
             return {
                 products: JSON.products,
@@ -201,17 +201,9 @@
         background-color: #f1f1f1;
         padding: 50px 0;
     }
-
-    .product-cards {
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        gap: 40px;
-        padding: 30px 0;
-    }
-
     .filter-btn {
         font-size: 20px;
+        border-radius: 0.8em;
         font-weight: 900;
         letter-spacing: 1px;
         padding: 7px 40px 7px 10px;
@@ -240,7 +232,7 @@
         background-image: url('~/assets/back/select.svg');
         background-repeat: no-repeat;
         background-position: bottom 50% right 7px;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
         font-size: 16px;
         padding: 10px 30px 10px 10px;
         appearance: none;
@@ -255,12 +247,80 @@
     }
 
     .filter-btns-group button {
-        padding: 10px;
+        padding: 0.7em;
         font-size: 14px;
     }
 
     .filter-btns-group button:last-child {
         background-color: black;
+    }
+
+    .product-cards {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 3dvh;
+        margin-top: 3dvh;
+    }
+
+    @media (max-width: 1240px) {
+        .selects {
+            padding: 2dvh 0;
+            justify-content:flex-start;
+        }
+
+        .filter-item {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .selects {
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            max-width: 294px;
+        }
+    }
+
+    @media (max-width: 847px) {
+        .filter-btn,
+        .filter-btns-group button {
+            font-size: 16px;
+        }
+
+        .catalog-wrap {
+            padding: 80px 0 50px;
+        }
+    }
+
+    @media (max-width: 670px) {
+        .product-card-catalog {
+            width: 46%;
+        }
+    }
+
+    @media (max-width: 540px) {
+        .filter-btn,
+        .filter-btns-group button {
+            font-size: 12px;
+        }
+
+        .filter-item {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .filter-btn,
+        .filter-btns-group button {
+            font-size: 10px;
+        }
+
+        .product-card-catalog {
+            width: 48%;
+        }
     }
 
 </style>

@@ -3,15 +3,20 @@
         <header class="container">
             <nav class="header__nav">
                 <nuxt-link to="/" class="logo">ИСКРА СЕРВИС</nuxt-link>
-                <ul class="menu">
+                <div class="burger-wrap" @click="openBurger">
+                    <div class="burger">
+                        <hr><hr><hr>
+                    </div>
+                </div>
+                <ul class="menu" :class="{compact: searchOpen}">
                     <li>
-                        <nuxt-link to="/" class="active-page">ГЛАВНАЯ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/">ГЛАВНАЯ</nuxt-link>
                     </li>
                     <li>
-                        <nuxt-link to="/catalog">КАТАЛОГ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/catalog">КАТАЛОГ</nuxt-link>
                     </li>
                     <li>
-                        <nuxt-link to="/contact">КОНТАКТЫ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/contact">КОНТАКТЫ</nuxt-link>
                     </li>
                 </ul>
                 <div class="search">
@@ -30,6 +35,27 @@
                 <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
                 <CallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
             </nav>
+            <nav class="menu-out-wrap">
+                <ul class="menu-out" >
+                    <li>
+                        <nuxt-link active-class="active-page" to="/">ГЛАВНАЯ</nuxt-link>
+                    </li>
+                    <li>
+                        <nuxt-link active-class="active-page" to="/catalog">КАТАЛОГ</nuxt-link>
+                    </li>
+                    <li>
+                        <nuxt-link active-class="active-page" to="/contact">КОНТАКТЫ</nuxt-link>
+                    </li>
+                </ul>
+            </nav>
+            <div class="out-search-combo">
+                <div class="search-input-container">
+                    <input id="search-input" type="text" v-model="searchData" class="search-input" placeholder="Введите товар/свойство">
+                    <label for="search-input">
+                        <nuxt-link to="/catalog" class="search-btn" @click="openSearch">Поиск</nuxt-link>
+                    </label>
+                </div>
+            </div>
         </header>
         <main>
             <slot />
@@ -95,6 +121,10 @@
         },
         components: { CallModal, ButtonGreen },
         methods: {
+            openBurger() {
+                document.querySelector('.burger-wrap').classList.toggle('open-burger');
+                document.querySelector('.menu-out-wrap').classList.toggle('open');
+            },
             openModal(n) {
                 this.visible = true;
                 this.modalFrom = n;
@@ -126,7 +156,7 @@
   }
 
   body {
-      background-color: rgb(17, 17, 17);
+      background-color: rgb(26, 26, 26);
   }
 
   li {
@@ -143,9 +173,29 @@
     color: rgb(241, 241, 241);
     }
 
+    .open {
+        display: block !important;
+        /* animation-name: showMenu;
+        animation-duration: 5s;
+        animation-iteration-count: 1;
+        transition: 0.5s; */
+    }
+
+    @keyframes showModal {
+        from { height: 0px; } to { height: 200px; }
+    }
+
+    header {
+        position: relative;
+    }
+
     .contacts-data ul li a:hover {
         opacity: 0.8;
         color: #00ba6063;
+    }
+
+    .compact {
+        max-width: 23%;
     }
 
     .menu li a{
@@ -182,11 +232,32 @@
     font-size: 40px;
   }
 
-  .header__nav,
-  .menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    .header__nav,
+    .menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .burger-wrap {
+        display: none;
+        width: 5%;
+        transition: all 0.4s;
+    }
+
+    .burger {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .burger hr {
+        border: 1px solid #00BA61;
+    }
+
+    .open-burger {
+        transform: rotate(90deg);
     }
 
     .menu {
@@ -246,6 +317,68 @@
 
     .search-btn:hover {
         color: #00BA61;
+    }
+
+    .out-search-combo {
+        display: none;
+        position: absolute;
+        width: 95%;
+        bottom: -70px; left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+    }
+
+    .out-search-combo .search-input-container {
+        background: #2e2e2e25;
+    }
+
+    .out-search-combo .search-input,
+    .out-search-combo .search-btn {
+        background: none;
+        border: none;
+        color: #f1f1f1;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .out-search-combo .search-btn {
+        text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        color: #00BA61;
+    }
+
+    .out-search-combo .search-input {
+        width: 90%;
+    }
+
+    .out-search-combo .search-input::placeholder {
+        color: #ffffffc9;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+    }
+
+    .out-search-combo .search-btn:hover {
+        color: #00BA61;
+    }
+
+    .menu-out-wrap {
+        display: none;
+        width: 100%;
+    }
+
+    .menu-out {
+        margin-top: 2dvh;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .menu-out li a{
+        display: inline-block;
+        position: relative;
+        line-height: 2;
     }
 
     .call-btn {
@@ -325,9 +458,9 @@
 
     .footer-btns a {
         width: 100%;
-        padding: 12px 22px;
+        padding: 0.9em 1.6em;
         margin-top: 10px;
-        border-radius: 15px;
+        border-radius: 1.09em;
         cursor: pointer;
         background-color: #00BA61;
         color: #f1f1f1;
@@ -372,6 +505,7 @@
         font-size: 32px;
         color: #f1f1f1;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.37);
+        z-index: 2;
     }
 
     .mail-form {
@@ -403,7 +537,7 @@
         word-spacing: 3px;
         border: none;
         box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.43) inset;
-        background-color: #000;
+        background-color: rgb(19, 19, 19);
     }
 
     .mail-form .mail-btn:hover {
@@ -412,5 +546,255 @@
 
     .mail-form .mail-btn:active {
         transform: scale(0.98, 0.98);
+    }
+
+    @media (max-width: 1385px) {
+        .logo {
+            font-size: 30px;
+        }
+
+        .menu li a{
+            font-size: 14px;
+        }
+
+
+        .mailing::before {
+            display: none;
+        }
+
+        .mailing {
+            padding: 55px 30px 55px 15px;
+        }
+
+    }
+
+    @media (max-width: 1130px) {
+        .menu {
+            min-width: 230px;
+        }
+
+        .search-input-container {
+            border-radius: 10px;
+        }
+
+        .search-input,
+        .search-btn {
+            font-size: 12px;
+            padding: 3px 5px 3px 4px;
+        }
+
+        .call-btn {
+            font-size: 10px;
+        }
+
+        .mailing {
+            padding: 35px 15px 35px 15px;
+        }
+
+        .mailing h3 {
+            font-size: 24px;
+        }
+
+        .mail-form {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            width: 90%;
+        }
+
+        /* Footer */
+
+        .footer-wrapper {
+            width: 60%;
+        }
+
+        .footer-btns {
+            width: 35%;
+        }
+    }
+
+    @media (max-width: 990px) {
+        .logo {
+            max-width: 15%;
+        }
+
+        .menu {
+            min-width: 230px;
+        }
+
+        .search-input,
+        .search-btn {
+            font-size: 12px;
+            padding: 3px 5px 3px 4px;
+        }
+
+        .call-btn {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 845px) {
+        header {
+            padding: 15px 0;
+        }
+
+        .logo {
+            max-width: 70%;
+            width: 70%;
+        }
+
+        .burger-wrap {
+            display:inline-block;
+        }
+
+        .menu {
+            display: none;
+        }
+
+        .out-search-combo {
+            display: block;
+        }
+
+        .search {
+            display: none;
+        }
+
+        .mailing {
+            padding: 20px 15px 20px 15px;
+            margin: 30px 0;
+        }
+
+        .mailing h3 {
+            font-size: 20px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            font-size: 14px;
+            padding: 0.8em;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .logo {
+            width: 60%;
+        }
+
+        .search-input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .out-search-combo .search-input {
+            width: 60%;
+        }
+
+        .mailing h3 {
+            text-align: center;
+        }
+
+        /* Footer */
+
+        .footer-wrapper {
+            width: 70%;
+        }
+
+        .footer-btns {
+            margin-top: 20px;
+            width: 40%;
+            gap: 0;
+        }
+
+        .footer-wrapper h2 {
+            font-size: 1em;
+        }
+
+        .contacts-data ul {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contacts-data ul li {
+            gap: 10px;
+            font-size: 0.8em;
+        }
+
+        .contacts-data-img {
+            width: 5%;
+        }
+
+        .footer-btns button,
+        .footer-btns a {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .logo {
+            width: 20%;
+            font-size: 18px;
+            margin-right: 30%;
+        }
+    }
+
+    @media (max-width: 475px) {
+        .footer-wrapper {
+            flex-direction: column-reverse;
+            padding-top: 10px;
+        }
+
+        .footer-wrapper h2 {
+            text-align: center;
+        }
+
+        .contacts-data ul {
+            flex-direction: row;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .contacts-data ul li {
+            gap: 5px;
+        }
+
+        .contacts-data-img {
+            width: 10%;
+        }
+
+        .footer-btns {
+            margin-top: 0;
+            margin-bottom: 15px;
+            width: 90%;
+        }
+
+    }
+
+    @media (max-width: 445px) {
+        .mailing {
+            gap: 15px;
+        }
+
+        .mailing h3 {
+            font-size: 16px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            font-size: 12px;
+            padding: 0.8em;
+        }
+    }
+
+    @media (max-width: 400px) {
+        #mailing,
+        .mail-form .mail-btn {
+            width: 95%;
+            font-size: 10px;
+        }
     }
 </style>
