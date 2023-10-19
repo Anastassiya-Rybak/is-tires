@@ -62,7 +62,7 @@
             <section class="content">
                 <div class="mailing">
                     <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
-                    <form action="" method="post" class="mail-form">
+                    <form action="" method="POST" class="mail-form">
                         <input type="email" name="mailing" id="mailing" placeholder="ВВЕДИТЕ СВОЙ MAIL"
                         v-model="mail" @keypress.enter.prevent="toSent($event)">
                         <input class="mail-btn" type="button" :value="sendOrSent.text" @click.prevent="toSent">
@@ -107,6 +107,7 @@
 <script>
     import ButtonGreen from '~/components/ButtonGreen.vue';
     import CallModal from '~/components/CallModal.vue';
+    // import { addSubscriber } from '~/middleware/mailchimpService.js'
     export default {
         name: 'default',
         data() {
@@ -134,12 +135,42 @@
                 this.searchOpen ? this.searchOpen = false : this.searchOpen = true;
                 if (this.searchOpen && this.searchData !== '') this.searchData = '';
             },
-            toSent(event){
+            async toSent(event){
                 event.preventDefault();
-                
                 if (this.mail.length >= 7 && this.mail.includes('@')) {
+                    const apiKey = 'a5572e89f15187917b2b68ea60f74cb5-us8';
+                    const audienceId = '866280';
+                    const url = `https://us8.api.mailchimp.com/3.0/lists/${audienceId}/members`;
+
+                    const formData = {
+                        email_address: this.mail,
+                        status: 'subscribed',
+                    };
+
+                    try {
+                        const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Basic ${btoa(`anystring:${apiKey}`)}`,
+                        },
+                        body: JSON.stringify(formData),
+                        });
+
+                        if (response.ok) {
+                        // Успешно подписано
+                        console.log('Вы успешно подписались на рассылку Mailchimp.');
+                        // Очистить поле email после успешной подписки
+                        this.mail = '';
+                        } else {
+                        // Обработка ошибок при подписке
+                        console.error('Ошибка при подписке на рассылку Mailchimp.');
+                        }
+                    } catch (error) {
+                        console.error('Произошла ошибка при отправке запроса к Mailchimp:', error);
+                    }
+                    
                     this.sendOrSent.text='ПОДПИСКА ОФОРМЛЕНА!';
-                    this.mail = '';
                 }
             },
         },
