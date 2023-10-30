@@ -2,16 +2,21 @@
     <div>
         <header class="container">
             <nav class="header__nav">
-                <nuxt-link to="/" class="logo">ИСКРА СЕРВИС</nuxt-link>
+                <nuxt-link to="/" class="logo" @click="cleanSearch">ИСКРА СЕРВИС</nuxt-link>
+                <div class="burger-wrap" @click="openBurger">
+                    <div class="burger">
+                        <hr><hr><hr>
+                    </div>
+                </div>
                 <ul class="menu">
                     <li>
-                        <nuxt-link to="/" class="active-page">ГЛАВНАЯ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/" @click="cleanSearch">ГЛАВНАЯ</nuxt-link>
                     </li>
                     <li>
-                        <nuxt-link to="/catalog">КАТАЛОГ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/catalog" @click="cleanSearch">КАТАЛОГ</nuxt-link>
                     </li>
                     <li>
-                        <nuxt-link to="/contact">КОНТАКТЫ</nuxt-link>
+                        <nuxt-link active-class="active-page" to="/contact" @click="cleanSearch">КОНТАКТЫ</nuxt-link>
                     </li>
                 </ul>
                 <div class="search">
@@ -19,28 +24,51 @@
                         <div v-show="searchOpen" class="search-input-container">
                             <input id="search-input" type="text" v-model="searchData" class="search-input" placeholder="Введите товар/свойство">
                             <label for="search-input">
-                                <nuxt-link to="/catalog" class="search-btn" @click="openSearch">Поиск</nuxt-link>
+                                <a href="/catalog" class="search-btn" @click="openSearch">Поиск</a>
                             </label>
+                            <button class="search-clean" v-show="searchData" @click="reload">
+                                <img src="~/assets/clean.png" alt="" title="СБРОС ПОИСКА">
+                            </button>
                         </div>
                     </div>
-                    <div v-show="!searchOpen" class="loop" @click="openSearch" >
+                    <div v-show="!searchOpen" class="loop" @click="openSearchInput" >
                         <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
                     </div>
                 </div>
                 <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
                 <CallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
             </nav>
+            <nav class="menu-out-wrap">
+                <ul class="menu-out" >
+                    <li>
+                        <nuxt-link active-class="active-page" to="/" @click="cleanSearch">ГЛАВНАЯ</nuxt-link>
+                    </li>
+                    <li>
+                        <nuxt-link active-class="active-page" to="/catalog" @click="cleanSearch">КАТАЛОГ</nuxt-link>
+                    </li>
+                    <li>
+                        <nuxt-link active-class="active-page" to="/contact" @click="cleanSearch">КОНТАКТЫ</nuxt-link>
+                    </li>
+                </ul>
+            </nav>
+            <div class="out-search-combo">
+                <div class="search-input-container">
+                    <input id="search-input" type="text" v-model="searchData" class="search-input" placeholder="Введите товар/свойство">
+                    <label for="search-input">
+                        <a href="/catalog" class="search-btn" @click="openSearch">Поиск</a>
+                    </label>
+                    <button class="search-clean-out" v-show="searchData" @click="reload">
+                        <img src="~/assets/clean.png" alt="" title="СБРОС ПОИСКА">
+                    </button>
+                </div>
+            </div>
         </header>
         <main>
             <slot />
             <section class="content">
                 <div class="mailing">
-                    <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
-                    <form action="" method="post" class="mail-form">
-                        <input type="email" name="mailing" id="mailing" placeholder="ВВЕДИТЕ СВОЙ MAIL"
-                        v-model="mail" @keypress.enter.prevent="toSent($event)">
-                        <input class="mail-btn" type="button" :value="sendOrSent.text" @click.prevent="toSent">
-                    </form>
+                    <h3 @click="test">Узнавайте первыми о самых актуальных предложениях!</h3>
+                    <mailing-form />
                 </div>
             </section>
         </main>
@@ -79,45 +107,68 @@
 </template>
 
 <script>
+    import { useSearchStore } from '~/stores/search';
     import ButtonGreen from '~/components/ButtonGreen.vue';
     import CallModal from '~/components/CallModal.vue';
+    import MailingForm from '~/components/MailingForm.vue';
     export default {
         name: 'default',
+        setup() {
+            const searchStore = useSearchStore();
+
+            const { inpData } = storeToRefs(searchStore);
+            return {
+                searchStore,
+                searchData: inpData
+            }
+        },
         data() {
             return {
-                searchData: '',
-                searchOpen: false,
+                searchOpen: this.searchData ? true : false,
                 visible: false,
-                mail: '',
-                sendOrSent: { text: 'ПОДПИСАТЬСЯ НА РАССЫЛКУ'},
                 modalFrom: ''
             }
         },
-        components: { CallModal, ButtonGreen },
+        beforeCreate() {
+            if (process.client) this.searchStore.restoreState();
+        },
+        components: { CallModal, ButtonGreen, MailingForm },
         methods: {
+            openBurger() {
+                document.querySelector('.burger-wrap').classList.toggle('open-burger');
+                document.querySelector('.menu-out-wrap').classList.toggle('open');
+            },
             openModal(n) {
                 this.visible = true;
                 this.modalFrom = n;
             },
-            openSearch() {
-                if (this.searchOpen && this.searchData !== '') this.$router.push({ path: '/catalog/search', query: { param: this.searchData } });
-                this.searchOpen ? this.searchOpen = false : this.searchOpen = true;
-                if (this.searchOpen && this.searchData !== '') this.searchData = '';
+            openSearchInput() {
+                this.searchOpen = true;
             },
-            toSent(event){
-                event.preventDefault();
-                
-                if (this.mail.length >= 7 && this.mail.includes('@')) {
-                    this.sendOrSent.text='ПОДПИСКА ОФОРМЛЕНА!';
-                    this.mail = '';
+            async openSearch() {
+                if (this.searchData !== '') {
+                    this.searchStore.editItem(this.searchData);
+                    if (process.client) this.searchStore.saveState();
                 }
             },
+            async cleanSearch() {
+                if (this.searchData !== '') {
+                    this.searchData = '';
+                    this.searchStore.editItem(this.searchData);
+                    if (process.client) this.searchStore.saveState();
+                }
+            },
+            reload () {
+                this.searchData = '';
+                this.searchStore.editItem(this.searchData);
+                if (process.client) this.searchStore.saveState();
+                location.reload();
+            }
         },
     }
 </script>
 
 <style lang="css">
-
   * {
       margin: 0;
       padding: 0;
@@ -126,7 +177,7 @@
   }
 
   body {
-      background-color: rgb(17, 17, 17);
+      background-color: rgb(26, 26, 26);
   }
 
   li {
@@ -143,9 +194,25 @@
     color: rgb(241, 241, 241);
     }
 
+    .open {
+        display: block !important;
+    }
+
+    @keyframes showModal {
+        from { height: 0px; } to { height: 200px; }
+    }
+
+    header {
+        position: relative;
+    }
+
     .contacts-data ul li a:hover {
         opacity: 0.8;
         color: #00ba6063;
+    }
+
+    .compact {
+        max-width: 23%;
     }
 
     .menu li a{
@@ -179,18 +246,44 @@
   }
 
   .logo {
+    flex-grow: 0;
     font-size: 40px;
   }
 
-  .header__nav,
-  .menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    .header__nav,
+    .menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header__nav {
+        gap: 4%;
+    }
+
+    .burger-wrap {
+        display: none;
+        width: 5%;
+        transition: all 0.4s;
+    }
+
+    .burger {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .burger hr {
+        border: 1px solid #00BA61;
+    }
+
+    .open-burger {
+        transform: rotate(90deg);
     }
 
     .menu {
-        width: 35%;
+        flex-grow: 2;
         margin: 30px 0;
     }
 
@@ -203,15 +296,44 @@
     }
 
     .search {
-        width: fit-content;
+        max-width: 28%;
+        flex-grow: 0.5;
+        /* flex-basis: content; */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
 
     .loop {
         cursor: pointer;
         transition: 0.3s;
+        max-width: 50%;
     }
 
-    .loop:hover {
+    .search-clean,
+    .search-clean-out {
+        border: none;
+        background: none;
+    }
+
+    .search-clean {
+        width: 6%;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .search-clean-out {
+        width: 3%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 1%;
+        cursor: pointer;
+    }
+
+    .loop:hover,
+    .search-clean:hover {
         opacity: 0.7;
         transform: scale(1.1);
     }
@@ -226,6 +348,9 @@
         background: rgba(255, 255, 255, 0.274);
         padding: 4px;
         transition: 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .search-input,
@@ -239,6 +364,10 @@
         transition: 0.3s;
     }
 
+    .search-input {
+        width: 75%;
+    }
+
     .search-input:focus {
         outline: none;
         cursor: default;
@@ -248,7 +377,70 @@
         color: #00BA61;
     }
 
+    .out-search-combo {
+        display: none;
+        position: absolute;
+        width: 95%;
+        bottom: -70px; left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+    }
+
+    .out-search-combo .search-input-container {
+        background: #2e2e2e25;
+    }
+
+    .out-search-combo .search-input,
+    .out-search-combo .search-btn {
+        background: none;
+        border: none;
+        color: #f1f1f1;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .out-search-combo .search-btn {
+        text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        color: #00BA61;
+    }
+
+    .out-search-combo .search-input {
+        width: 90%;
+    }
+
+    .out-search-combo .search-input::placeholder {
+        color: #ffffffc9;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+    }
+
+    .out-search-combo .search-btn:hover {
+        color: #00BA61;
+    }
+
+    .menu-out-wrap {
+        display: none;
+        width: 100%;
+    }
+
+    .menu-out {
+        margin-top: 2dvh;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .menu-out li a{
+        display: inline-block;
+        position: relative;
+        line-height: 2;
+    }
+
     .call-btn {
+        flex-grow: 0s;
         font-size: 14px;
     }
 
@@ -325,9 +517,9 @@
 
     .footer-btns a {
         width: 100%;
-        padding: 12px 22px;
+        padding: 0.9em 1.6em;
         margin-top: 10px;
-        border-radius: 15px;
+        border-radius: 1.09em;
         cursor: pointer;
         background-color: #00BA61;
         color: #f1f1f1;
@@ -344,73 +536,270 @@
         background-color: #01aa59;
     }
 
+    @media (max-width: 1385px) {
+        .logo {
+            font-size: 30px;
+        }
 
-    /* MAILING */
+        .menu li a{
+            font-size: 14px;
+        }
 
-    .mailing {
-        margin: 75px auto;
-        padding: 55px 30px 55px 15%;
-        overflow: hidden;
-        border-radius: 20px;
-        background: #00BA61;
-        box-shadow: 0px 10px 10px 0px rgba(255, 255, 255, 0.46) inset;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        position: relative;
+
+        .mailing::before {
+            display: none;
+        }
+
+        .mailing {
+            padding: 55px 30px 55px 15px;
+        }
+
     }
 
-    .mailing::before {
-        content: url('~/assets/back/back-mail.png');
-        position: absolute;
-        left: -5px;
-        top: 0;
+    @media (max-width: 1130px) {
+        .menu {
+            min-width: 230px;
+        }
+
+        .search-input-container {
+            border-radius: 10px;
+        }
+
+        .search-input,
+        .search-btn {
+            font-size: 12px;
+            padding: 3px 5px 3px 4px;
+        }
+
+        .call-btn {
+            font-size: 10px;
+        }
+
+        .mailing {
+            padding: 35px 15px 35px 15px;
+        }
+
+        .mailing h3 {
+            font-size: 24px;
+        }
+
+        .mail-form {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            width: 90%;
+        }
+
+        /* Footer */
+
+        .footer-wrapper {
+            width: 60%;
+        }
+
+        .footer-btns {
+            width: 35%;
+        }
     }
 
-    .mailing h3 {
-        font-size: 32px;
-        color: #f1f1f1;
-        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.37);
+    @media (max-width: 990px) {
+        .logo {
+            max-width: 15%;
+        }
+
+        .menu {
+            min-width: 230px;
+        }
+
+        .search-input,
+        .search-btn {
+            font-size: 12px;
+            padding: 3px 5px 3px 4px;
+        }
+
+        .call-btn {
+            font-size: 10px;
+        }
     }
 
-    .mail-form {
-        width: 94%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    @media (max-width: 845px) {
+        header {
+            padding: 15px 0;
+        }
+
+        .logo {
+            max-width: 70%;
+            width: 70%;
+        }
+
+        .burger-wrap {
+            display:inline-block;
+        }
+
+        .menu {
+            display: none;
+        }
+
+        .out-search-combo {
+            display: block;
+        }
+
+        .search {
+            display: none;
+        }
+
+        .mailing {
+            padding: 20px 15px 20px 15px;
+            margin: 30px 0;
+        }
+
+        .mailing h3 {
+            font-size: 20px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            font-size: 14px;
+            padding: 0.8em;
+        }
     }
 
-    #mailing {
-        width: 50%;
-        padding: 15px 25px;
-        background-color: #f1f1f1;
-        font-size: 18px;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.13) inset;
-        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    @media (max-width: 700px) {
+        .logo {
+            width: 60%;
+        }
+
+        .search-input-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .out-search-combo .search-input {
+            width: 85%;
+        }
+
+        .mailing h3 {
+            text-align: center;
+        }
+
+        /* Footer */
+
+        .footer-wrapper {
+            width: 70%;
+        }
+
+        .footer-btns {
+            margin-top: 20px;
+            width: 40%;
+            gap: 0;
+        }
+
+        .footer-wrapper h2 {
+            font-size: 1em;
+        }
+
+        .contacts-data ul {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contacts-data ul li {
+            gap: 10px;
+            font-size: 0.8em;
+        }
+
+        .contacts-data-img {
+            width: 5%;
+        }
+
+        .footer-btns button,
+        .footer-btns a {
+            font-size: 10px;
+        }
     }
 
-    .mail-form .mail-btn {
-        width: 48%;
-        padding: 15px 0;
-        border-radius: 10px;
-        cursor: pointer;
-        color: #f1f1f1;
-        font-size: 20px;
-        letter-spacing: 2px;
-        word-spacing: 3px;
-        border: none;
-        box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.43) inset;
-        background-color: #000;
+    @media (max-width: 520px) {
+        .logo {
+            width: 20%;
+            font-size: 18px;
+            margin-right: 30%;
+        }
+
+        .out-search-combo .search-input {
+            width: 80%;
+        }
+
+        .search-clean-out {
+            width: 5%;
+        }
+
     }
 
-    .mail-form .mail-btn:hover {
-        filter: brightness(90%);
+    @media (max-width: 475px) {
+        .footer-wrapper {
+            flex-direction: column-reverse;
+            padding-top: 10px;
+        }
+
+        .footer-wrapper h2 {
+            text-align: center;
+        }
+
+        .contacts-data ul {
+            flex-direction: row;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .contacts-data ul li {
+            gap: 5px;
+        }
+
+        .contacts-data-img {
+            width: 10%;
+        }
+
+        .footer-btns {
+            margin-top: 0;
+            margin-bottom: 15px;
+            width: 90%;
+        }
+
     }
 
-    .mail-form .mail-btn:active {
-        transform: scale(0.98, 0.98);
+    @media (max-width: 445px) {
+        .out-search-combo .search-input {
+            width: 75%;
+        }
+
+        .search-clean-out {
+            width: 7%;
+        }
+
+        .mailing {
+            gap: 15px;
+        }
+
+        .mailing h3 {
+            font-size: 16px;
+        }
+
+        #mailing,
+        .mail-form .mail-btn {
+            font-size: 12px;
+            padding: 0.8em;
+        }
+    }
+
+    @media (max-width: 400px) {
+        #mailing,
+        .mail-form .mail-btn {
+            width: 95%;
+            font-size: 10px;
+        }
     }
 </style>
