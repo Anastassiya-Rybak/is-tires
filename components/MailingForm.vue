@@ -1,9 +1,4 @@
 <template>
-        <!-- <form @submit.prevent="submit(form)" method="POST" class="mail-form">
-            <input type="email" name="mailing" id="mailing" placeholder="ВВЕДИТЕ СВОЙ EMAIL"
-            v-model="form.email" @keypress.enter.prevent="toSent($event)">
-            <button class="mail-btn" type="submit">{{ sendOrSent.text }}</button>
-        </form> -->
     <newsletter-form 
         class="mail-form"
         headerText=""
@@ -12,52 +7,6 @@
 </template>
 
 <script setup>
-    const form = ref({
-        email: ''
-    })
-
-    async function submit(form){
-        const result = await useNewsletterSubscribe(form.email)
-
-        console.log(result) // Email ${email} added to subscribers
-        // if (form.email.length >= 7 && form.email.includes('@')) {
-        //     const apiKey = process.env.MAILAPI;
-        //     const audienceId = process.env.MAILLISTID;
-        //     const url = `https://us8.api.mailchimp.com/3.0/lists/${audienceId}/members`;
-
-        //     const formData = {
-        //         email_address: form.email,
-        //         status: 'subscribed',
-        //     };
-
-        //     try {
-        //         const response = await fetch(url, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             Authorization: `Basic ${btoa(`anystring:${apiKey}`)}`,
-        //         },
-        //         body: JSON.stringify(formData),
-        //         });
-
-        //         if (response.ok) {
-        //             // Успешно подписано
-        //             console.log('Вы успешно подписались на рассылку Mailchimp.');
-        //             // Очистить поле email после успешной подписки
-        //             this.form.email = '';
-        //         } else {
-        //             // Обработка ошибок при подписке
-        //             console.error('Ошибка при подписке на рассылку Mailchimp.');
-        //         }
-        //     } catch (error) {
-        //         console.error('Произошла ошибка при отправке запроса к Mailchimp:', error);
-        //     }
-            
-            this.sendOrSent.text='ПОДПИСКА ОФОРМЛЕНА!';
-            this.sendOrSent.text='ПОДПИСКА ОФОРМЛЕНА!';
-        // }
-    }
-
 </script>
 
 

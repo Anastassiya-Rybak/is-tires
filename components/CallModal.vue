@@ -1,28 +1,38 @@
 <template>
     <section class="call-modal-wrapper" @click="$emit('close-modal')">
-        <form class="call-modal" @click.stop method="POST">
+        <form v-if="from === 'form'" class="call-modal" target="hidden-iframe"
+        :action="url" @click.stop method="POST"
+        @submit="handleSubmit">
+            <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
+            <input v-model="formData.name" name="user-name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
+            <input v-model="formData.email" type="email" name="user-email" id="email" placeholder="Укажите Вашу почту для ответа" required>
+            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="30" rows="10" placeholder="Опишите суть Вашего запроса тут" required></textarea>
+            <ButtonGreen type="submit" class="call-me" :text="btnText"/>
+            <div class="close-call-window" @click="$emit('close-modal')">
+                <img src="./../assets/close.png" alt="Закрыть">
+            </div>
+        </form>
+        <form v-else class="call-modal" action="" @click.stop method="POST">
             <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
             <input type="text" class="user-name" placeholder="Как к Вам обращаться?">
-            <select v-show="from === 'call'" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
+            <select aria-label="communication-method" name="call-select" id="call-select" class="select-met">
                 <option value="Способ связи" selected>Способ связи</option>
                 <option value="Phone">Phone</option>
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Telegram">Telegram</option>
             </select>
-            <input v-show="from === 'call'" type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
-            <input v-show="from === 'form'" type="email" name="email" id="email" placeholder="Укажите Вашу почту для ответа">
-            <textarea v-show="from === 'form'" name="" id="form-text" cols="30" rows="10" placeholder="Опишите суть Вашего запроса тут"></textarea>
-            <ButtonGreen v-show="from === 'call'" class="call-me" text="СВЯЖИТЕСЬ СО МНОЙ"/>
-            <ButtonGreen v-show="from === 'form'" class="call-me" text="ОТПРАВИТЬ ЗАПРОС"/>
+            <input type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
+            <ButtonGreen class="call-me" text="СВЯЖИТЕСЬ СО МНОЙ"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
+
     </section>
 </template>
 
 <script>
-import ButtonGreen from './ButtonGreen.vue'
+    import ButtonGreen from './ButtonGreen.vue'
     export default {
         name: 'CallModal',
         components: { ButtonGreen },
@@ -31,6 +41,51 @@ import ButtonGreen from './ButtonGreen.vue'
                 type: String,
                 required: true,
                 default: ""
+            },
+        },
+        data() {
+            return {
+                formData: {
+                    name: '',
+                    email: '',
+                    message: '',
+                },
+                url: 'https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41',
+                btnText: 'ОТПРАВИТЬ ЗАПРОС'
+            };
+        },
+        methods: {
+            async handleSubmit(event) {
+                event.preventDefault();
+                try {
+                    // Отправляем данные на сервер с использованием fetch
+                    const response = await fetch('https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(this.formData),
+                    });
+
+                    if (response.ok) {
+                        // Обработайте успешный ответ от сервера
+                        const data = await response.json();
+                        console.log('Успешно отправлено:', data);
+                        for (let key in this.formData) {
+                            this.formData[key] = "";
+                        }
+                        this.btnText = "ЗАПРОС ОТПРАВЛЕН"
+                        // Выполните дополнительные действия при успешной отправке
+                    } else {
+                        // Обработайте ошибку отправки запроса
+                        console.error('Ошибка отправки:', response.status);
+                        // Выполните дополнительные действия при ошибке
+                    }
+                } catch (error) {
+                    console.error('Ошибка отправки:', error);
+                    // Обработайте ошибку отправки запроса
+                }
             },
         },
     }
