@@ -14,24 +14,24 @@
         </form>
         <form v-else class="call-modal" action="" @click.stop method="POST">
             <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
-            <input type="text" class="user-name" placeholder="Как к Вам обращаться?">
-            <select aria-label="communication-method" name="call-select" id="call-select" class="select-met">
+            <input v-model="callData.name" type="text" class="user-name" placeholder="Как к Вам обращаться?">
+            <select v-model="callData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
                 <option value="Способ связи" selected>Способ связи</option>
                 <option value="Phone">Phone</option>
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Telegram">Telegram</option>
             </select>
-            <input type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
-            <ButtonGreen class="call-me" text="СВЯЖИТЕСЬ СО МНОЙ"/>
+            <input v-model="callData.tel" type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
+            <ButtonGreen @click.prevent="handleCall" class="call-me" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
-
     </section>
 </template>
 
 <script>
+    // import { useEnvStore } from '~/stores/env';
     import ButtonGreen from './ButtonGreen.vue'
     export default {
         name: 'CallModal',
@@ -43,6 +43,14 @@
                 default: ""
             },
         },
+        // setup() {
+        //     const envStore = useEnvStore();
+
+        //     const { inpDatawaInstanceId } = storeToRefs(envStore);
+        //     return {
+        //         apiData: inpDatawaInstanceId
+        //     }
+        // },
         data() {
             return {
                 formData: {
@@ -50,8 +58,13 @@
                     email: '',
                     message: '',
                 },
+                callData: {
+                    name: '',
+                    method: 'Способ связи',
+                    tel: ''
+                },
                 url: 'https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41',
-                btnText: 'ОТПРАВИТЬ ЗАПРОС'
+                btnText: this.from === 'form' ? 'ОТПРАВИТЬ ЗАПРОС' : 'СВЯЖИТЕСЬ СО МНОЙ'
             };
         },
         methods: {
@@ -84,8 +97,37 @@
                     }
                 } catch (error) {
                     console.error('Ошибка отправки:', error);
-                    // Обработайте ошибку отправки запроса
                 }
+            },
+            async handleCall(){
+                // const apiKey = 'instance67025';
+                // const phone = '+77776840869';
+                const message = `${this.callData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${this.callData.tel} посредством ${this.callData.method}`;
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({
+                    "token": "n4r1d6w3a90gmlu0",
+                    "to": "+77776840869",
+                    "body": message
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("https://api.ultramsg.com/instance67025/messages/chat", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));            }
+        },
+        computed: {
+            message() {
+                return process.env.WA_INSTANCE_ID;
             },
         },
     }

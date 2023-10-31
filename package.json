@@ -20,6 +20,7 @@
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@pinia/nuxt": "^0.5.1",
     "nuxt-newsletter": "^0.2.0",
+    "request": "^2.88.2",
     "swiper": "^6.0.0"
   }
 }
