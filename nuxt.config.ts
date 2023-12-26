@@ -15,17 +15,19 @@ export default defineNuxtConfig({
     pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
   },
   modules: [[
-    '@pinia/nuxt',
-    {
-      autoImports: ['defineStore', 'acceptHMRUpdate'],
-    }
-  ],
-  [
-    "nuxt-newsletter",
-    {
-      // Options
-    },
-  ]],
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'acceptHMRUpdate'],
+      }
+    ],
+    [
+      "nuxt-newsletter",
+      {
+        // Options
+      },
+    ],
+    'nuxt-swiper',
+],
   newsletter: {
     mailchimp: {
       apiKey: process.env.MAILAPI,

@@ -48,7 +48,7 @@ import CallModal from './CallModal.vue'
 
 <style>
     .product-card {
-        width: 30%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -60,9 +60,16 @@ import CallModal from './CallModal.vue'
     }
 
     .product-card-img {
-        max-height: 270px;
+        height: 270px;
+        width: 90%;
         overflow: hidden;
         margin: 30px 0;
+    }
+
+    .product-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
     h3 {
