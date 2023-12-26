@@ -14,29 +14,27 @@
         <section class="secnd-block-wrap">
             <div class="secnd-block content">
                 <h2>Рекомендуемые товары</h2>
-                <swiper class="slider"
-                :slides-per-view="1"
-                :space-between="40"
+                <Swiper class="slider"
+                :modules="[SwiperAutoplay, SwiperNavigation]"
+                :slides-per-view="3"
+                :space-between="50"
                 :loop="true"
+                :preventClicks = true
                 :autoplay="{
-                    delay: 1000,
+                    delay: 5000,
+                    disableOnInteraction: false,
                 }"
-                >
-                    <swiper-slide>
-                        <ProductCardVue v-for="product in products.slice(0, 3)" :key="product"
-                        :productName="product.name" :noSlide="false"/>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <ProductCardVue v-for="product in products.slice(3, 6)" :key="product"
-                        :productName="product.name" :noSlide="false"/>
-                    </swiper-slide>
-                </swiper>
-                <div id="prev" @click="toSwipe">
-                    <img src="~/assets/arrprev.svg" alt="Назад">
-                </div>
-                <div id="next" @click="toSwipe">
-                    <img src="~/assets/arrprev.svg" alt="Вперед">
-                </div>
+                :navigation="{
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                }">
+                    <SwiperSlide
+                    v-for="product in products.slice(0, 6)" :key="product">
+                        <ProductCardVue :productName="product.name" :noSlide="false"/>
+                    </SwiperSlide>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </Swiper>
             </div>
         </section>
     </div>
@@ -47,18 +45,10 @@
     import ProductCardVue from '~/components/ProductCard.vue'
     import ButtonGreen from '~/components/ButtonGreen.vue'
     import CallModal from '~/components/CallModal.vue'
-    import { Swiper, SwiperSlide } from 'swiper/vue';
-    import {Autoplay, Navigation} from 'swiper';
-    import 'swiper/swiper-bundle.min.css';
     
     export default {
         name: 'index',
-        components: { ProductCardVue, ButtonGreen, CallModal, Swiper, SwiperSlide},
-        setup() {
-            return {
-                modules: [Autoplay, Navigation],
-            };
-        },
+        components: { ProductCardVue, ButtonGreen, CallModal},
         data() {
             return {
                 products: JSON.products,
@@ -69,18 +59,6 @@
         methods: {
             openModal() {
                 this.visible = true;
-            },
-            toSwipe(){
-                const activeSlide = document.querySelector('.swiper-slide-active');
-                const slider = document.querySelector('.swiper-wrapper');
-                const slides = document.querySelectorAll('.swiper-slide');
-                for(let i = 0; i <= 1; i++) {
-                    if (activeSlide !== slides[i]) {
-                        const next = activeSlide.nextElementSibling;
-                        slider.insertBefore(activeSlide, slides[i].nextElementSibling);
-                        slider.insertBefore(slides[i], next);
-                    }
-                }
             }
         },
     }
@@ -166,65 +144,25 @@
         padding: 1.1em 0;
     }
 
-    .swiper {
-        padding-bottom: 50px;
-    }
-
-    .swiper-slide {
+    .slider {
+        width: 100%;
         display: flex;
         justify-content: space-between;
     }
 
-    #prev, #next {
-        position: absolute;
-        cursor: pointer;
-        width: 8%;
-        top: 45%;
+    .swiper-slide {
+        width: 30%;
     }
 
-    #prev {
-        left: -10%;
-    }
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        color: #0000009d;
 
-    #next {
-        right: -10%;
-        transform: rotate(180deg) scaleY(-1);
-    }
-
-    #prev:hover, #next:hover {
-        opacity: 0.9;
-    }
-
-    #prev:active {
-        transform: scale(1.05);
-    }
-
-    #next:active {
-        width: 8.2%;
-        top: 44.8%;
-        right: -10%;
-    }
-
-    @media (max-width: 1550px) {
-        #prev, #next {
-            width: 6%;
-            top: 50%;
-        }
-
-        #prev {
-            left: -6%;
-        }
-
-        #next {
-            right: -6%;
-        }
-
-        #next:active {
-            width: 6.2%;
-            top: 50%;
-            right: -6.2%;
-        }
-
+    } 
+    .swiper-button-next:hover::after,
+    .swiper-button-prev:hover::after {
+        color: #4b4b4b;
+        transform: scale(1.2);
     }
 
     @media (max-width: 1380px) {

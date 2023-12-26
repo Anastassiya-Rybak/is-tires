@@ -12,15 +12,17 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^20.8.9",
-    "nuxt": "^3.8.0",
+    "nuxt": "^3.9.0",
     "vue": "latest",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@pinia/nuxt": "^0.5.1",
+    "@unhead/shared": "^1.8.9",
+    "@vue/devtools-api": "^6.5.1",
     "nuxt-newsletter": "^0.2.0",
     "request": "^2.88.2",
-    "swiper": "^6.0.0"
+    "nuxt-swiper": "^1.2.2"
   }
 }
