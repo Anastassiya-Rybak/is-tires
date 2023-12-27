@@ -17,7 +17,7 @@
                 <Swiper class="slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="3"
-                :space-between="50"
+                :space-between="100"
                 :loop="true"
                 :preventClicks = true
                 :autoplay="{
@@ -75,8 +75,8 @@
     }
 
     .content {
-        width: 85%;
-        max-width: 1240px;
+        width: 90%;
+        max-width: 1340px;
         margin: 0 auto;
     }
 
@@ -86,10 +86,10 @@
     }
 
     .frst-block p {
-        font-size: 28px;
-        line-height: 48px;
+        font-size: 20px;
+        line-height: 1.2em;
         letter-spacing: 2px;
-        margin: 34px auto;
+        margin: 1.6em auto;
     }
 
     .frst-block-btns {
@@ -99,21 +99,19 @@
 
     .frst-block button {
         width: 20%;
-        font-size: 18px;
-        margin-top: 10px;
+        font-size: 14px;
     }
 
     .frst-block a {
         width: 20%;
         display: block;
-        padding: 12px 22px;
-        margin-top: 10px;
-        border-radius: 15px;
+        padding: 0.8em 1.6em;
+        border-radius: 1.09em;
         cursor: pointer;
         background-color: #00BA61;
         color: #f1f1f1;
         text-align: center;
-        font-size: 18px;
+        font-size: 14px;
         text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
         border: 1px solid rgba(0, 0, 0, 0.089);
         box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
@@ -138,27 +136,27 @@
 
     .secnd-block h2 {
         color: #f1f1f1;
-        font-size: 48px;
+        font-size: 40px;
         letter-spacing: 0.1em;
         text-shadow: 0px 0.1em 0.1em rgba(0, 0, 0, 0.25);
         padding: 1.1em 0;
     }
 
     .slider {
-        width: 100%;
+        width: 93%;
         display: flex;
         justify-content: space-between;
     }
 
-    .swiper-slide {
+    /* .swiper-slide {
         width: 30%;
-    }
+    } */
 
     .swiper-button-next::after,
     .swiper-button-prev::after {
         color: #0000009d;
+    }
 
-    } 
     .swiper-button-next:hover::after,
     .swiper-button-prev:hover::after {
         color: #4b4b4b;

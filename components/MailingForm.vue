@@ -3,6 +3,7 @@
         class="mail-form"
         headerText=""
         inputPlaceholder="ВВЕДИТЕ СВОЙ EMAIL"
+        buttonText="ПОДПИСАТЬСЯ"
     />    
 </template>
 
@@ -15,7 +16,7 @@
 
     .mailing {
         margin: 75px auto;
-        padding: 55px 30px 55px 15%;
+        padding: 45px 30px 45px 15%;
         overflow: hidden;
         border-radius: 20px;
         background: #00BA61;
@@ -23,7 +24,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 30px;
         position: relative;
     }
 
@@ -35,7 +35,7 @@
     }
 
     .mailing h3 {
-        font-size: 32px;
+        font-size: 30px;
         color: #f1f1f1;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.37);
         z-index: 2;
@@ -50,7 +50,7 @@
 
     .mail-form input {
         width: 50%;
-        padding: 15px 25px;
+        padding: 0.6em 1.4em;
         background-color: #f1f1f1;
         font-size: 18px;
         border: none;
@@ -61,13 +61,13 @@
 
     .mail-form button {
         width: 48%;
-        padding: 15px 0;
+        padding: 0.6em 1.4em;
         border-radius: 10px;
         cursor: pointer;
         color: #f1f1f1;
-        font-size: 20px;
-        letter-spacing: 2px;
-        word-spacing: 3px;
+        font-size: 18px;
+        letter-spacing: 0.1em;
+        word-spacing: 0.2em;
         border: none;
         box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.43) inset;
         background-color: rgb(19, 19, 19);

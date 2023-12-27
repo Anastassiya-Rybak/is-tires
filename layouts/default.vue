@@ -67,7 +67,7 @@
             <slot />
             <section class="content">
                 <div class="mailing">
-                    <h3 @click="test">Узнавайте первыми о самых актуальных предложениях!</h3>
+                    <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
                     <mailing-form />
                 </div>
             </section>
@@ -219,6 +219,7 @@
         display: inline-block;
         position: relative;
         line-height: 2;
+        font-size: 14px;
     }
 
     .menu li a::after,
@@ -247,7 +248,7 @@
 
   .logo {
     flex-grow: 0;
-    font-size: 40px;
+    font-size: 30px;
   }
 
     .header__nav,
@@ -283,7 +284,8 @@
     }
 
     .menu {
-        flex-grow: 2;
+        /* flex-grow: 1.5; */
+        width: 30%;
         margin: 30px 0;
     }
 
@@ -308,6 +310,10 @@
         cursor: pointer;
         transition: 0.3s;
         max-width: 50%;
+    }
+
+    .loop img {
+        width: auto;
     }
 
     .search-clean,
@@ -440,8 +446,8 @@
     }
 
     .call-btn {
-        flex-grow: 0s;
-        font-size: 14px;
+        flex-grow: 0;
+        font-size: 12px;
     }
 
     /* FOOTER */

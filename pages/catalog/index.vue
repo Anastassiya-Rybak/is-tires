@@ -1,6 +1,6 @@
 <template>
     <section class="catalog-wrap">
-        <div class="catalg-filter content">
+        <div class="catalg-filter container">
             <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="openFilter"/>
             <div class="filter-content" v-show="filterOn">
                 <div class="selects">
@@ -63,14 +63,14 @@
             </div>
         </div>
         <client-only>
-            <div class="product-cards content" v-if="productsSort.length === 0 && !notany">
+            <div class="product-cards container" v-if="productsSort.length === 0 && !notany">
                 <ProductCard class="product-card-catalog" v-for="product in products" :key="product"
                 :productName="product.name" />
             </div>
-            <div class="product-cards content" v-else-if="notany">
+            <div class="product-cards container" v-else-if="notany">
                 <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
             </div>
-            <div class="product-cards content" v-else>
+            <div class="product-cards container" v-else>
                 <ProductCard class="product-card-catalog" v-for="product in productsSort" :key="product"
                 :productName="product.name" />
             </div>
@@ -277,6 +277,10 @@
         flex-wrap: wrap;
         row-gap: 3dvh;
         margin-top: 3dvh;
+    }
+
+    .product-card-catalog {
+        width: calc(25% - 2%);
     }
 
     @media (max-width: 1240px) {
