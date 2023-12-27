@@ -6,7 +6,7 @@
             <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
             <input v-model="formData.email" type="email" name="user-email" id="email" placeholder="Укажите Вашу почту для ответа" required>
-            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="30" rows="10" placeholder="Опишите суть Вашего запроса тут" required></textarea>
+            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" placeholder="Опишите суть Вашего запроса тут" required></textarea>
             <ButtonGreen type="submit" class="call-me" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
@@ -123,7 +123,9 @@
                 fetch("https://api.ultramsg.com/instance67025/messages/chat", requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
-                    .catch(error => console.log('error', error));            }
+                    .then(_result => this.$emit('close-modal'))
+                    .catch(error => console.log('error', error));
+                }
         },
         computed: {
             message() {
@@ -146,16 +148,12 @@
         z-index: 1000000;
     }
 
-    .open {
-        display: block;
-    }
-
     .close-call-window {
         position: absolute;
         top: 10px;
         right: 10px;
         padding: 15px;
-        width: 10%;
+        width: 8%;
         cursor: pointer;
     }
 
@@ -172,7 +170,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 42%;
+        width: 32%;
         top: 50%; left: 50%;
         -webkit-transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
@@ -182,7 +180,6 @@
         padding: 40px;
         overflow: hidden;
         box-shadow: 0px 10px 15px 0px rgb(255, 255, 255) inset;
-        /* height: 55%; */
         animation-name: showModal;
         animation-duration: 1s;
         animation-iteration-count: 1;
@@ -195,7 +192,7 @@
 
     .call-modal h2 {
         color: #000000;
-        font-size: 2.5em;
+        font-size: 2em;
     }
 
     .user-name,

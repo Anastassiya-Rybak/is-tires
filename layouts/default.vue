@@ -73,7 +73,7 @@
             </section>
         </main>
         <footer>
-            <div class="footer-wrapper">
+            <div class="footer-wrapper container">
                 <div class="contacts-data">
                     <h2>СВЯЗАТЬСЯ С НАМИ</h2>
                     <ul>
@@ -465,12 +465,11 @@
     }
 
     .footer-wrapper {
-        width: 40%;
-        max-width: 940px;
+        /* max-width: 940px; */
         margin: 0 auto;
         padding: 60px 0 105px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         position: relative;
     }
@@ -489,6 +488,10 @@
         color: #f1f1f1;
         margin-bottom: 20px;
     }
+
+    /* .contacts-data {
+        width: 50%;
+    } */
 
     .contacts-data ul {
         display: flex;
@@ -511,7 +514,7 @@
         margin-top: 40px;
         flex-direction: column;
         align-items: center;
-        width: 40%;
+        width: 20%;
         gap: 10px;
     }
 
