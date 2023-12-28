@@ -12,17 +12,17 @@
     })
 </script>
 
-<style>
+<style lang="scss">
     .popup-btn {
         /* width: calc(50% - 5px); */
         padding: 0.8em 1.6em;
         border-radius: 1.09em;
         cursor: pointer;
-        color: #ffffff;
+        color: $main-light;
         /* font-size: 14px; */
         border: 1px solid rgba(0, 0, 0, 0.089);
         text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
-        background-color: #00BA61;
+        background-color: $accent;
         transition: 0.3s;
         box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
     }

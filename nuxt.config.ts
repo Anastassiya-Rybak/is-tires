@@ -27,6 +27,7 @@ export default defineNuxtConfig({
       },
     ],
     'nuxt-swiper',
+    '@nuxt/image'
   ],
   newsletter: {
     mailchimp: {
@@ -38,6 +39,16 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: ['stores'],
+  },
+  css: ["@/assets/scss/global.scss"],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@/assets/scss/_vars.scss" as *;',
+        },
+      },
+    },
   },
   // nitro: {
   //   devProxy: {

@@ -1,0 +1,24 @@
+// COLORS
+$main-dark: rgb(26, 26, 26);
+$main-light: rgb(241, 241, 241);
+$accent: #00a857;
+
+// mixins
+
+@mixin link-hover {
+  color: $accent;
+  transition: 0.3s;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@mixin media($width) {
+  @media (max-width: $width) {
+    @content
+  }
+}
+
+@mixin img-hover {
+  transition: all 0.4s ease;
+  transform: scale(1.1);
+}
