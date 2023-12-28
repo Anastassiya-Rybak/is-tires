@@ -6,8 +6,8 @@
                 <p>Высококачественные шины и общее решение для шин позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
                 <div class="frst-block-btns">
                     <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
-                    <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="openModal" />
-                    <CallModal v-show = "visible" from="form" @close-modal="visible = false" />
+                    <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
+                    <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
                 </div>
             </div>
         </section>
@@ -30,7 +30,7 @@
                 }">
                     <SwiperSlide
                     v-for="product in products.slice(0, 6)" :key="product">
-                        <ProductCardVue :productName="product.name" :noSlide="false"/>
+                        <ProductCard :productName="product.name" :noSlide="false"/>
                     </SwiperSlide>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -40,27 +40,16 @@
     </div>
 </template>
 
-<script>
-    import JSON from '~/server/bd.json'
-    import ProductCardVue from '~/components/ProductCard.vue'
-    import ButtonGreen from '~/components/ButtonGreen.vue'
-    import CallModal from '~/components/CallModal.vue'
-    
-    export default {
-        name: 'index',
-        components: { ProductCardVue, ButtonGreen, CallModal},
-        data() {
-            return {
-                products: JSON.products,
-                visible: false,
-                slides: []
-            }
-        },
-        methods: {
-            openModal() {
-                this.visible = true;
-            }
-        },
+<script setup>
+    import { ref } from 'vue';
+    import JSON from '~/server/bd.json';
+
+    const products = JSON.products;
+    const visible = ref(false);
+    const slides = ref([]);
+
+    const visibleModal = () => {
+        visible.value = !visible.value;
     }
 </script>
 

@@ -1,60 +1,12 @@
 <template>
     <section class="catalog-wrap">
         <div class="catalg-filter container">
-            <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="openFilter"/>
+            <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="toggleFilter"/>
             <div class="filter-content" v-show="filterOn">
                 <div class="selects">
-                    <select aria-label="RADIAL-or-DIAGONAL" name="rd" id="rd" class="filter-item">
-                        <option class="default-option" selected value="РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ">РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ</option>
-                        <option value="РАДИАЛЬНЫЕ">РАДИАЛЬНЫЕ</option>
-                        <option value="ДИАГОНАЛЬНЫЕ">ДИАГОНАЛЬНЫЕ</option>
-                    </select>
-                    <select aria-label="APPLICABILITY" name="type" id="type" class="filter-item">
-                        <option class="default-option" selected value="ПРИМЕНИМОСТЬ">ПРИМЕНИМОСТЬ</option>
-                        <option value="САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ">САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ</option>
-                        <option value="ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ">ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ</option>
-                        <option value="ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ">ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ</option>
-                        <option value="ГРЕЙДЕРЫ">ГРЕЙДЕРЫ</option>
-                        <option value="ПОДЗЕМНАЯ ТЕХНИКА">ПОДЗЕМНАЯ ТЕХНИКА</option>
-                        <option value="МОБИЛЬНЫЕ КРАНЫ">МОБИЛЬНЫЕ КРАНЫ</option>
-                        <option value="СКРЕПЕРЫ">СКРЕПЕРЫ</option>
-                        <option value="СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА">СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА</option>
-                        <option value="ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ">ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ</option>
-                        <option value="ДОРОЖНЫЕ КАТКИ">ДОРОЖНЫЕ КАТКИ</option>
-                    </select>
-                    <select aria-label="frame-index" name="idx" id="idx_frame" class="filter-item">
-                        <option class="default-option" selected value="ПРОЧНОСТЬ КАРКАСА">ПРОЧНОСТЬ КАРКАСА</option>
-                        <option value="★★★">★★★</option>
-                        <option value="★★★RF">★★★RF</option>
-                        <option value="★★">★★</option>
-                        <option value="★">★</option>
-                        <option value="★★RF">★★RF</option>
-                        <option value="12PR">12PR</option>
-                        <option value="8"></option>
-                        <option value="10">10</option>
-                        <option value="12">12</option>
-                        <option value="16">16</option>
-                        <option value="18">18</option>
-                        <option value="20">20</option>
-                        <option value="22">22</option>
-                        <option value="28">28</option>
-                        <option value="14PR">14PR</option>
-                        <option value="16PR">16PR</option>
-                        <option value="20PR">20PR</option>
-                        <option value="24PR">24PR</option>
-                        <option value="28PR">28PR</option>
-                        <option value="32PR">32PR</option>
-                        <option value="34PR">34PR</option>
-                        <option value="58PR">58PR</option>
-                        <option value="40PR">40PR</option>
-                        <option value="36PR">36PR</option>
-                        <option value="44PR">44PR</option>
-                    </select>
-                    <select aria-label="tube" name="tube" id="tube" class="filter-item">
-                        <option class="default-option" selected value="КАМЕРА">КАМЕРА</option>
-                        <option value="TT">TT</option>
-                        <option value="TL">TL</option>
-                    </select>
+                    <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
+                    :aria-label="select.name" :name="select.name" :id="select.name + 'id'" class="filter-item"
+                    :selectData="select"/>
                 </div>
                 <div class="filter-btns-group">
                     <ButtonGreen text="ПРИМЕНИТЬ" @click="getApply"/>
@@ -83,18 +35,24 @@
     import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
+    import { useFilterStore } from '~/stores/filter';
 
     export default {
         name: 'catalog',
         components: { ProductCard },
         setup(){
             const searchStore = useSearchStore();
+            const filterStore = useFilterStore();
 
             const { inpData } = storeToRefs(searchStore);
+
+            const { selectedRd, selectedType, selectedIdx, selectedTube } = storeToRefs(filterStore);
             
             return {
                 searchStore,
-                searchItem: inpData
+                filterStore,
+                searchItem: inpData,
+                selectedRd, selectedType, selectedIdx, selectedTube 
             }
         },
         data() {
@@ -104,6 +62,32 @@
                 filterOn: false,
                 notany: false,
                 visible: false,
+                selects: [
+                    {
+                        name: "rd",
+                        selectedLet: "selectedRd",
+                        selectValue: "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ",
+                        options: ["РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
+                    },
+                    {
+                        name: "type",
+                        selectedLet: "selectedType",
+                        selectValue: "ПРИМЕНИМОСТЬ",
+                        options: ["САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
+                    },
+                    {
+                        name: "idx",
+                        selectedLet: "selectedIdx",
+                        selectValue: "ПРОЧНОСТЬ КАРКАСА",
+                        options: ["★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
+                    },
+                    {
+                        name: "tube",
+                        selectedLet: "selectedTube",
+                        selectValue: "КАМЕРА",
+                        options: ["TT", "TL"]
+                    }
+                ]
             }
         },
         beforeCreate() {
@@ -142,11 +126,11 @@
                 }
             },
             getApply (){
-                this.openFilter();
+                this.toggleFilter();
                 this.getFilter();
             },
-            openFilter() {
-                this.filterOn ? this.filterOn = false : this.filterOn = true;
+            toggleFilter() {
+                this.filterOn = !this.filterOn;
             },
             reset() {
                 const selects = document.querySelectorAll('select');
@@ -155,61 +139,209 @@
                 }
             },
             getFilter() {
-                const selects = document.querySelectorAll('select');
                 this.productsSort = [];
                 this.notany = false;
-                const needs = {
-                    "rd": '',
-                    "type": '',
-                    "idx_frame": '',
-                    "tube": ''
-                }
-                for (let i = 0; i < selects.length; i++) {
-                    const value = selects[i].options[selects[i].selectedIndex].value;
-                    switch (i) {
-                        case 0:
-                            if ( selects[i].selectedIndex !== 0 ) needs.rd = value;
-                            break;
-                        case 1:
-                            if ( selects[i].selectedIndex !== 0 ) needs.type = value;
-                            break;
-                        case 2:
-                            if ( selects[i].selectedIndex !== 0 ) needs.idx_frame = value;
-                            break;
-                        case 3:
-                            if ( selects[i].selectedIndex !== 0 ) needs.tube = value;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                const needsArr = Object.values(needs).filter((n) => n !== '');
-                if (needsArr.length !== 0) {
-                    this.products.forEach((product) => {
-                        let have = Object.values(product);
-                        if (product.var) {
-                            product.var.forEach((productVar) => {
 
-                                const varframes = productVar.idx_frame.split(",");
-                                have = have.concat(varframes);
-                                have = have.concat(Object.values(productVar));
-                            })
-                        }
-                        if (product.idx_frame) {
-                            const frames = product.idx_frame.split(",");
-                            have = have.concat(frames);
-                        }
-                        if (needsArr.every(i => have.includes(i))) {
-                            this.productsSort.push(product);
-                        }
-                    })
-                    if (this.productsSort.length === 0) this.notany = true;
-                }
+                console.log(this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube );
+
+                // const needs = {
+                //     "rd": '',
+                //     "type": '',
+                //     "idx_frame": '',
+                //     "tube": ''
+                // }
+                // for (let i = 0; i < selects.length; i++) {
+                //     const value = selects[i].options[selects[i].selectedIndex].value;
+                //     switch (i) {
+                //         case 0:
+                //             if ( selects[i].selectedIndex !== 0 ) needs.rd = value;
+                //             break;
+                //         case 1:
+                //             if ( selects[i].selectedIndex !== 0 ) needs.type = value;
+                //             break;
+                //         case 2:
+                //             if ( selects[i].selectedIndex !== 0 ) needs.idx_frame = value;
+                //             break;
+                //         case 3:
+                //             if ( selects[i].selectedIndex !== 0 ) needs.tube = value;
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                // }
+                // const needsArr = Object.values(needs).filter((n) => n !== '');
+                // if (needsArr.length !== 0) {
+                //     this.products.forEach((product) => {
+                //         let have = Object.values(product);
+                //         if (product.var) {
+                //             product.var.forEach((productVar) => {
+
+                //                 const varframes = productVar.idx_frame.split(",");
+                //                 have = have.concat(varframes);
+                //                 have = have.concat(Object.values(productVar));
+                //             })
+                //         }
+                //         if (product.idx_frame) {
+                //             const frames = product.idx_frame.split(",");
+                //             have = have.concat(frames);
+                //         }
+                //         if (needsArr.every(i => have.includes(i))) {
+                //             this.productsSort.push(product);
+                //         }
+                //     })
+                //     if (this.productsSort.length === 0) this.notany = true;
+                // }
             }
             
         }
     }
 
+
+
+    // ПОПЫТКА НАПИСАНИЯ НА COMPOSITION API
+
+    // import JSON from '~/server/bd.json';
+    // import { ref, onBeforeMount } from 'vue';
+    // import { storeToRefs } from 'pinia';
+    // import { useSearchStore } from '~/stores/search';
+
+    // const selects = [
+    //     {
+    //         name: "rd",
+    //         selectedLet: "selectedRd",
+    //         value: "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ",
+    //         options: ["РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
+    //     },
+    //     {
+    //         name: "type",
+    //         selectedLet: "selectedType",
+    //         value: "ПРИМЕНИМОСТЬ",
+    //         options: ["САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
+    //     },
+    //     {
+    //         name: "idx",
+    //         selectedLet: "selectedIdx",
+    //         value: "ПРОЧНОСТЬ КАРКАСА",
+    //         options: ["★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
+    //     },
+    //     {
+    //         name: "tube",
+    //         selectedLet: "selectedTube",
+    //         value: "КАМЕРА",
+    //         options: ["TT", "TL"]
+    //     }
+    // ]
+
+    // const products = JSON.products;
+    // const productsSort = ref([]);
+    // const filterOn = ref(false);
+    // const notany = ref(false);
+
+    // const searchStore = useSearchStore();
+    // // const { inpData } = storeToRefs(searchStore);
+    // const inpData = searchStore.inpData;
+
+    // onBeforeMount(() => {
+    //     searchStore.restoreState();
+    //     sortBeforePageLoad();
+    // })
+
+    // const sortBeforePageLoad = () => {
+
+    //     if (inpData){
+    //         console.log(inpData);
+    //         productsSort.value = [];
+    //         notany.value = false;
+    //         products.forEach((product) => {
+    //             let yes = false;
+    //             for (let productValue of Object.values(product)) {
+    //                 if (typeof productValue === 'string' && productValue.toLowerCase().includes(inpData.toLowerCase())) {
+    //                     yes = true;
+    //                 } else if (Array.isArray(productValue)) {
+    //                     productValue.forEach((productValueItem) => {
+    //                         if (typeof productValueItem === 'string' && productValueItem.toLowerCase().includes(inpData.toLowerCase())) {
+    //                             yes = true;
+    //                         }
+    //                         for( let i of Object.values(productValueItem)) {
+    //                             if (i.toLowerCase().includes(inpData.toLowerCase())) {
+    //                                 yes = true;
+    //                             }
+    //                         }
+    //                     })
+    //                 }
+    //             }
+    //             if (yes) productsSort.value.push(product);
+    //         })
+    //         if (productsSort.value.length === 0) notany.value = true;
+    //         $route.query.param = '';
+    //     }
+    // }
+    // const toggleFilter = () => {
+    //     filterOn.value = !filterOn.value;
+    // }
+    // const reset = () => {
+    //     const selects = document.querySelectorAll('select');
+    //     for (let i = 0; i < selects.length; i++) {
+    //         selects[i].selectedIndex = 0;
+    //     }
+    // }
+    // const getFilter = () => {
+    //     const selects = document.querySelectorAll('select');
+    //     productsSort.value = [];
+    //     notany.value = false;
+
+    //     const needs = {
+    //         "rd": '',
+    //         "type": '',
+    //         "idx_frame": '',
+    //         "tube": ''
+    //     }
+    //     for (let i = 0; i < selects.length; i++) {
+    //         const value = selects[i].options[selects[i].selectedIndex].value;
+    //         switch (i) {
+    //             case 0:
+    //                 if ( selects[i].selectedIndex !== 0 ) needs.rd = value;
+    //                 break;
+    //             case 1:
+    //                 if ( selects[i].selectedIndex !== 0 ) needs.type = value;
+    //                 break;
+    //             case 2:
+    //                 if ( selects[i].selectedIndex !== 0 ) needs.idx_frame = value;
+    //                 break;
+    //             case 3:
+    //                 if ( selects[i].selectedIndex !== 0 ) needs.tube = value;
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    //     const needsArr = Object.values(needs).filter((n) => n !== '');
+    //     if (needsArr.length !== 0) {
+    //         products.forEach((product) => {
+    //             let have = Object.values(product);
+    //             if (product.var) {
+    //                 product.var.forEach((productVar) => {
+    //                     const varframes = productVar.idx_frame.split(",");
+    //                     have = have.concat(varframes);
+    //                     have = have.concat(Object.values(productVar));
+    //                 })
+    //             }
+    //             if (product.idx_frame) {
+    //                 const frames = product.idx_frame.split(",");
+    //                 have = have.concat(frames);
+    //             }
+    //             if (needsArr.every(i => have.includes(i))) {
+    //                 productsSort.value.push(product);
+    //             }
+    //         })
+    //         if (productsSort.value.length === 0) notany.value = true;
+    //     }
+    // }
+
+    // const getApply =  () => {
+    //     openFilter();
+    //     getFilter();
+    // }
 </script>
 
 <style scoped>

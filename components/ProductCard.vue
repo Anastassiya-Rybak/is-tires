@@ -5,44 +5,36 @@
         </div>
         <h3>{{ productName }}</h3>
         <div class="product-card-btns">
-            <ButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="openModal('form')"/>
-            <CallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
+            <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
+            <LazyCallModal v-show = "visible" :from="modalFrom" @close-modal="visibleModal" />
             <nuxt-link :to="link" class="more" :class="{full: !noSlide}">ПОДРОБНЕЕ . . .</nuxt-link>
         </div>
     </div>
 </template>
 
-<script>
-import ButtonGreen from './ButtonGreen.vue'
-import CallModal from './CallModal.vue'
-    export default {
-        name: 'ProductCard',
-        components: { ButtonGreen, CallModal },
-        props: {
-            productName: {
-                type: String,
-                required: true,
-                default: ""
-            },
-            noSlide: {
-                type: Boolean,
-                default: true
-            }
+<script setup>
+    import { ref } from 'vue';
+    
+    const props = defineProps({
+        productName: {
+            type: String,
+            required: true,
+            default: ""
         },
-        data() {
-            return {
-                link: `/catalog/${this.productName}`,
-                image: `/images/${this.productName}.png`,
-                visible: false,
-                modalFrom: ''
-            }
-        },
-        methods: {
-            openModal(n) {
-                this.visible = true;
-                this.modalFrom = n;
-            },
+        noSlide: {
+            type: Boolean,
+            default: true
         }
+    })
+
+    const link = `/catalog/${props.productName}`;
+    const image = `/images/${props.productName}.png`;
+    const visible = ref(false);
+    const modalFrom = ref('');
+
+    const visibleModal = (n) => {
+        visible.value = !visible.value;
+        if (visible.value) modalFrom.value = n;
     }
 </script>
 

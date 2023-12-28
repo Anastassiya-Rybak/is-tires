@@ -1,6 +1,7 @@
+import { defineStore } from 'pinia'
 export const useSearchStore = defineStore ("search", {
     state: () => ({
-        inpData: ''
+        inpData: 'fff'
     }),
 
     actions: {

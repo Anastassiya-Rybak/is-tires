@@ -31,12 +31,7 @@
     </div>
 </template>
 
-<script>
-    import ButtonGreen from '~/components/ButtonGreen.vue';
-    export default {
-        name: 'ContactPage',
-        components: { ButtonGreen },
-    }
+<script setup>
 </script>
 
 <style scoped>

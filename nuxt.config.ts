@@ -27,7 +27,7 @@ export default defineNuxtConfig({
       },
     ],
     'nuxt-swiper',
-],
+  ],
   newsletter: {
     mailchimp: {
       apiKey: process.env.MAILAPI,

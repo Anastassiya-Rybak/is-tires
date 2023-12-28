@@ -52,56 +52,39 @@
                         </tbody>
                     </table>
                 </ClientOnly>
-                <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="application" @click="openModal"/>
-                <CallModal v-show = "visible" from="form" @close-modal="visible = false" />
+                <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="application" @click="visibleModal"/>
+                <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
             </div>
         </div>
     </section>
 </template>
 
-<script>
-    import ButtonGreen from '~/components/ButtonGreen.vue';
-    import CallModal from '~/components/CallModal.vue';
+<script setup>
+    import { ref, onBeforeMount } from 'vue';
     import JSON from '~/server/bd.json'
 
-    export default {
-        components: { CallModal, ButtonGreen },
-        setup() {
-            const { name } = useRoute().params;
+    const { name } = useRoute().params;
+    const image = `/images/${name}.png`;
+    const visible = ref(false);
+    const products = JSON.products;
+    const productInfo = ref({});
 
-            return {
-                name,
-            };
-        },
-        data() {
-            return {
-                image: `/images/${this.name}.png`,
-                visible: false,
-                products: JSON.products,
-                productInfo: {}
+    onBeforeMount(() => {
+        findCurrentProduct();
+    })
+
+    const findCurrentProduct = () => {
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].name === name) {
+                productInfo.value = products[i];
             }
-        },
-        beforeMount() {
-            this.findCurrentProduct();
-        },
-        methods: {
-            findCurrentProduct() {
-                for (let i = 0; i < this.products.length; i++) {
-                    if (this.products[i].name === this.name) {
-                        this.productInfo = this.products[i];
-                    }
-                }
-                // this.products.forEach(product => {
-                //     if (product.name === this.name) {
-                //         this.productInfo = product;
-                //     }
-                // });
-            },
-            openModal() {
-                this.visible = true;
-            },
         }
     }
+
+    const visibleModal = () => {
+        visible.value = !visible.value;
+    }
+
 </script>
     
 <style scoped>
