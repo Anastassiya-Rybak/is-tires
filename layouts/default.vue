@@ -23,11 +23,8 @@
         name: 'default',
         setup() {
             const searchStore = useSearchStore();
-
-            const { inpData } = storeToRefs(searchStore);
             return {
                 searchStore,
-                searchData: inpData
             }
         },
         beforeCreate() {

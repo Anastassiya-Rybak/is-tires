@@ -9,15 +9,29 @@
             spellcheck="true"
         >
         <label for="search-input">
-            <button to="/catalog" class="search__btn" @click.prevent="openSearch">Поиск</button>
+            <button class="search__btn" @click.prevent="goSearch">Поиск</button>
         </label>
-        <button class="search__clean" v-show="searchData" @click="searchData = ''">
-            <img src="~/assets/clean.png" alt="СБРОС ПОИСКА" title="СБРОС ПОИСКА">
-        </button>
     </div>
 </template>
 
 <script setup>
+    import { ref } from 'vue';
+    import { useSearchStore } from '~/stores/search';
+
+    const searchStore = useSearchStore();
+    const searchData = ref('');
+
+    const goSearch = async () => {
+        searchStore.editItem(searchData.value);
+        if (searchData.value !== '') {
+            await navigateTo({
+                path: '/catalog',
+                query: {
+                    sort: searchData.value
+                }
+            });
+        }
+    };
 
 </script>
 
