@@ -137,60 +137,36 @@
                 for (let i = 0; i < selects.length; i++) {
                     selects[i].selectedIndex = 0;
                 }
+                this.filterStore.editItem('rd', '');
+                this.filterStore.editItem('tube', '');
+                this.filterStore.editItem('type', '');
+                this.filterStore.editItem('idx', '');
             },
             getFilter() {
                 this.productsSort = [];
                 this.notany = false;
 
-                console.log(this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube );
-
-                // const needs = {
-                //     "rd": '',
-                //     "type": '',
-                //     "idx_frame": '',
-                //     "tube": ''
-                // }
-                // for (let i = 0; i < selects.length; i++) {
-                //     const value = selects[i].options[selects[i].selectedIndex].value;
-                //     switch (i) {
-                //         case 0:
-                //             if ( selects[i].selectedIndex !== 0 ) needs.rd = value;
-                //             break;
-                //         case 1:
-                //             if ( selects[i].selectedIndex !== 0 ) needs.type = value;
-                //             break;
-                //         case 2:
-                //             if ( selects[i].selectedIndex !== 0 ) needs.idx_frame = value;
-                //             break;
-                //         case 3:
-                //             if ( selects[i].selectedIndex !== 0 ) needs.tube = value;
-                //             break;
-                //         default:
-                //             break;
-                //     }
-                // }
-                // const needsArr = Object.values(needs).filter((n) => n !== '');
-                // if (needsArr.length !== 0) {
-                //     this.products.forEach((product) => {
-                //         let have = Object.values(product);
-                //         if (product.var) {
-                //             product.var.forEach((productVar) => {
-
-                //                 const varframes = productVar.idx_frame.split(",");
-                //                 have = have.concat(varframes);
-                //                 have = have.concat(Object.values(productVar));
-                //             })
-                //         }
-                //         if (product.idx_frame) {
-                //             const frames = product.idx_frame.split(",");
-                //             have = have.concat(frames);
-                //         }
-                //         if (needsArr.every(i => have.includes(i))) {
-                //             this.productsSort.push(product);
-                //         }
-                //     })
-                //     if (this.productsSort.length === 0) this.notany = true;
-                // }
+                const needsArr = [this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube].filter((n) => n !== '');
+                if (needsArr.length !== 0) {
+                    this.products.forEach((product) => {
+                        let have = Object.values(product);
+                        if (product.var) {
+                            product.var.forEach((productVar) => {
+                                const varframes = productVar.idx_frame.split(",");
+                                have = have.concat(varframes);
+                                have = have.concat(Object.values(productVar));
+                            })
+                        }
+                        if (product.idx_frame) {
+                            const frames = product.idx_frame.split(",");
+                            have = have.concat(frames);
+                        }
+                        if (needsArr.every(i => have.includes(i))) {
+                            this.productsSort.push(product);
+                        }
+                    })
+                    if (this.productsSort.length === 0) this.notany = true;
+                }
             }
             
         }

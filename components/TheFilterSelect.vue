@@ -19,7 +19,7 @@
         }
     })
 
-    const selectedValue = ref(null);
+    const selectedValue = ref(props.selectData.selectValue);
 
     const editFilter = () => {
         filterStore.editItem(props.selectData.name, selectedValue.value);
