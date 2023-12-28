@@ -1,11 +1,18 @@
 <template>
     <div class="header__search search">
-        <input class="search__input" id="search-input" type="text" v-model="searchData"  placeholder="Введите товар/свойство">
+        <input class="search__input" 
+            id="search-input" 
+            type="search" 
+            v-model="searchData"  
+            placeholder="Введите товар/свойство"
+            autosave
+            spellcheck="true"
+        >
         <label for="search-input">
-            <a href="/catalog" class="search__btn" @click="openSearch">Поиск</a>
+            <button to="/catalog" class="search__btn" @click.prevent="openSearch">Поиск</button>
         </label>
         <button class="search__clean" v-show="searchData" @click="searchData = ''">
-            <img src="~/assets/clean.png" alt="" title="СБРОС ПОИСКА">
+            <img src="~/assets/clean.png" alt="СБРОС ПОИСКА" title="СБРОС ПОИСКА">
         </button>
     </div>
 </template>
@@ -15,77 +22,73 @@
 </script>
 
 <style lang="scss" scoped>
-    .header__search {
-        width: fit-content;
+    .search {
+        width: 30%;
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-
-
-    }
-
-    .search-clean,
-    .search-clean-out {
-        border: none;
-        background: none;
-    }
-
-    .search-clean {
-        width: 6%;
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-    }
-
-    .search-clean:hover {
-        opacity: 0.7;
-        transform: scale(1.1);
-    }
-
-    .search-clean-out {
-        width: 3%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 1%;
-        cursor: pointer;
-    }
-
-    .search-input-container {
-        border-radius: 15px;
-        border: 1px solid #00BA61;
-        background: rgba(255, 255, 255, 0.274);
-        padding: 4px;
-        transition: 0.3s;
-        display: flex;
-        justify-content: space-between;
         align-items: center;
+        border-radius: 12px;
+        border: 1px solid $accent;
+        background: rgba(255, 255, 255, 0.274);
+        padding: 2px;
+        animation: changeWidth 0.7s ease-in-out alternate;
+
+        @keyframes changeWidth {
+            from { width: 5%; }
+            to { width: 30%; }
+        }
+
+        &__input {
+            width: 90%;
+
+            &:focus {
+                outline: none;
+                cursor: default;
+            }
+
+            &::-webkit-search-cancel-button {
+                // appearance: none;
+                filter: invert(1);
+                cursor: pointer;
+                transform: scale(1.2);
+
+                &:hover {
+                    transform: scale(1.8);
+                }
+            }
+        }
+        &__input,
+        &__btn {
+            background: none;
+            border: none;
+            color: $main-light;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0.5em 0.6em 0.5em 0.3em;
+            transition: 0.3s;
+        }
+
+        &__btn {
+            &:hover {
+                opacity: 0.8;
+            }
+
+            &:active {
+                color: $accent;
+            }
+        }
+
+        &__clean {
+            border: none;
+            background: none;
+            width: 6%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
     }
-
-    .search-input,
-    .search-btn {
-        background: none;
-        border: none;
-        color: #f1f1f1;
-        cursor: pointer;
-        font-size: 16px;
-        padding: 7px 10px 7px 5px;
-        transition: 0.3s;
-    }
-
-    .search-input {
-        width: 75%;
-    }
-
-    .search-input:focus {
-        outline: none;
-        cursor: default;
-    }
-
-    .search-btn:hover {
-        color: #00BA61;
-    }
-
-
-
 </style>

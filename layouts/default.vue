@@ -18,8 +18,6 @@
     import { useSearchStore } from '~/stores/search';
     import TheHeader from '~/components/TheHeader.vue';
     import TheFooter from '~/components/TheFooter.vue';
-    import ButtonGreen from '~/components/ButtonGreen.vue';
-    import CallModal from '~/components/CallModal.vue';
     import MailingForm from '~/components/MailingForm.vue';
     export default {
         name: 'default',
@@ -35,14 +33,8 @@
         beforeCreate() {
             if (process.client) this.searchStore.restoreState();
         },
-        components: { CallModal, ButtonGreen, MailingForm, TheHeader, TheFooter },
+        components: { MailingForm, TheHeader, TheFooter },
         methods: {
-            async openSearch() {
-                if (this.searchData !== '') {
-                    this.searchStore.editItem(this.searchData);
-                    if (process.client) this.searchStore.saveState();
-                }
-            },
             reload () {
                 this.searchData = '';
                 this.searchStore.editItem(this.searchData);

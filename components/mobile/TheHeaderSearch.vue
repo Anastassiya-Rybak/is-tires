@@ -61,4 +61,18 @@
         color: #00BA61;
     }
 
+    .search-clean-out {
+        border: none;
+        background: none;
+    }
+    .search-clean-out {
+        width: 3%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 1%;
+        cursor: pointer;
+    }
+
+
 </style>

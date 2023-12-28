@@ -7,7 +7,7 @@
                     <hr><hr><hr>
                 </div>
             </div>
-            <ul class="header__menu">
+            <ul v-show="!showMobileVersion" class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
                     <nuxt-link active-class="header__active-page" to="/" @click="resetSearch">ГЛАВНАЯ</nuxt-link>
                 </li>
@@ -75,11 +75,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 4%;
         }
 
         &__logo {
-            flex-grow: 0;
             font-size: 30px;
         }
 
@@ -111,6 +109,17 @@
             padding: 0 10%;
             width: 55%;
             margin: 30px 0;
+
+            &_compact {
+                width: 30%;
+                padding: 0 2%;
+                animation: changeWidth 0.7s ease-in-out alternate;
+
+                @keyframes changeWidth {
+                    from { width: 55%; padding: 0 10%; }
+                    to { width: 30%; padding: 0 2%; }
+                }
+            }
 
             li a {
                 display: inline-block;
