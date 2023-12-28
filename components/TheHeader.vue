@@ -1,36 +1,68 @@
 <template>
     <header class="header container">
         <nav class="header__nav">
-            <nuxt-link to="/" class="header__logo" @click="cleanSearch">ИСКРА СЕРВИС</nuxt-link>
-            <div class="header__burger burger-wrap" @click="openBurger">
+            <nuxt-link to="/" class="header__logo" @click="resetSearch">ИСКРА СЕРВИС</nuxt-link>
+            <div v-if="showMobileVersion" class="header__burger burger-wrap" @click="toggleVisible('burgerOpen')">
                 <div class="burger">
                     <hr><hr><hr>
                 </div>
             </div>
             <ul class="header__menu">
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/" @click="cleanSearch">ГЛАВНАЯ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/" @click="resetSearch">ГЛАВНАЯ</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/catalog" @click="cleanSearch">КАТАЛОГ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/catalog" @click="resetSearch">КАТАЛОГ</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/contact" @click="cleanSearch">КОНТАКТЫ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/contact" @click="resetSearch">КОНТАКТЫ</nuxt-link>
                 </li>
             </ul>
-            <LazyTheHeaderSearch v-show="searchOpen" />
-            <div v-show="!searchOpen && !showMobileVersion" class="header__loop" @click="openSearchInput" >
+            <LazyTheHeaderSearch v-show="searchOpen && !showMobileVersion" />
+            <div v-show="!searchOpen && !showMobileVersion" class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
             <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
             <LazyCallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
         </nav>
-        <LazyMobileTheHederMenu v-if="showMobileVersion" />
-        <LazyMobileTheHederSearch v-if="showMobileVersion" />
+        <LazyMobileTheHederMenu v-if="showMobileVersion && burgerOpen" @close-item="toggleVisible('burgerOpen')"/>
+        <LazyMobileTheHederSearch v-if="showMobileVersion && searchOpen" @close-item="toggleVisible('searchOpen')"/>
     </header>
 </template>
 
 <script setup>
+    import { ref, onMounted } from 'vue';
+    import { storeToRefs } from 'pinia';
+    import { useSearchStore } from '~/stores/search';
+
+    const searchOpen = ref(false);
+    const burgerOpen = ref(false);
+    const showMobileVersion = ref(false);
+    const visible = ref(false);
+    const modalFrom = ref('');
+
+    const searchStore = useSearchStore();
+    const { inpData } = storeToRefs(searchStore);
+
+    const resetSearch = () => {
+        searchOpen.value = false;
+        if (inpData !== '') searchStore.editItem('');
+    };
+
+    const toggleVisible = (item) => { item === 'burgerOpen' ? burgerOpen.value = !burgerOpen.value : searchOpen.value = !searchOpen.value; };
+
+    const openModal = (n) => {
+        visible.value = true;
+        modalFrom.value = n;
+    };
+
+    // onMounted(() => {
+    //     const mediaQuery = window.matchMedia("(max-width:768px)");
+    //     showMobileVersion.value = mediaQuery.matches;
+    //     const listener = e => showMobileVersion = e.matches;
+    //     mediaQuery.addEventListener(listener);
+    //     $once('hook:beforeDestroy', () => mediaQuery.removeEventListener(listener));
+    // })
 
 
 </script>

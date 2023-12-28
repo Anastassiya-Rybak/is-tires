@@ -32,38 +32,13 @@
                 searchData: inpData
             }
         },
-        data() {
-            return {
-                searchOpen: this.searchData ? true : false,
-                visible: false,
-                modalFrom: ''
-            }
-        },
         beforeCreate() {
             if (process.client) this.searchStore.restoreState();
         },
         components: { CallModal, ButtonGreen, MailingForm, TheHeader, TheFooter },
         methods: {
-            openBurger() {
-                document.querySelector('.burger-wrap').classList.toggle('open-burger');
-                document.querySelector('.menu-out-wrap').classList.toggle('open');
-            },
-            openModal(n) {
-                this.visible = true;
-                this.modalFrom = n;
-            },
-            openSearchInput() {
-                this.searchOpen = true;
-            },
             async openSearch() {
                 if (this.searchData !== '') {
-                    this.searchStore.editItem(this.searchData);
-                    if (process.client) this.searchStore.saveState();
-                }
-            },
-            async cleanSearch() {
-                if (this.searchData !== '') {
-                    this.searchData = '';
                     this.searchStore.editItem(this.searchData);
                     if (process.client) this.searchStore.saveState();
                 }
