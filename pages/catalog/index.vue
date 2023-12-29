@@ -34,29 +34,23 @@
     import ProductCard from '~/components/ProductCard.vue';
     import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
-    import { useSearchStore } from '~/stores/search';
     import { useFilterStore } from '~/stores/filter';
 
     export default {
         name: 'catalog',
         components: { ProductCard },
         setup(){
-            const searchStore = useSearchStore();
             const filterStore = useFilterStore();
-
-            const { inpData } = storeToRefs(searchStore);
-
             const { selectedRd, selectedType, selectedIdx, selectedTube } = storeToRefs(filterStore);
             
             return {
-                searchStore,
                 filterStore,
-                searchItem: inpData,
                 selectedRd, selectedType, selectedIdx, selectedTube 
             }
         },
         data() {
             return {
+                searchItem: this.$route.query.sort,
                 products: JSON.products,
                 productsSort: [],
                 filterOn: false,
@@ -90,11 +84,8 @@
                 ]
             }
         },
-        beforeCreate() {
-            if (process.client) this.searchStore.restoreState();
-        },
         beforeMount() {
-            this.sortBeforePageLoad();
+            this.$route.query.type === 'search' ? this.sortBeforePageLoad() : this.getFilter(1);
         },
         methods: {
             sortBeforePageLoad() {
@@ -122,12 +113,11 @@
                         if (yes) this.productsSort.push(product);
                     })
                     if (this.productsSort.length === 0) this.notany = true;
-                    this.$route.query.param = '';
                 }
             },
             getApply (){
                 this.toggleFilter();
-                this.getFilter();
+                this.getFilter(0);
             },
             toggleFilter() {
                 this.filterOn = !this.filterOn;
@@ -142,11 +132,19 @@
                 this.filterStore.editItem('type', '');
                 this.filterStore.editItem('idx', '');
             },
-            getFilter() {
+            getFilter(w) {
                 this.productsSort = [];
                 this.notany = false;
-
-                const needsArr = [this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube].filter((n) => n !== '');
+                let needsArr = [];
+                const updatedQuery = { ...this.$route.query };
+                if (updatedQuery.type !== 'filter' || w === 0) {
+                    updatedQuery.type = 'filter';
+                    updatedQuery.sort = `${this.selectedRd ? this.selectedRd : 'null'}+${this.selectedType ? this.selectedType : 'null'}+${this.selectedIdx ? this.selectedIdx : 'null'}+${this.selectedTube ? this.selectedTube : 'null'}`;
+                    needsArr = [this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube].filter((n) => n !== '');
+                } else if (updatedQuery.type === 'filter') {
+                    needsArr = updatedQuery.sort.split('+').filter((n) => n !== 'null');
+                }
+                alert(needsArr)
                 if (needsArr.length !== 0) {
                     this.products.forEach((product) => {
                         let have = Object.values(product);
@@ -166,7 +164,8 @@
                         }
                     })
                     if (this.productsSort.length === 0) this.notany = true;
-                }
+                    this.$router.push({ query: updatedQuery });
+                } else { this.$router.push({ query: '' }); }
             }
             
         }

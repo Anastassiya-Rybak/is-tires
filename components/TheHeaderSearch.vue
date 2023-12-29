@@ -27,9 +27,11 @@
             await navigateTo({
                 path: '/catalog',
                 query: {
+                    type: 'search',
                     sort: searchData.value
                 }
             });
+            location.reload()
         }
     };
 
