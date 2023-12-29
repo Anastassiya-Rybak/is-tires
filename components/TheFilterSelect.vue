@@ -1,6 +1,5 @@
 <template>
     <select v-model="selectedValue" @change="editFilter">
-        <option :value="selectData.selectValue" class="default-option" selected>{{ selectData.selectValue }}</option>
         <option v-for="(option, idx) in selectData.options" :key="idx" :value="option">{{ option }}</option>
     </select>
 </template>
@@ -19,7 +18,7 @@
         }
     })
 
-    const selectedValue = ref(props.selectData.selectValue);
+    const selectedValue = ref(props.selectData.options[props.selectData.selectedLet]);
 
     const editFilter = () => {
         filterStore.editItem(props.selectData.name, selectedValue.value);

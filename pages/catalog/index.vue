@@ -59,33 +59,34 @@
                 selects: [
                     {
                         name: "rd",
-                        selectedLet: "selectedRd",
+                        selectedLet: 0,
                         selectValue: "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ",
-                        options: ["РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
+                        options: ["РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ","РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
                     },
                     {
                         name: "type",
-                        selectedLet: "selectedType",
+                        selectedLet: 0,
                         selectValue: "ПРИМЕНИМОСТЬ",
-                        options: ["САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
+                        options: ["ПРИМЕНИМОСТЬ","САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
                     },
                     {
                         name: "idx",
-                        selectedLet: "selectedIdx",
+                        selectedLet: 0,
                         selectValue: "ПРОЧНОСТЬ КАРКАСА",
-                        options: ["★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
+                        options: ["ПРОЧНОСТЬ КАРКАСА","★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
                     },
                     {
                         name: "tube",
-                        selectedLet: "selectedTube",
+                        selectedLet: 0,
                         selectValue: "КАМЕРА",
-                        options: ["TT", "TL"]
+                        options: ["КАМЕРА","TT", "TL"]
                     }
                 ]
             }
         },
         beforeMount() {
             this.$route.query.type === 'search' ? this.sortBeforePageLoad() : this.getFilter(1);
+            this.checkSelects();
         },
         methods: {
             sortBeforePageLoad() {
@@ -144,7 +145,6 @@
                 } else if (updatedQuery.type === 'filter') {
                     needsArr = updatedQuery.sort.split('+').filter((n) => n !== 'null');
                 }
-                alert(needsArr)
                 if (needsArr.length !== 0) {
                     this.products.forEach((product) => {
                         let have = Object.values(product);
@@ -166,6 +166,14 @@
                     if (this.productsSort.length === 0) this.notany = true;
                     this.$router.push({ query: updatedQuery });
                 } else { this.$router.push({ query: '' }); }
+            },
+            checkSelects(){
+                const filterQuery = { ...this.$route.query };
+                if (filterQuery.type === 'filter') {
+                    filterQuery.sort.split('+').forEach((el, idx) => {
+                        this.selects[idx].selectedLet = el === 'null' ? 0 : this.selects[idx].options.findIndex(n => n === el);
+                    })
+                }
             }
             
         }
