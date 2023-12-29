@@ -14,32 +14,7 @@
     </div>
 </template>
 
-<script>
-    import { useSearchStore } from '~/stores/search';
-    import TheHeader from '~/components/TheHeader.vue';
-    import TheFooter from '~/components/TheFooter.vue';
-    import MailingForm from '~/components/MailingForm.vue';
-    export default {
-        name: 'default',
-        setup() {
-            const searchStore = useSearchStore();
-            return {
-                searchStore,
-            }
-        },
-        beforeCreate() {
-            if (process.client) this.searchStore.restoreState();
-        },
-        components: { MailingForm, TheHeader, TheFooter },
-        methods: {
-            reload () {
-                this.searchData = '';
-                this.searchStore.editItem(this.searchData);
-                if (process.client) this.searchStore.saveState();
-                location.reload();
-            }
-        },
-    }
+<script setup>
 </script>
 
 <style lang="scss" scoped>
