@@ -12,7 +12,7 @@
                     <nuxt-link active-class="header__active-page" to="/" @click="resetSearch">ГЛАВНАЯ</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/catalog" @click="resetSearch">КАТАЛОГ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/catalog">КАТАЛОГ</nuxt-link>
                 </li>
                 <li>
                     <nuxt-link active-class="header__active-page" to="/contact" @click="resetSearch">КОНТАКТЫ</nuxt-link>
@@ -131,8 +131,7 @@
                 line-height: 2;
                 font-size: 14px;
 
-                &::after,
-                .header__active-page::before {
+                &::after {
                     display: block;
                     position: absolute;
                     content: '';
@@ -144,11 +143,20 @@
                 }
 
                 &:hover::after,
-                &:focus::after,
-                .header__active-page::before {
+                &:focus::after {
                     width: 100%;
                 }
             }
+        }
+
+        &__active-page::before {
+            display: block;
+            position: absolute;
+            content: '';
+            height: 2px;
+            width: 100%;
+            bottom: 0;
+            background-color: #00BA61;
         }
 
         &__loop {

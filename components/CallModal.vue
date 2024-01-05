@@ -12,9 +12,9 @@
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
-        <form v-else class="call-modal" action="" @click.stop method="POST">
+        <form v-else class="call-modal" @click.stop method="POST">
             <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
-            <input v-model="callData.name" type="text" class="user-name" placeholder="Как к Вам обращаться?">
+            <input v-model="callData.name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
             <select v-model="callData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
                 <option value="Способ связи" selected>Способ связи</option>
                 <option value="Phone">Phone</option>
@@ -140,7 +140,7 @@
     }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
     .call-modal-wrapper {
         position: fixed;
         top: 0;
@@ -175,7 +175,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 32%;
+        width: 34%;
         top: 50%; left: 50%;
         -webkit-transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
