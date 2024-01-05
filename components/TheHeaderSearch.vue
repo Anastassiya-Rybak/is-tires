@@ -6,6 +6,8 @@
             v-model="searchData"  
             placeholder="Введите товар/свойство"
             autosave
+            autocomplete="off"
+            aria-expanded="true"
             spellcheck="true"
         >
         <label for="search-input">
@@ -15,14 +17,17 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
+    import { ref, onBeforeUpdate } from 'vue';
+    import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
 
     const searchStore = useSearchStore();
-    const searchData = ref('');
+    const { inpData } = storeToRefs(searchStore);
+    const searchData = ref(inpData);
 
     const goSearch = async () => {
         searchStore.editItem(searchData.value);
+        searchStore.saveState();
         if (searchData.value !== '') {
             await navigateTo({
                 path: '/catalog',
@@ -34,6 +39,13 @@
             location.reload()
         }
     };
+
+    onBeforeUpdate(() => {
+        if (searchData.value === '') {
+            searchStore.editItem(searchData.value);
+            searchStore.saveState();
+        }
+    });
 
 </script>
 

@@ -44,6 +44,10 @@
     const searchStore = useSearchStore();
     const { inpData } = storeToRefs(searchStore);
 
+    onBeforeMount(() => {
+        searchStore.restoreState();
+    });
+
     const resetSearch = () => {
         searchOpen.value = false;
         if (inpData !== '') searchStore.editItem('');

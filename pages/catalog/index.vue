@@ -1,7 +1,8 @@
 <template>
-    <section class="catalog-wrap">
-        <div class="catalg-filter container">
+    <section class="catalog">
+        <div class="catalog__filter container">
             <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="toggleFilter"/>
+            <ButtonGreen text="СБРОС ПОИСКА" class="cancel-btn" v-show="productsSort.length !== 0" @click="resetSearch"/>
             <div class="filter-content" v-show="filterOn">
                 <div class="selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
@@ -14,8 +15,8 @@
                 </div>
             </div>
         </div>
-        <client-only>
-            <div class="product-cards container" v-if="productsSort.length === 0 && !notany">
+        <div class="catalog__content">
+            <div class="product-cards container" v-if="hasTriage">
                 <ProductCard class="product-card-catalog" v-for="product in products" :key="product"
                 :productName="product.name" />
             </div>
@@ -26,7 +27,7 @@
                 <ProductCard class="product-card-catalog" v-for="product in productsSort" :key="product"
                 :productName="product.name" />
             </div>
-        </client-only>
+        </div>
     </section>
 </template>
 
@@ -35,16 +36,19 @@
     import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
     import { useFilterStore } from '~/stores/filter';
+    import { useSearchStore } from '~/stores/search';
 
     export default {
         name: 'catalog',
         components: { ProductCard },
         setup(){
             const filterStore = useFilterStore();
+            const searchStore = useSearchStore();
             const { selectedRd, selectedType, selectedIdx, selectedTube } = storeToRefs(filterStore);
             
             return {
                 filterStore,
+                searchStore,
                 selectedRd, selectedType, selectedIdx, selectedTube 
             }
         },
@@ -89,6 +93,15 @@
             this.checkSelects();
         },
         methods: {
+            async resetSearch(){
+                this.searchStore.editItem('');
+                this.searchStore.saveState();
+                await navigateTo({
+                path: '/catalog',
+                query: false
+            });
+                location.reload();
+            },
             sortBeforePageLoad() {
                 if (this.searchItem){
                     this.productsSort = [];
@@ -176,6 +189,11 @@
                 }
             }
             
+        },
+        computed: {
+            hasTriage(){
+                return this.productsSort.length === 0 && !this.notany ? true : false;
+            }
         }
     }
 
@@ -327,17 +345,23 @@
     // }
 </script>
 
-<style scoped>
-    .catalog-wrap {
+<style lang="scss" scoped>
+    .catalog {
         background-color: #f1f1f1;
         padding: 50px 0;
     }
-    .filter-btn {
+    .filter-btn,
+    .cancel-btn {
         font-size: 20px;
         border-radius: 0.8em;
         font-weight: 900;
         letter-spacing: 1px;
         padding: 7px 40px 7px 10px;
+    }
+
+    .cancel-btn {
+        margin-left: 2vw;
+        background-color: $main-dark;
     }
 
     button:hover {
