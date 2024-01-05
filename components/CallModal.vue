@@ -105,12 +105,17 @@
                 const message = `${this.callData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${this.callData.tel} посредством ${this.callData.method}`;
 
                 var myHeaders = new Headers();
+                myHeaders.append("Authorization", "App 85f2d1beb2da1f7a358891e9384ac6e3-14a0e93b-69d2-4144-8a19-a8cae3f38f84");
                 myHeaders.append("Content-Type", "application/json");
+                myHeaders.append("Accept", "application/json");
 
                 var raw = JSON.stringify({
-                    "token": "n4r1d6w3a90gmlu0",
-                    "to": "+77776840869",
-                    "body": message
+                    "from": "447860099299",
+                    "to": "77776840869",
+                    "messageId": "a28dd97c-1ffb-4fcf-99f1-0b557ed381da",
+                    "content": {
+                        "text": message
+                    }
                 });
 
                 var requestOptions = {
@@ -120,12 +125,12 @@
                     redirect: 'follow'
                 };
 
-                fetch("https://api.ultramsg.com/instance67025/messages/chat", requestOptions)
+                fetch("https://dk1yxl.api.infobip.com/whatsapp/1/message/text", requestOptions)
                     .then(response => response.text())
-                    .then(result => console.log(result))
-                    .then(_result => this.$emit('close-modal'))
+                    .then(result => this.$emit('close-modal'))
                     .catch(error => console.log('error', error));
-                }
+
+            }
         },
         computed: {
             message() {
