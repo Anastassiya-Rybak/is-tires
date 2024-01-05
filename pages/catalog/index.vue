@@ -2,7 +2,7 @@
     <section class="catalog">
         <div class="catalog__filter container">
             <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="toggleFilter"/>
-            <ButtonGreen text="СБРОС ПОИСКА" class="cancel-btn" v-show="productsSort.length !== 0" @click="resetSearch"/>
+            <ButtonGreen text="СБРОС ПОИСКА" class="cancel-btn" v-show="searchItem" @click="resetSearch"/>
             <div class="filter-content" v-show="filterOn">
                 <div class="selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
@@ -97,9 +97,9 @@
                 this.searchStore.editItem('');
                 this.searchStore.saveState();
                 await navigateTo({
-                path: '/catalog',
-                query: false
-            });
+                    path: '/catalog',
+                    query: false
+                });
                 location.reload();
             },
             sortBeforePageLoad() {
