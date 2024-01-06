@@ -1,23 +1,23 @@
 <template>
-    <section class="product-card-page-wrap">
-        <div class="back-btn content">
+    <section class="product-page-wrap">
+        <div class="back-btn container">
             <ButtonGreen class="back-btn-in" text = "НАЗАД" @click="$router.back()" />
         </div>
-        <div class="product-card-page content">
-            <div class="product-img-wrap">
+        <div class="product-page container">
+            <div class="product-page__img">
                 <img :src='image' :alt="name">
             </div>
-            <div class="text-part-product-page">
-                <div class="full-name">
+            <div class="product-page__text">
+                <div class="product-page__name">
                     <h2>{{ name }}</h2>
                     <ClientOnly>
                         <span>{{ productInfo.class }}</span>
                     </ClientOnly>
                 </div>
                 <ClientOnly>
-                    <span class="type-rd" v-show="productInfo.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  {{ productInfo.type }}</span>
-                    <span class="type-rd" v-show="productInfo.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  {{ productInfo.type }}</span>
-                    <div class="description">
+                    <span class="product-page__type" v-show="productInfo.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  {{ productInfo.type }}</span>
+                    <span class="product-page__type" v-show="productInfo.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  {{ productInfo.type }}</span>
+                    <div class="product-page__description">
                         <ol v-for="n in productInfo.desc" :key="n">
                             <li>{{ n }}</li>
                         </ol>
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </ClientOnly>
-                <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="application" @click="visibleModal"/>
+                <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="product-page__application" @click="visibleModal"/>
                 <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
             </div>
         </div>
@@ -87,90 +87,90 @@
 
 </script>
     
-<style scoped>
+<style lang="scss" scoped>
     .back-btn {
         margin-bottom: 20px;
     }
 
-    .product-card-page-wrap {
-        background-color: #f1f1f1;
+    .product-page-wrap {
+        background-color: $main-light;
         padding: 20px 0 50px;
     }
 
-    .product-card-page {
+    .product-page {
         background-color: rgb(255, 255, 255);
         border-radius: 20px;
         padding: 40px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &__img {
+            width: 35%;
+        }
+
+        &__text {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__name {
+            display: flex;
+            font-size: 40px;
+
+            span {
+                font-size: 0.7em;
+            }
+        }
+
+        &__type {
+            letter-spacing: 0.3em;
+        }
+
+        &__description {
+            margin: 2em 0;
+            padding-left: 20px;
+            letter-spacing: 0.1em;
+            width: 90%;
+
+            ol li {
+                list-style-type: square;
+                text-align: justify;
+                margin: 0.5em 0;
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 95%;
+
+            caption {
+                padding: 10px 0;
+            }
+
+            td {
+                padding: 10px 30px 10px 10px;
+            }
+
+            th {
+                vertical-align:middle;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                font-weight: bold;
+                padding: 10px 30px 10px 15px;
+            }
+        }
+
+        &__application {
+            width: 90%;
+            margin-left: 3%;
+            margin-top: 30px;
+            padding: 12px 12px;
+            font-size: 14px;
+        }
     }
 
-    .product-img-wrap {
-        width: 35%;
-    }
-
-    .text-part-product-page {
-        width: 60%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .full-name {
-        display: flex;
-        font-size: 40px;
-    }
-
-    .full-name span {
-        font-size: 0.7em;
-    }
-
-    .type-rd {
-        letter-spacing: 0.3em;
-    }
-
-    .description {
-        margin: 2em 0;
-        padding-left: 20px;
-        letter-spacing: 0.1em;
-        width: 90%;
-    }
-
-    .description ol li {
-        list-style-type: square;
-        text-align: justify;
-        margin: 0.5em 0;
-    }
-
-    caption {
-        padding: 10px 0;
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 95%;
-    }
-
-    td {
-        padding: 10px 30px 10px 10px;
-    }
-
-    th {
-        vertical-align:middle;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        font-weight: bold;
-        padding: 10px 30px 10px 15px;
-    }
-
-    .application {
-        width: 90%;
-        /* align-self: center; */
-        margin-left: 3%;
-        margin-top: 30px;
-        padding: 12px 12px;
-        font-size: 14px;
-    }
 
     @media (max-width: 1250px) {
         .product-card-page {

@@ -1,20 +1,20 @@
 <template>
     <div>
         <section class="frst-block-wrap">
-            <div class="frst-block content">
+            <div class="first-block container">
                 <h1>ИСКРА СЕРВИС</h1>
                 <p>Высококачественные шины и общее решение для шин позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
-                <div class="frst-block-btns">
+                <div class="first-block__btns">
                     <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
                     <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
                     <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
                 </div>
             </div>
         </section>
-        <section class="secnd-block-wrap">
-            <div class="secnd-block content">
+        <section class="second-block-wrap">
+            <div class="second-block container">
                 <h2>Рекомендуемые товары</h2>
-                <Swiper class="slider"
+                <Swiper class="second-bloc__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="3"
                 :space-between="100"
@@ -53,8 +53,8 @@
     }
 </script>
 
-<style lang="css">
-     .frst-block-wrap {
+<style lang="scss">
+    .frst-block-wrap {
         background-image: url(./../assets/back/1block.png);
         background-position: center;
         background-size: cover;
@@ -63,55 +63,50 @@
         color: #f1f1f1;
     }
 
-    .content {
-        width: 90%;
-        max-width: 1340px;
-        margin: 0 auto;
-    }
+    .first-block{
+        h1 {
+            font-size: 64px;
+            letter-spacing: 5px;
+        }
 
-    .frst-block h1 {
-        font-size: 64px;
-        letter-spacing: 5px;
-    }
+        p {
+            font-size: 20px;
+            line-height: 1.2em;
+            letter-spacing: 2px;
+            margin: 1.6em auto;
+        }
 
-    .frst-block p {
-        font-size: 20px;
-        line-height: 1.2em;
-        letter-spacing: 2px;
-        margin: 1.6em auto;
-    }
+        &__btns {
+            display: flex;
+            gap: 3%;
 
-    .frst-block-btns {
-        display: flex;
-        gap: 3%;
-    }
+            button,
+            a {
+                width: 20%;
+                font-size: 14px;
+            }
 
-    .frst-block button {
-        width: 20%;
-        font-size: 14px;
-    }
+            a {
+                display: block;
+                padding: 0.8em 1.6em;
+                border-radius: 10px;
+                cursor: pointer;
+                background-color: $accent;
+                color: #f1f1f1;
+                text-align: center;
+                text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(0, 0, 0, 0.089);
+                box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
 
-    .frst-block a {
-        width: 20%;
-        display: block;
-        padding: 0.8em 1.6em;
-        border-radius: 1.09em;
-        cursor: pointer;
-        background-color: #00BA61;
-        color: #f1f1f1;
-        text-align: center;
-        font-size: 14px;
-        text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(0, 0, 0, 0.089);
-        box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
-    }
+                &:active {
+                    transform: scale(0.98, 0.98);
+                    background-color: #01aa59;
+                }
+            }            
+        }
+    } 
 
-    .frst-block a:active {
-        transform: scale(0.98, 0.98);
-        background-color: #01aa59;
-    }
-
-    .secnd-block-wrap {
+    .second-block-wrap {
         background-image: url(./../assets/back/2block.png);
         background-position: start;
         background-size: cover;
@@ -119,37 +114,33 @@
         padding-bottom: 100px;
     }
 
-    .secnd-block {
+    .second-block {
         position: relative;
-    }
 
-    .secnd-block h2 {
-        color: #f1f1f1;
-        font-size: 40px;
-        letter-spacing: 0.1em;
-        text-shadow: 0px 0.1em 0.1em rgba(0, 0, 0, 0.25);
-        padding: 1.1em 0;
-    }
+        h2 {
+            color: #f1f1f1;
+            font-size: 40px;
+            letter-spacing: 0.1em;
+            text-shadow: 0px 0.1em 0.1em rgba(0, 0, 0, 0.25);
+            padding: 1.1em 0;
+        }
+        
+        &__slider {
+            width: 93%;
+            display: flex;
+            justify-content: space-between;
 
-    .slider {
-        width: 93%;
-        display: flex;
-        justify-content: space-between;
-    }
+            .swiper-button-next::after,
+            .swiper-button-prev::after {
+                color: #0000009d;
+            }
 
-    /* .swiper-slide {
-        width: 30%;
-    } */
-
-    .swiper-button-next::after,
-    .swiper-button-prev::after {
-        color: #0000009d;
-    }
-
-    .swiper-button-next:hover::after,
-    .swiper-button-prev:hover::after {
-        color: #4b4b4b;
-        transform: scale(1.2);
+            .swiper-button-next:hover::after,
+            .swiper-button-prev:hover::after {
+                color: #4b4b4b;
+                transform: scale(1.2);
+            }
+        }
     }
 
     @media (max-width: 1380px) {

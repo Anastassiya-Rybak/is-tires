@@ -1,13 +1,13 @@
 <template>
     <div class="product-card">
-        <div class="product-card-img">
+        <div class="product-card__img">
             <img :src="image" :alt="productName">
         </div>
         <h3>{{ productName }}</h3>
-        <div class="product-card-btns">
+        <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
-            <LazyCallModal v-show = "visible" :from="modalFrom" @close-modal="visibleModal" />
-            <nuxt-link :to="link" class="more" :class="{full: !noSlide}">ПОДРОБНЕЕ . . .</nuxt-link>
+            <LazyCallModal v-show="visible" :from="modalFrom" @close-modal="visibleModal" />
+            <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ . . .</nuxt-link>
         </div>
     </div>
 </template>
@@ -38,7 +38,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
     .product-card {
         width: 100%;
         display: flex;
@@ -49,71 +49,69 @@
         border-radius: 10px;
         border: 1px solid rgba(0, 0, 0, 0.10);
         box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.11);
-    }
 
-    .product-card-img {
-        height: 270px;
-        width: 90%;
-        overflow: hidden;
-        margin: 30px 0;
-    }
+        &__img {
+            height: 270px;
+            width: 90%;
+            overflow: hidden;
+            margin: 30px 0;
 
-    .product-card-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
 
-    h3 {
-        font-size: 32px;
-        color: rgb(22, 22, 22);
-        text-shadow: 0px 0.08em 0.28em rgba(0, 0, 0, 0.25);
-        margin-bottom: 30px;
-    }
+        h3 {
+            font-size: 32px;
+            color: rgb(22, 22, 22);
+            text-shadow: 0px 0.08em 0.28em rgba(0, 0, 0, 0.25);
+            margin-bottom: 30px;
+        }
 
-    .product-card-btns {
-        width: 87%;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
+        &__btns {
+            width: 87%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
 
-    .product-card-btns button {
-        padding: 0.8em 0.8em;
-        font-size: 14px;
-        width: calc(50% - 5px);
-    }
-    
-    .more {
-        width: calc(50% - 5px);
-        padding: 0.8em 0.8em;
-        border-radius: 1.08em;
-        cursor: pointer;
-        color: #ffffff;
-        font-size: 14px;
-        border: none;
-        box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.43) inset;
-    }
+            button {
+                padding: 0.8em 0.8em;
+                font-size: 14px;
+                width: calc(50% - 5px);
 
-    .more:hover {
-        filter: brightness(90%);
-    }
+            }
+        }
 
-    .more:active {
-        transform: scale(0.98, 0.98);
-    }
+        &__more {
+            width: calc(50% - 5px);
+            padding: 0.8em 0.8em;
+            border-radius: 10px;
+            background-color: rgb(19, 19, 19);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            color: $main-light;
+            font-size: 14px;
+            border: none;
+            box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.43) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
 
-    .more {
-        background-color: rgb(19, 19, 19);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+            &:hover {
+                filter: brightness(90%);
+            }
 
-    .full {
-        width: 100% !important;
-    }
+            &:active {
+                transform: scale(0.98, 0.98);
+            }
+        }
+
+        .full {
+            width: 100% !important;
+        }
+    }    
 
     @media (max-width: 1265px) {
         .product-card-btns button {

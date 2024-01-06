@@ -29,3 +29,17 @@ a {
 li {
     list-style: none;
 }
+
+select {
+    color: $main-dark;
+    cursor: pointer;
+
+    border: 1px solid $accent;
+    background: #fff;
+    background-image: url('~/assets/back/select.svg');
+    background-repeat: no-repeat;
+    background-position: bottom 50% right 7px;
+    appearance: none;
+    position: relative;
+    transition: all 0.3s ease;
+}

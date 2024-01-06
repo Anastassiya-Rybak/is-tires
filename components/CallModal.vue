@@ -1,13 +1,12 @@
 <template>
     <section class="call-modal-wrapper" @click="$emit('close-modal')">
         <form v-if="from === 'form'" class="call-modal" target="hidden-iframe"
-        :action="url" @click.stop method="POST"
-        @submit="handleSubmit">
+        :action="url" @click.stop method="POST" @submit="handleSubmit">
             <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
             <input v-model="formData.email" type="email" name="user-email" id="email" placeholder="Укажите Вашу почту для ответа" required>
             <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" placeholder="Опишите суть Вашего запроса тут" required></textarea>
-            <ButtonGreen type="submit" class="call-me" :text="btnText"/>
+            <ButtonGreen type="submit" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
@@ -22,7 +21,7 @@
                 <option value="Telegram">Telegram</option>
             </select>
             <input v-model="callData.tel" type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
-            <ButtonGreen @click.prevent="handleCall" class="call-me" :text="btnText"/>
+            <ButtonGreen @click.prevent="handleCall" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
@@ -31,7 +30,6 @@
 </template>
 
 <script>
-    // import { useEnvStore } from '~/stores/env';
     import ButtonGreen from './ButtonGreen.vue'
     export default {
         name: 'CallModal',
@@ -43,14 +41,6 @@
                 default: ""
             },
         },
-        // setup() {
-        //     const envStore = useEnvStore();
-
-        //     const { inpDatawaInstanceId } = storeToRefs(envStore);
-        //     return {
-        //         apiData: inpDatawaInstanceId
-        //     }
-        // },
         data() {
             return {
                 formData: {
@@ -147,7 +137,6 @@
         left: 0;
         width: 100dvw;
         height: 100dvh;
-        /* display: none; */
         backdrop-filter: blur(3px);
         transition: 0.5s;
         z-index: 1000000;
@@ -160,96 +149,80 @@
         padding: 15px;
         width: 8%;
         cursor: pointer;
-    }
 
-    .close-call-window:hover {
-        opacity: 0.9;
-    }
+        &:hover {
+            opacity: 0.9;
+        }
 
-    .close-call-window:active {
-        padding: 10px;
+        &:active {
+            padding: 10px;
+        }
+
+
     }
 
     .call-modal {
         position: absolute;
         display: flex;
         flex-wrap: wrap;
+        row-gap: 20px;
         justify-content: space-between;
         width: 34%;
         top: 50%; left: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%);
-        background-color: #f1f1f1;
+        background-color: $main-light;
         border-radius: 20px;
-        padding: 40px;
+        padding: 30px 40px;
         overflow: hidden;
-        box-shadow: 0px 10px 15px 0px rgb(255, 255, 255) inset;
+        box-shadow: 0px 0px 20px 10px rgb(255, 255, 255) inset, 0px 5px 10px 2px rgba(0, 0, 0, 0.233);
         animation-name: showModal;
         animation-duration: 1s;
         animation-iteration-count: 1;
-        transition: 0.5s;
+        transition: all 0.5s ease;
+
+        @keyframes showModal {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        h2 {
+            color: #000000;
+            font-size: 2em;
+        }
+
+        input,
+        select,
+        textarea {
+            border-radius: 15px;
+            font-size: 1.3em;
+            padding: 8px;
+        }
+        input,
+        textarea {
+            width: 100%;
+        }
+
+        .select-met {
+            width: 30%;
+        }
+
+        &__btn {
+            width: 100%;
+            letter-spacing: 0.15em;
+            font-size: 16px;
+
+            &:active {
+                transform: scale(0.98, 0.98);
+                background-color: #01aa59;
+            }
+        }
+
+        #call-number {
+            width: 65%;
+        }
     }
 
-    @keyframes showModal {
-        from { opacity: 0; } to { opacity: 1; }
-    }
-
-    .call-modal h2 {
-        color: #000000;
-        font-size: 2em;
-    }
-
-    .user-name,
-    .select-met,
-    #call-number,
-    #email,
-    #form-text {
-        border-radius: 15px;
-        font-size: 1.3em;
-        padding: 8px;
-        margin-top: 1em;
-    }
-
-    .call-me,
-    #email,
-    #form-text {
-        font-size: 1.3em;
-        margin-top: 1em;
-    }
-
-    .user-name,
-    .call-me,
-    #email,
-    #form-text {
-        width: 100%;
-    }
-
-    .select-met {
-        width: 30%;
-        color: #000000;
-        cursor: pointer;
-
-        border: 1px solid #00BA61;
-        background: rgba(255, 255, 255, 0.473);
-        background-image: url('~/assets/back/select.svg');
-        background-repeat: no-repeat;
-        background-position: bottom 50% right 7px;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        appearance: none;
-        position: relative;
-        transition: 0.3s;
-
-    }
-
-    #call-number {
-        width: 65%;
-    }
-
-    .call-me:active {
-        transform: scale(0.98, 0.98);
-        background-color: #01aa59;
-    }
 
     @media (max-width: 1370px) {
         .call-modal {

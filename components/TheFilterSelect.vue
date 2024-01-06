@@ -27,5 +27,10 @@
 </script>
 
 <style lang="scss" scoped>
-
+    select {
+        padding: 0.7em 2em 0.7em 0.7em;
+        font-size: 14px;
+        border-radius: 10px;
+        border: 1px solid $accent;
+    }
 </style>

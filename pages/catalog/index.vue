@@ -1,30 +1,30 @@
 <template>
     <section class="catalog">
-        <div class="catalog__filter container">
-            <ButtonGreen text="ФИЛЬТРАЦИЯ" class="filter-btn" @click="toggleFilter"/>
-            <ButtonGreen text="СБРОС ПОИСКА" class="cancel-btn" v-show="searchItem" @click="resetSearch"/>
-            <div class="filter-content" v-show="filterOn">
-                <div class="selects">
+        <div class="catalog__filter-wrap container">
+            <ButtonGreen text="ФИЛЬТРАЦИЯ" class="catalog__filter-btn" @click="toggleFilter"/>
+            <ButtonGreen text="СБРОС ПОИСКА" class="catalog__cancel-btn" v-show="showCancalBtn" @click="resetSearch"/>
+            <div class="catalog__filter-content" v-show="filterOn">
+                <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
                     :aria-label="select.name" :name="select.name" :id="select.name + 'id'" class="filter-item"
                     :selectData="select"/>
                 </div>
-                <div class="filter-btns-group">
+                <div class="catalog__filter-btns">
                     <ButtonGreen text="ПРИМЕНИТЬ" @click="getApply"/>
                     <ButtonGreen text="СБРОСИТЬ ВСЕ" @click="reset"/>
                 </div>
             </div>
         </div>
         <div class="catalog__content">
-            <div class="product-cards container" v-if="hasTriage">
-                <ProductCard class="product-card-catalog" v-for="product in products" :key="product"
+            <div class="catalog__product-cards container" v-if="hasTriage">
+                <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
                 :productName="product.name" />
             </div>
-            <div class="product-cards container" v-else-if="notany">
+            <div class="catalog__product-cards container" v-else-if="notany">
                 <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
             </div>
-            <div class="product-cards container" v-else>
-                <ProductCard class="product-card-catalog" v-for="product in productsSort" :key="product"
+            <div class="catalog__product-cards container" v-else>
+                <ProductCard class="catalog__product-card" v-for="product in productsSort" :key="product"
                 :productName="product.name" />
             </div>
         </div>
@@ -193,6 +193,9 @@
         computed: {
             hasTriage(){
                 return this.productsSort.length === 0 && !this.notany ? true : false;
+            },
+            showCancalBtn(){
+                return this.searchItem && this.$route.query.type === 'search' ? true : false;
             }
         }
     }
@@ -349,77 +352,60 @@
     .catalog {
         background-color: #f1f1f1;
         padding: 50px 0;
-    }
-    .filter-btn,
-    .cancel-btn {
-        font-size: 20px;
-        border-radius: 0.8em;
-        font-weight: 900;
-        letter-spacing: 1px;
-        padding: 7px 40px 7px 10px;
-    }
 
-    .cancel-btn {
-        margin-left: 2vw;
-        background-color: $main-dark;
-    }
+        &__filter-btn,
+        &__cancel-btn {
+            font-size: 20px;
+            font-weight: 900;
+            padding: 0.5em 1em;
 
-    button:hover {
-        filter: brightness(90%);
-    }
+            &:hover {
+                filter: brightness(90%);
+            }
+            
+            &:active {
+                transform: scale(0.98, 0.98);
+            }
+        }
 
-    button:active {
-        transform: scale(0.98, 0.98);
-    }
+        &__cancel-btn {
+            margin-left: 2vw;
+            background-color: $main-dark;
+        }
 
-    .selects {
-        padding: 30px 0;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 20px;
-    }
+        &__selects {
+            padding: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+        }
 
-    .filter-item {
-        border-radius: 5px;
-        border: 1px solid #00BA61;
-        background: rgba(255, 255, 255, 0.473);
-        background-image: url('~/assets/back/select.svg');
-        background-repeat: no-repeat;
-        background-position: bottom 50% right 7px;
-        box-shadow: 0px 0.3em 0.3em 0px rgba(0, 0, 0, 0.25);
-        font-size: 16px;
-        padding: 10px 30px 10px 10px;
-        appearance: none;
-        position: relative;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+        &__filter-btns {
+            display: flex;
+            gap: 20px;
 
-    .filter-btns-group {
-        display: flex;
-        gap: 20px;
-    }
+            button {
+                padding: 0.7em;
+                font-size: 14px;
 
-    .filter-btns-group button {
-        padding: 0.7em;
-        font-size: 14px;
-    }
+                &:last-child {
+                    background-color: $main-dark;
+                }
+            }
+        }
 
-    .filter-btns-group button:last-child {
-        background-color: black;
-    }
+        &__product-cards {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 3dvh;
+            margin-top: 3dvh;
+        }
 
-    .product-cards {
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        row-gap: 3dvh;
-        margin-top: 3dvh;
-    }
-
-    .product-card-catalog {
-        width: calc(25% - 2%);
+        &__product-card {
+            width: calc(25% - 2%);
+        }
     }
 
     @media (max-width: 1240px) {
