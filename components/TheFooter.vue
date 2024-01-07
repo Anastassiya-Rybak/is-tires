@@ -1,6 +1,6 @@
 <template>
     <footer class="footer">
-        <div class="footer__content container">
+        <div class="footer__content">
             <div class="footer__contacts-data">
                 <h2>СВЯЗАТЬСЯ С НАМИ</h2>
                 <ul>
@@ -8,7 +8,7 @@
                         <div class="footer__img">
                             <img src="./../assets/locate.svg" alt="Адрес">
                         </div>
-                        <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">г. Караганда ​БЦ Pazl <br>​Проспект Бухар-жырау, 57/1</a>
+                        <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">г. Караганда, ​БЦ Pazl  (​Проспект Бухар-жырау, 57/1)</a>
                     </li>
                     <li>
                         <div class="footer__img">
@@ -49,6 +49,8 @@
         }
 
         &__content {
+            width: 60%;
+            margin: 0 auto;
             padding: 60px 0 105px;
             display: flex;
             justify-content: space-around;
@@ -67,6 +69,7 @@
         }
 
         &__contacts-data {
+            width: 50%;
             h2 {
                 color: $main-light;
                 margin-bottom: 3vh;
@@ -83,7 +86,7 @@
                     align-items: center;
 
                     .footer__img {
-                        width: 10%;
+                        width: 5%;
                     }
 
                     a:hover {
@@ -99,7 +102,7 @@
             margin-top: 40px;
             flex-direction: column;
             align-items: center;
-            width: 20%;
+            width: 40%;
             gap: 10px;
 
             button {
@@ -112,7 +115,7 @@
                 width: 100%;
                 padding: 0.9em 1.6em;
                 margin-top: 10px;
-                border-radius: 1.09em;
+                border-radius: 10px;
                 cursor: pointer;
                 background-color: $accent;
                 color: $main-light;
@@ -121,6 +124,11 @@
                 border: 1px solid rgba(0, 0, 0, 0.089);
                 text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
                 box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.68) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+                &:hover {
+                    filter: brightness(90%);
+                }
+
             }
 
             button:active,

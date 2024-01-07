@@ -101,6 +101,7 @@
 
             &:hover {
                 filter: brightness(90%);
+                background-color: $accent;
             }
 
             &:active {
