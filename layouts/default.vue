@@ -17,12 +17,19 @@
 
 <script setup>
     import { ref, onMounted } from 'vue';
+    import { storeToRefs } from 'pinia';
+    import { useMobileStore } from '~/stores/mobile';
 
-    const showMobileVersion = ref(false);
+    const mobileStore = useMobileStore();
+    const { mobile } = storeToRefs(mobileStore);
+
+    const showMobileVersion = ref(mobile);
 
     onMounted(() => {
         const mediaQuery = window.matchMedia("(max-width: 690px)");
         showMobileVersion.value = mediaQuery.matches;
+        mobileStore.editItem(mediaQuery.matches);
+        mobileStore.saveState();
     });
 </script>
 

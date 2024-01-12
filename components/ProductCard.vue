@@ -44,7 +44,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #ffffff;
+        background-color: #ffffffb0;
 
         border-radius: 10px;
         border: 1px solid rgba(0, 0, 0, 0.10);

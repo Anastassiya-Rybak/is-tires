@@ -14,10 +14,10 @@
         <section class="second-block-wrap">
             <div class="second-block container">
                 <h2>Рекомендуемые товары</h2>
-                <Swiper class="second-bloc__slider"
+                <Swiper class="second-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
-                :slides-per-view="3"
-                :space-between="100"
+                :slides-per-view="mobile ? 2 : 3"
+                :space-between="mobile ? 10 : 40"
                 :loop="true"
                 :preventClicks = true
                 :autoplay="{
@@ -30,7 +30,7 @@
                 }">
                     <SwiperSlide
                     v-for="product in products.slice(0, 6)" :key="product">
-                        <ProductCard :productName="product.name" :noSlide="false"/>
+                        <ProductCard class="second-block__card" :productName="product.name" :noSlide="false"/>
                     </SwiperSlide>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -43,6 +43,11 @@
 <script setup>
     import { ref } from 'vue';
     import JSON from '~/server/bd.json';
+    import { storeToRefs } from 'pinia';
+    import { useMobileStore } from '~/stores/mobile';
+
+    const mobileStore = useMobileStore();
+    const { mobile } = storeToRefs(mobileStore);
 
     const products = JSON.products;
     const visible = ref(false);
@@ -162,6 +167,15 @@
             letter-spacing: 0.1em;
             text-shadow: 0px 0.1em 0.1em rgba(0, 0, 0, 0.25);
             padding: 1.1em 0;
+
+            @include media(620px) {
+                font-size: 32px;
+                margin-left: 3%;
+            }
+
+            @include media(450px) {
+                font-size: 26px;
+            }
         }
         
         &__slider {
@@ -171,13 +185,27 @@
 
             .swiper-button-next::after,
             .swiper-button-prev::after {
-                color: #0000009d;
+                color: #000000c7;
+                font-weight: 800;
             }
 
             .swiper-button-next:hover::after,
             .swiper-button-prev:hover::after {
                 color: #4b4b4b;
                 transform: scale(1.2);
+            }
+        }
+
+        &__card {
+            @include media(1070px) {
+                .product-card__img {
+                    height: 230px;
+                    margin: 10px 0;
+                }
+
+                h3 {
+                    margin-bottom: 10px;
+                }
             }
         }
     }
