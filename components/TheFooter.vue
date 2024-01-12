@@ -57,6 +57,14 @@
             align-items: center;
             position: relative;
 
+            @include media(810px) {
+                width: 90%;
+            }
+
+            @include media(530px) {
+                flex-direction: column;
+            }
+
             &::after {
                 content: '©Искра-Сервис 2020';
                 position: absolute;
@@ -65,11 +73,20 @@
                 text-align: center;
                 color: $main-light;
                 opacity: 0.7;
+
+                @include media(530px) {
+                    font-size: 12px;
+                }
             }
         }
 
         &__contacts-data {
             width: 50%;
+
+            @include media(530px) {
+                width: 100%;
+            }
+
             h2 {
                 color: $main-light;
                 margin-bottom: 3vh;
@@ -104,6 +121,10 @@
             align-items: center;
             width: 40%;
             gap: 10px;
+
+            @include media(530px) {
+                width: 100%;
+            }
 
             button {
                 width: 100%;
