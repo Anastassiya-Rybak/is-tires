@@ -20,7 +20,7 @@
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Telegram">Telegram</option>
             </select>
-            <input v-model="callData.tel" type="tel" name="number" id="call-number" placeholder="Введите номер Вашего телефона">
+            <input v-model="callData.tel" type="tel" name="number" id="call-number" placeholder="Номер Вашего телефона">
             <ButtonGreen @click.prevent="handleCall" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
@@ -150,6 +150,18 @@
         width: 8%;
         cursor: pointer;
 
+        @include media(1010px) {
+            width: 10%;
+        }
+
+        @include media(725px) {
+            width: 12%;
+        }
+
+        @include media(635px) {
+            width: 12%;
+        }
+
         &:hover {
             opacity: 0.9;
         }
@@ -157,8 +169,6 @@
         &:active {
             padding: 10px;
         }
-
-
     }
 
     .call-modal {
@@ -167,7 +177,7 @@
         flex-wrap: wrap;
         row-gap: 20px;
         justify-content: space-between;
-        width: 34%;
+        width: 50%;
         top: 50%; left: 50%;
             -webkit-transform: translate(-50%,-50%);
             -ms-transform: translate(-50%,-50%);
@@ -182,6 +192,14 @@
         animation-iteration-count: 1;
         transition: all 0.5s ease;
 
+        @include media(1140px) {
+            width: 65%;
+        }
+
+        @include media(635px) {
+            width: 85%;
+        }
+
         @keyframes showModal {
             from { opacity: 0; } to { opacity: 1; }
         }
@@ -189,6 +207,10 @@
         h2 {
             color: #000000;
             font-size: 2em;
+
+            @include media(480px) {
+                font-size: 1.6em;
+            }
         }
 
         input,
@@ -205,6 +227,14 @@
 
         .select-met {
             width: 30%;
+
+            @include media(1270px) {
+                width: 34%;
+            }
+
+            @include media(1140px) {
+                width: 100%;
+            }
         }
 
         &__btn {
@@ -220,79 +250,9 @@
 
         #call-number {
             width: 65%;
+            @include media(1140px) {
+                width: 100%;
+            }
         }
     }
-
-
-    @media (max-width: 1370px) {
-        .call-modal {
-            width: 50%;
-        }
-
-    }
-
-    @media (max-width: 850px) {
-        .call-modal {
-            width: 70%;
-        }
-    }
-
-    @media (max-width: 670px) {
-        .call-modal h2 {
-            font-size: 28px;
-        }
-
-    }
-
-    @media (max-width: 570px) {
-        .call-modal {
-            width: 90%;
-        }
-        .call-modal h2 {
-            font-size: 28px;
-        }
-
-        .select-met,
-        #call-number {
-            width: 100%;
-        }
-
-        .close-call-window {
-            width: 12%;
-        }
-
-    }
-
-    @media (max-width: 400px) {
-        .call-modal h2 {
-            font-size: 20px;
-        }
-
-        .user-name,
-        .select-met,
-        #call-number,
-        #email,
-        #form-text {
-            border-radius: 10px;
-            font-size: 0.8em;
-            padding: 5px;
-            margin-top: 0.8em;
-        }
-
-        .call-me,
-        #email,
-        #form-text {
-            font-size: 0.8em;
-            margin-top: 1em;
-        }
-
-        .close-call-window {
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            padding: 10px;
-        }
-    }
-
-     
 </style>
