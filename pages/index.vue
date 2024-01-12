@@ -66,7 +66,15 @@
     .first-block{
         h1 {
             font-size: 64px;
-            letter-spacing: 5px;
+            letter-spacing: 0.08em;
+
+            @include media(600px) {
+                font-size: 48px;
+            }
+
+            @include media(445px) {
+                font-size: 36px;
+            }
         }
 
         p {
@@ -74,16 +82,42 @@
             line-height: 1.2em;
             letter-spacing: 2px;
             margin: 1.6em auto;
+
+            @include media(1000px) {
+                font-size: 16px;
+                text-align: justify;
+            }
+
+            @include media(445px) {
+                font-size: 14px;
+            }
         }
 
         &__btns {
             display: flex;
             gap: 3%;
 
+            @include media(600px) {
+                justify-content: space-between;
+            }
+
             button,
             a {
                 width: 20%;
                 font-size: 14px;
+
+                @include media(1000px) {
+                    width: 35%;
+                }
+
+                @include media(750px) {
+                    width: 45%;
+                }
+
+                @include media(445px) {
+                    font-size: 12px;
+                }
+
             }
 
             a {
