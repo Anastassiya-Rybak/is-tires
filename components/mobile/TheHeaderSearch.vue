@@ -1,78 +1,121 @@
 <template>
-    <div class="out-search-combo">
-        <div class="search-input-container">
-            <input id="search-input" type="text" v-model="searchData" class="search-input" placeholder="Введите товар/свойство">
-            <label for="search-input">
-                <a href="/catalog" class="search-btn" @click="openSearch">Поиск</a>
-            </label>
-            <button class="search-clean-out" v-show="searchData" @click="reload">
-                <img src="~/assets/clean.png" alt="" title="СБРОС ПОИСКА">
-            </button>
-        </div>
+    <div class="header__search search">
+        <input class="search__input" 
+            id="search-input" 
+            type="search" 
+            v-model="searchData"  
+            placeholder="Введите название товара / свойства"
+            autosave
+            autocomplete="off"
+            aria-expanded="true"
+            spellcheck="true"
+        >
+        <label for="search-input">
+            <button class="search__btn" @click.prevent="goSearch">Поиск</button>
+        </label>
     </div>
 </template>
 
 <script setup>
+    import { ref, onBeforeUpdate } from 'vue';
+    import { storeToRefs } from 'pinia';
+    import { useSearchStore } from '~/stores/search';
+
+    const searchStore = useSearchStore();
+    const { inpData } = storeToRefs(searchStore);
+    const searchData = ref(inpData);
+
+    const goSearch = async () => {
+        searchStore.editItem(searchData.value);
+        searchStore.saveState();
+        if (searchData.value !== '') {
+            await navigateTo({
+                path: '/catalog',
+                query: {
+                    type: 'search',
+                    sort: searchData.value
+                }
+            });
+            location.reload()
+        }
+    };
+
+    onBeforeUpdate(() => {
+        if (searchData.value === '') {
+            searchStore.editItem(searchData.value);
+            searchStore.saveState();
+        }
+    });
 
 </script>
 
 <style lang="scss" scoped>
-    .out-search-combo {
-        display: none;
-        position: absolute;
-        width: 95%;
-        bottom: -70px; left: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-            transform: translate(-50%,-50%);
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        border-radius: 15px;
-    }
-
-    .out-search-combo .search-input-container {
-        background: #2e2e2e25;
-    }
-
-    .out-search-combo .search-input,
-    .out-search-combo .search-btn {
-        background: none;
-        border: none;
-        color: #f1f1f1;
-        cursor: pointer;
-        font-size: 16px;
-        transition: 0.3s;
-    }
-
-    .out-search-combo .search-btn {
-        text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-        color: #00BA61;
-    }
-
-    .out-search-combo .search-input {
+    .search {
         width: 90%;
-    }
-
-    .out-search-combo .search-input::placeholder {
-        color: #ffffffc9;
-        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
-    }
-
-    .out-search-combo .search-btn:hover {
-        color: #00BA61;
-    }
-
-    .search-clean-out {
-        border: none;
-        background: none;
-    }
-    .search-clean-out {
-        width: 3%;
+        position: absolute;
+        bottom: -110%; left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 1%;
-        cursor: pointer;
+        align-items: center;
+        border-radius: 10px;
+        border: 1px solid $accent;
+        background: rgba(32, 32, 32, 0.137);
+        padding: 2px;
+
+        @include media(480px) {
+            width: 95%;
+        }
+
+        &__input {
+            width: 93%;
+
+            @include media(450px) {
+                padding-right: 0 !important;
+            }
+
+            &::placeholder {
+                @include media(480px) {
+                    font-size: 16px;
+                }
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &::-webkit-search-cancel-button {
+                filter: invert(1);
+                transform: scale(1.2);
+
+                &:active {
+                    transform: scale(1.8);
+                }
+            }
+        }
+        &__input,
+        &__btn {
+            background: none;
+            border: none;
+            color: $main-light;
+            font-size: 18px;
+            padding: 0.5em 0.6em 0.5em 0.3em;
+            transition: 0.3s;
+        }
+
+        &__btn {
+            &:active {
+                color: $accent;
+            }
+        }
+
+        &__clean {
+            border: none;
+            background: none;
+            width: 6%;
+            display: flex;
+            flex-direction: column;
+        }
     }
-
-
 </style>

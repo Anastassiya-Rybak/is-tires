@@ -2,12 +2,7 @@
     <header class="header container">
         <nav class="header__nav">
             <nuxt-link to="/" class="header__logo" @click="resetSearch">ИСКРА СЕРВИС</nuxt-link>
-            <div v-if="showMobileVersion" class="header__burger burger-wrap" @click="toggleVisible('burgerOpen')">
-                <div class="burger">
-                    <hr><hr><hr>
-                </div>
-            </div>
-            <ul v-show="!showMobileVersion" class="header__menu" :class="{'header__menu_compact': searchOpen}">
+            <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
                     <nuxt-link active-class="header__active-page" to="/" @click="resetSearch">ГЛАВНАЯ</nuxt-link>
                 </li>
@@ -18,26 +13,22 @@
                     <nuxt-link active-class="header__active-page" to="/contact" @click="resetSearch">КОНТАКТЫ</nuxt-link>
                 </li>
             </ul>
-            <LazyTheHeaderSearch v-show="searchOpen && !showMobileVersion" />
-            <div v-show="!searchOpen && !showMobileVersion" class="header__loop" @click="toggleVisible('searchOpen')" >
+            <LazyTheHeaderSearch v-show="searchOpen" />
+            <div v-show="!searchOpen" class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
             <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
             <LazyCallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
         </nav>
-        <LazyMobileTheHederMenu v-if="showMobileVersion && burgerOpen" @close-item="toggleVisible('burgerOpen')"/>
-        <LazyMobileTheHederSearch v-if="showMobileVersion && searchOpen" @close-item="toggleVisible('searchOpen')"/>
     </header>
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
 
     const searchOpen = ref(false);
-    const burgerOpen = ref(false);
-    const showMobileVersion = ref(false);
     const visible = ref(false);
     const modalFrom = ref('');
 
@@ -53,20 +44,25 @@
         if (inpData !== '') searchStore.editItem('');
     };
 
-    const toggleVisible = (item) => { item === 'burgerOpen' ? burgerOpen.value = !burgerOpen.value : searchOpen.value = !searchOpen.value; };
+    const toggleVisible = (item) => {
+        if (item === 'burgerOpen') {
+            switch (burgerOpen.value) {
+                case false:
+                    burgerOpen.value = true;
+                    break;
+                case true:
+                    setTimeout(()=>{ burgerOpen.value = false; }, 700);
+                    break;
+                default:
+                    break;
+            }
+        } else { searchOpen.value = !searchOpen.value; }
+    };
 
     const openModal = (n) => {
         visible.value = true;
         modalFrom.value = n;
     };
-
-    // onMounted(() => {
-    //     const mediaQuery = window.matchMedia("(max-width:768px)");
-    //     showMobileVersion.value = mediaQuery.matches;
-    //     const listener = e => showMobileVersion = e.matches;
-    //     mediaQuery.addEventListener(listener);
-    //     $once('hook:beforeDestroy', () => mediaQuery.removeEventListener(listener));
-    // })
 
 
 </script>
@@ -83,26 +79,13 @@
 
         &__logo {
             font-size: 30px;
-        }
 
-        &__burger {
-            display: none;
-            width: 5%;
-            transition: all 0.4s;
-
-            div {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 7px;
-
-                hr {
-                    border: 1px solid #00BA61;
-                }
+            @include media(1015px) {
+                font-size: 22px;
             }
 
-            .open-burger {
-                transform: rotate(90deg);
+            @include media(745px) {
+                width: 15%;
             }
         }
 
@@ -112,7 +95,12 @@
             align-items: center;
             padding: 0 10%;
             width: 55%;
-            margin: 30px 0;
+            margin: 1.4vw 0;
+
+            @include media(1115px) {
+                padding: 0;
+                width: 48%;
+            }
 
             &_compact {
                 width: 30%;
@@ -131,6 +119,10 @@
                 line-height: 2;
                 font-size: 14px;
 
+                @include media(1015px) {
+                    font-size: 10px;
+                }
+
                 &::after {
                     display: block;
                     position: absolute;
@@ -138,7 +130,7 @@
                     height: 2px;
                     width: 0%;
                     bottom: 0;
-                    background-color: #00BA61;
+                    background-color: $accent;
                     transition: width 0.4s ease-in-out;
                 }
 
@@ -156,21 +148,38 @@
             height: 2px;
             width: 100%;
             bottom: 0;
-            background-color: #00BA61;
+            background-color: $accent;
         }
 
         &__loop {
             cursor: pointer;
             transition: 0.3s;
             width: 2%;
-             &:hover {
+
+            @include media(1115px) {
+                width: 3%;
+            }
+
+            @include media(1015px) {
+                width: 2.5%;
+            }
+            
+            &:hover {
                 opacity: 0.7;
                 transform: scale(1.1);
-             }
+            }
         }
 
         &__call-btn {
             font-size: 12px;
+
+            @include media(1015px) {
+                font-size: 8px;
+            }
+
+            @include media(690px) {
+                font-size: 14px;
+            }
         }
     }
 </style>

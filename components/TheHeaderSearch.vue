@@ -93,6 +93,10 @@
             font-size: 14px;
             padding: 0.5em 0.6em 0.5em 0.3em;
             transition: 0.3s;
+
+            @include media(1015px) {
+                font-size: 10px;
+            }
         }
 
         &__btn {
