@@ -51,7 +51,7 @@
 
 <style lang="scss" scoped>
     .search {
-        width: 90%;
+        width: 100%;
         position: absolute;
         bottom: -110%; left: 50%;
             -webkit-transform: translate(-50%,-50%);

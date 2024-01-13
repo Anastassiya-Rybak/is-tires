@@ -351,7 +351,11 @@
 <style lang="scss" scoped>
     .catalog {
         background-color: #f1f1f1;
-        padding: 50px 0;
+        padding: 5vh 0;
+
+        @include media(690px) {
+            padding: 10vh 0 5vh;
+        }
 
         &__filter-btn,
         &__cancel-btn {
@@ -401,11 +405,29 @@
             flex-wrap: wrap;
             row-gap: 3dvh;
             margin-top: 3dvh;
+
+            @include media(1240px) {
+                row-gap: 2dvh;
+                margin-top: 2dvh;
+            }
         }
 
         &__product-card {
             width: calc(25% - 2%);
+
+            @include media(1240px) {
+                width: calc(25% - 1%);
+            }
+
+            @include media(990px) {
+                width: calc(33% - 1%);
+            }
+
+            @include media(550px) {
+                width: calc(50% - 2%);
+            }
         }
+        
     }
 
 

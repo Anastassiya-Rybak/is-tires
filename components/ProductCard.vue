@@ -7,7 +7,7 @@
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
             <LazyCallModal v-show="visible" :from="modalFrom" @close-modal="visibleModal" />
-            <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ . . .</nuxt-link>
+            <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
         </div>
     </div>
 </template>
@@ -45,16 +45,32 @@
         flex-direction: column;
         align-items: center;
         background-color: #ffffffb0;
+        padding: 20px 10px;
 
         border-radius: 10px;
         border: 1px solid rgba(0, 0, 0, 0.10);
         box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.11);
 
+        @include media(1240px) {
+            padding: 0 10px 10px;
+        }
+
         &__img {
             height: 270px;
             width: 90%;
             overflow: hidden;
-            margin: 30px 0;
+
+            @include media(1240px) {
+                max-height: 220px;
+            }
+
+            @include media(710px) {
+                height: 200px;
+            }
+
+            @include media(650px) {
+                height: 180px;
+            }
 
             img {
                 width: 100%;
@@ -67,26 +83,62 @@
             font-size: 32px;
             color: rgb(22, 22, 22);
             text-shadow: 0px 0.08em 0.28em rgba(0, 0, 0, 0.25);
-            margin-bottom: 30px;
+            margin: 15px 0;
+
+            @include media(1240px) {
+                font-size: 28px;
+            }
+
+            @include media(710px) {
+                margin: 0 0 10px;
+            }
+
+            @include media(650px) {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
         }
 
         &__btns {
-            width: 87%;
+            width: 95%;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+
+            @include media(710px) {
+                flex-wrap: wrap;
+                gap: 7px;
+            }
+
+            @include media(650px) {
+                gap: 5px;
+            }
 
             button {
-                padding: 0.8em 0.8em;
-                font-size: 14px;
+                padding: 0.6em 0;
+                font-size: 16px;
                 width: calc(50% - 5px);
 
+                @include media(1240px) {
+                    font-size: 12px;
+                }
+
+                @include media(990px) {
+                    padding: 0.6em 0.4em;
+                }
+
+                @include media(710px) {
+                    width: 100%;
+                }
+
+                @include media(650px) {
+                    font-size: 10px;
+                }
             }
         }
 
         &__more {
             width: calc(50% - 5px);
-            padding: 0.8em 0.8em;
+            padding: 0.8em 0;
             background-color: rgb(19, 19, 19);
             text-align: center;
             display: flex;
@@ -101,8 +153,20 @@
             transition: 0.3s;
             box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
 
+            @include media(1240px) {
+                font-size: 12px;
+            }
+
+            @include media(710px) {
+                width: 100%;
+            }
+
+            @include media(650px) {
+                font-size: 10px;
+            }
+
             &:hover {
-                filter: brightness(50%);
+                filter: brightness(130%);
             }
 
             &:active {
@@ -113,102 +177,5 @@
         .full {
             width: 100% !important;
         }
-    }    
-
-    // @media (max-width: 1265px) {
-    //     .product-card-btns button {
-    //         padding: 8px 6px;
-    //         font-size: 10px;
-    //     }
-        
-    //     .more {
-    //         font-size: 10px;
-    //     }
-    // }
-
-    // @media (max-width: 1170px) {
-    //     .product-card-img {
-    //         max-height: 200px;
-    //         margin: 10px 0;
-    //     }
-    // }
-
-    // @media (max-width: 920px) {
-    //     .product-card-btns button,
-    //     .more {
-    //         width: 49%;
-    //         padding: 0.8em 0.6em;
-    //         font-size: 8px;
-    //     }
-
-    //     .product-card-img {
-    //         max-height: 180px;
-    //     }
-
-    //     h3 {
-    //         font-size: 28px;
-    //         margin-bottom: 10px;
-    //     }
-    // }
-
-    // @media (max-width: 770px) {
-    //     .product-card-img {
-    //         max-height: 150px;
-    //     }
-    // }
-
-    // @media (max-width: 600px) {
-    //     .product-card-btns {
-    //         flex-direction: column-reverse;
-    //         align-items: center;
-    //         justify-content: center;
-    //         row-gap: 3px;
-    //     }
-
-    //     .product-card-img {
-    //         max-height: 150px;
-    //     }
-
-    //     h3 {
-    //         font-size: 20px;
-    //         margin-bottom: 5px;
-    //     }
-
-    //     .product-card-btns button,
-    //     .more {
-    //         width: 90%;
-    //         font-size: 8px;
-    //     }
-    // }
-
-    // @media (max-width: 420px) {
-    //     .product-card-img {
-    //         max-height: 120px;
-    //     }
-
-    //     h3 {
-    //         font-size: 16px;
-    //     }
-
-    //     .product-card-btns {
-    //         margin-bottom: 10px;
-    //     }
-    // }
-
-    // @media (max-width: 360px) {
-    //     .product-card-img {
-    //         max-height: 110px;
-    //     }
-
-    //     h3 {
-    //         font-size: 12px;
-    //     }
-
-    //     .product-card-btns button,
-    //     .more {
-    //         width: 95%;
-    //         font-size: 7px;
-    //     }
-    // }
-
+    }
 </style>
