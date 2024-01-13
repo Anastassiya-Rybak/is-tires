@@ -38,6 +38,10 @@
     .contact-page-wrap {
         background-color: $main-light;
         padding: 50px 0;
+
+        @include media(690px) {
+            padding: 11vh 0 5vh;
+        }
     }
 
     .contact-page {
@@ -45,8 +49,16 @@
         justify-content: space-between;
         align-items: center;
 
+        @include media(690px) {
+            flex-direction: column;
+        }
+
         &__info {
             width: 60%;
+
+            @include media(690px) {
+                width: 100%;
+            }
 
             h1 {
                 font-size: 30px;
@@ -94,6 +106,10 @@
         &__form {
             width: 37%;
 
+            @include media(690px) {
+                width: 100%;
+            }
+
             form {
                 display: flex;
                 flex-direction: column;
@@ -108,68 +124,6 @@
                 }
             }
         }
-    }
-
-    @media (max-width: 850px) {
-        .contact-page-wrap {
-            padding: 80px 0 30px;
-        }
-
-    }
-
-    @media (max-width: 705px) {
-        .contact-page {
-            flex-direction: column;
-        }
-
-        h1 {
-            font-size: 26px;
-        }
-
-        .contact-page-part1,
-        .contact-page-part2 {
-            width: 95%;
-        }
-    }
-
-    @media (max-width: 550px) {
-        h1 {
-            font-size: 22px;
-            text-align: center;
-        }
-
-        .contact-page-part1,
-        .contact-page-part2 {
-            width: 100%;
-        }
-
-        ul li span {
-            font-size: 14px;
-        }
-
-        ul li a {
-            font-size: 12px;
-        }
-
-    }
-
-    @media (max-width: 401px) {
-        ul li span {
-            font-size: 12px;
-        }
-
-        h2 {
-            font-size: 20px;
-            text-align: center;
-        }
-
-        .mess-form input,
-        .mess-form textarea {
-            padding: 5px;
-            font-size: 12px;
-            border-radius: 0.4em;
-        }
-
     }
 
 </style>
