@@ -363,6 +363,10 @@
             font-weight: 900;
             padding: 0.5em 1em;
 
+            @include media(1100px) {
+                font-size: 16px;
+            }
+
             &:hover {
                 filter: brightness(90%);
             }
@@ -383,6 +387,11 @@
             align-items: center;
             justify-content: flex-start;
             gap: 20px;
+
+            @include media(1100px) {
+                padding: 2vh 0;
+                flex-wrap: wrap;
+            }
         }
 
         &__filter-btns {
@@ -392,6 +401,10 @@
             button {
                 padding: 0.7em;
                 font-size: 14px;
+
+                @include media(1100px) {
+                    font-size: 12px;
+                }
 
                 &:last-child {
                     background-color: $main-dark;
@@ -427,8 +440,5 @@
                 width: calc(50% - 2%);
             }
         }
-        
     }
-
-
 </style>
