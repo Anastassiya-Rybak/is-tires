@@ -1,9 +1,10 @@
 <template>
     <div>
-        <LazyMobileTheHeader v-if="showMobileVersion"/>
-        <LazyTheHeader v-else />
+        <LazyMobileTheHeader v-if="showMobileVersion" @call="openModal('call')"/>
+        <LazyTheHeader v-else @call="openModal('call')"/>
         <main>
-            <slot />
+            <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
+            <slot @form="openModal('form')" />
             <section class="container">
                 <div class="mailing">
                     <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
@@ -11,7 +12,7 @@
                 </div>
             </section>
         </main>
-        <TheFooter />
+        <TheFooter @call="openModal('call')" @form="openModal('form')"/>
     </div>
 </template>
 
@@ -31,6 +32,15 @@
         mobileStore.editItem(mediaQuery.matches);
         mobileStore.saveState();
     });
+
+    const modalVisible = ref(false);
+    const modalFrom = ref('');
+
+    const openModal = (n) => {
+        modalVisible.value = true;
+        modalFrom.value = n;
+    };
+
 </script>
 
 <style lang="scss">

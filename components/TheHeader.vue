@@ -17,8 +17,7 @@
             <div v-show="!searchOpen" class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
-            <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
-            <LazyCallModal v-show = "visible" :from="modalFrom" @close-modal="visible = false" />
+            <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')" />
         </nav>
     </header>
 </template>
@@ -29,8 +28,6 @@
     import { useSearchStore } from '~/stores/search';
 
     const searchOpen = ref(false);
-    const visible = ref(false);
-    const modalFrom = ref('');
 
     const searchStore = useSearchStore();
     const { inpData } = storeToRefs(searchStore);
@@ -58,12 +55,6 @@
             }
         } else { searchOpen.value = !searchOpen.value; }
     };
-
-    const openModal = (n) => {
-        visible.value = true;
-        modalFrom.value = n;
-    };
-
 
 </script>
 

@@ -6,7 +6,7 @@
         <h3>{{ productName }}</h3>
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
-            <LazyCallModal v-show="visible" :from="modalFrom" @close-modal="visibleModal" />
+            <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
             <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
         </div>
     </div>

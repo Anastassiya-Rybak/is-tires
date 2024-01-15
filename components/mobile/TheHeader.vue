@@ -8,9 +8,7 @@
                 </div>
             </div>
             <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" 
-                @click="openModal('call')" />
-            <LazyCallModal v-show = "visible" :from="modalFrom" 
-                @close-modal="visible = false" />
+                @click="$emit('call')" />
         </nav>
         <LazyMobileTheHeaderMenu v-if="burgerOpen" 
             @close-menu="toggleVisible" />
@@ -24,8 +22,6 @@
     import { useSearchStore } from '~/stores/search';
 
     const burgerOpen = ref(false);
-    const visible = ref(false);
-    const modalFrom = ref('');
 
     const searchStore = useSearchStore();
     const { inpData } = storeToRefs(searchStore);
@@ -36,11 +32,6 @@
 
     const resetSearch = () => {
         if (inpData !== '') searchStore.editItem('');
-    };
-
-    const openModal = (n) => {
-        visible.value = true;
-        modalFrom.value = n;
     };
 
     const toggleVisible = () => {

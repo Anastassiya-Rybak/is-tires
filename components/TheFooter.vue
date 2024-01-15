@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div class="footer__btns">
-                <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="openModal('call')" />
+                <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')"/>
                 <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
             </div>
         </div>
@@ -33,7 +33,6 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style lang="scss" scoped>
@@ -77,6 +76,11 @@
                 @include media(530px) {
                     font-size: 12px;
                 }
+
+                @include media(790px) {
+                    font-size: 14px;
+                }
+
             }
         }
 
@@ -90,6 +94,11 @@
             h2 {
                 color: $main-light;
                 margin-bottom: 3vh;
+
+                @include media(790px) {
+                    font-size: 20px;
+                }
+
             }
 
             ul {
@@ -101,6 +110,10 @@
                     display: flex;
                     gap: 15px;
                     align-items: center;
+
+                    @include media(790px) {
+                        font-size: 14px;
+                    }
 
                     .footer__img {
                         width: 5%;
@@ -150,6 +163,13 @@
                     filter: brightness(90%);
                 }
 
+            }
+
+            @include media(790px) {
+                button,
+                a {
+                    font-size: 12px;
+                }
             }
 
             button:active,
