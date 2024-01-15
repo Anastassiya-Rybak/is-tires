@@ -80,6 +80,13 @@
             }
         }
 
+        @include media(790px) {
+            input,
+            button {
+                font-size: 12px;
+            }
+        }
+
         @include media(440px) {
             input,
             button {

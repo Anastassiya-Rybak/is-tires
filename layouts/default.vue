@@ -59,6 +59,10 @@
             padding: 3vw;
         }
 
+        @include media(790px) {
+            margin: 3vh 0;
+        }
+
         &::before {
             content: url('~/assets/back/back-mail.png');
             position: absolute;
@@ -89,8 +93,12 @@
                 font-size: 24px;
             }
 
+            @include media(690px) {
+                font-size: 18px;
+            }
+
             @include media(440px) {
-                font-size: 22px;
+                font-size: 16px;
             }
         }
     }
