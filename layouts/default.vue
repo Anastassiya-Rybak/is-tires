@@ -5,10 +5,12 @@
         <main>
             <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
             <slot @form="openModal('form')" />
-            <section class="container">
-                <div class="mailing">
-                    <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
-                    <mailing-form />
+            <section class="mailing-wrap">
+                <div class="container">
+                    <div class="mailing">
+                        <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
+                        <mailing-form />
+                    </div>
                 </div>
             </section>
         </main>
@@ -44,11 +46,23 @@
 </script>
 
 <style lang="scss">
+    .mailing-wrap {
+        width: 100%;
+        padding: 17vh 0;
+        background-image: url('~/assets/back/mailing.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        @include media(790px) {
+            padding: 3vh 0;
+        }
+    }
+
     .mailing {
-        margin: 75px auto;
-        padding: 45px 30px 45px 15%;
+        padding: 45px 30px;
         overflow: hidden;
-        border-radius: 20px;
+        border-radius: 10px;
         background: $accent;
         box-shadow: 0px 10px 10px 0px rgba(255, 255, 255, 0.46) inset;
         display: flex;
@@ -57,31 +71,8 @@
         gap: 3vh;
         position: relative;
 
-        @include media(1200px) {
-            padding-left: 20%;
-        }
-
-        @include media(1130px) {
-            padding-left: 30px;
-        }
-
         @include media(825px) {
             padding: 3vw;
-        }
-
-        @include media(790px) {
-            margin: 3vh 0;
-        }
-
-        &::before {
-            content: url('~/assets/back/back-mail.png');
-            position: absolute;
-            left: -5px;
-            top: 0;
-
-            @include media(1130px) {
-                display: none;
-            }
         }
 
         h3 {

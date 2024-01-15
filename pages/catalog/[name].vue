@@ -105,7 +105,11 @@
         }
 
         @include media(690px) {
-            padding: 9vh 0 3vh;
+            padding: 10vh 0 3vh;
+        }
+
+        @include media(480px) {
+            padding: 7vh 0 3vh;
         }
     }
 
@@ -121,8 +125,16 @@
             padding: 20px;
         }
 
+        @include media(780px) {
+            flex-direction: column;
+        }
+
         &__img {
             width: 35%;
+
+            @include media(780px) {
+                width: 75%;
+            }
         }
 
         &__text {
@@ -130,6 +142,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            @include media(780px) {
+                width: 95%;
+            }
         }
 
         &__name {
@@ -142,6 +158,14 @@
 
             @include media(920px) {
                 font-size: 24px;
+            }
+
+            @include media(790px) {
+                font-size: 36px;
+            }
+
+            @include media(480px) {
+                font-size: 28px;
             }
 
             span {
@@ -161,7 +185,12 @@
             }
 
             @include media(790px) {
-                font-size: 8px;
+                font-size: 16px;
+            }
+
+            @include media(480px) {
+                font-size: 10px;
+                letter-spacing: 0.2em;
             }
         }
 
@@ -182,7 +211,12 @@
             }
 
             @include media(790px) {
-                font-size: 8px;
+                font-size: 14px;
+            }
+
+            @include media(480px) {
+                font-size: 10px;
+                margin: 2em 0 0;
             }
 
             ol li {
@@ -211,7 +245,7 @@
                 }
 
                 @include media(920px) {
-                    font-size: 8px;
+                    font-size: 12px;
                 }
             }
 
@@ -227,7 +261,11 @@
                 }
 
                 @include media(790px) {
-                    font-size: 6px;
+                    font-size: 12px;
+                }
+
+                @include media(480px) {
+                    font-size: 10px;
                 }
             }
 
@@ -248,7 +286,11 @@
                 }
 
                 @include media(790px) {
-                    font-size: 6px;
+                    font-size: 12px;
+                }
+
+                @include media(480px) {
+                    font-size: 10px;
                 }
             }
         }
@@ -266,102 +308,10 @@
             }
 
             @include media(790px) {
-                font-size: 6px;
+                font-size: 10px;
             }
         }
     }
-
-
-    // @media (max-width: 1250px) {
-    //     .product-card-page {
-    //         padding: 20px;
-    //     }
-
-    //     .product-img-wrap {
-    //         width: 45%;
-    //     }
-
-    //     .text-part-product-page {
-    //         width: 55%;
-    //     }
-
-    //     .full-name {
-    //         font-size: 32px;
-    //     }
-
-    //     .description {
-    //         padding-left: 25px;
-    //         font-size: 12px;
-    //     }
-
-    //     caption {
-    //         padding: 5px 0;
-    //     }
-
-    //     table {
-    //         width: 85%;
-    //         margin: 0 auto;
-    //     }
-
-    //     td {
-    //         font-size: 12px;
-    //     }
-
-    //     th {
-    //         font-size: 14px;
-    //     }
-
-    //     .application {
-    //         margin: 2dvh auto 0;
-    //     }
-    // }
-
-    // @media (max-width: 950px) {
-    //     .full-name {
-    //         font-size: 28px;
-    //     }
-
-    //     caption {
-    //         font-size: 14px;
-    //     }
-
-    //     td {
-    //         font-size: 10px;
-    //     }
-
-    //     th {
-    //         font-size: 10px;
-    //     }
-
-    // }
-
-    // @media (max-width: 840px) {
-    //     .product-card-page-wrap {
-    //         padding: 60px 0 30px;
-    //     }
-
-    // }
-
-    // @media (max-width: 780px) {
-    //     .back-btn-in {
-    //         font-size: 10px;
-    //     }
-    //     .product-card-page-wrap {
-    //         padding: 60px 0 30px;
-    //     }
-
-    //     .product-card-page {
-    //         flex-direction: column;
-    //     }
-
-    //     .product-img-wrap {
-    //         width: 75%;
-    //     }
-
-    //     .text-part-product-page {
-    //         width: 90%;
-    //     }
-    // }
 
     // @media (max-width: 510px) {
 

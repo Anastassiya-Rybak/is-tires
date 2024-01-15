@@ -357,6 +357,10 @@
             padding: 10vh 0 5vh;
         }
 
+        @include media(480px) {
+            padding: 7vh 0 3vh;
+        }
+
         &__filter-btn,
         &__cancel-btn {
             font-size: 20px;

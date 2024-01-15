@@ -65,7 +65,8 @@
         padding: 2px;
 
         @include media(480px) {
-            width: 95%;
+            bottom: -85%;
+            padding: 1px;
         }
 
         &__input {
@@ -77,7 +78,7 @@
 
             &::placeholder {
                 @include media(480px) {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
             }
 
@@ -102,6 +103,10 @@
             font-size: 18px;
             padding: 0.5em 0.6em 0.5em 0.3em;
             transition: 0.3s;
+
+            @include media(480px) {
+                font-size: 14px;
+            }
         }
 
         &__btn {
