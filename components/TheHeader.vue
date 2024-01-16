@@ -40,7 +40,7 @@
 
     const reset = () => {
         searchOpen.value = false;
-        if (inpData !== '') searchStore.editItem('');
+        searchStore.editItem('');
         filterStore.resetFilter();
     };
 

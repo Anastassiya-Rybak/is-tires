@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="catalog__content">
+        <ClientOnly class="catalog__content">
             <div class="catalog__product-cards container" v-if="hasTriage">
                 <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
                 :productName="product.name" />
@@ -27,7 +27,7 @@
                 <ProductCard class="catalog__product-card" v-for="product in productsSort" :key="product"
                 :productName="product.name" />
             </div>
-        </div>
+        </ClientOnly>
     </section>
 </template>
 

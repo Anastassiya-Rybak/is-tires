@@ -5,20 +5,33 @@
         </button>
         <ul class="menu-out__content" >
             <li>
-                <nuxt-link active-class="active-page" to="/" @click="cleanSearch, $emit('close-menu')">ГЛАВНАЯ</nuxt-link>
+                <nuxt-link active-class="active-page" to="/" @click="reset">ГЛАВНАЯ</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" to="/catalog" @click="cleanSearch, $emit('close-menu')">КАТАЛОГ</nuxt-link>
+                <nuxt-link active-class="active-page" to="/catalog" @click="reset">КАТАЛОГ</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" to="/contact" @click="cleanSearch, $emit('close-menu')">КОНТАКТЫ</nuxt-link>
+                <nuxt-link active-class="active-page" to="/contact" @click="reset">КОНТАКТЫ</nuxt-link>
             </li>
         </ul>
     </nav>
 </template>
 
 <script setup>
+    import { defineEmits } from 'vue';
+    import { useSearchStore } from '~/stores/search';
+    import { useFilterStore } from '~/stores/filter';
 
+    const filterStore = useFilterStore();
+    const searchStore = useSearchStore();
+
+    const emit = defineEmits('close-menu');
+
+    const reset = () => {
+        searchStore.editItem('');
+        filterStore.resetFilter();
+        emit('close-menu');
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -35,24 +48,6 @@
         align-items: center;
         justify-content: center;
         background-color: $main-dark;
-
-        // &_open {
-            // animation: open 0.7s ease-in-out alternate;
-
-            // @keyframes open {
-            //     from { width: 0%; }
-            //     to { width: 100%; }
-            // }
-        // }
-
-        // &_close {
-        //     animation: close 0.7s ease-in-out alternate;
-
-        //     @keyframes close {
-        //         from { width: 100%; }
-        //         to { width: 0%; }
-        //     }
-        // }
 
         &__close {
             background: none;

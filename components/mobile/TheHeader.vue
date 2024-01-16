@@ -1,7 +1,7 @@
 <template>
     <header class="header container">
         <nav class="header__nav">
-            <nuxt-link to="/" class="header__logo" @click="resetSearch">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link to="/" class="header__logo" @click="reset">ИСКРА СЕРВИС</nuxt-link>
             <div class="header__burger burger-wrap" @click="toggleVisible">
                 <div class="burger">
                     <hr><hr><hr>
@@ -20,8 +20,10 @@
     import { ref } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
+    import { useFilterStore } from '~/stores/filter';
 
     const burgerOpen = ref(false);
+    const filterStore = useFilterStore();
 
     const searchStore = useSearchStore();
     const { inpData } = storeToRefs(searchStore);
@@ -30,8 +32,9 @@
         searchStore.restoreState();
     });
 
-    const resetSearch = () => {
+    const reset = () => {
         if (inpData !== '') searchStore.editItem('');
+        filterStore.resetFilter();
     };
 
     const toggleVisible = () => {
