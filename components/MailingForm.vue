@@ -3,11 +3,19 @@
         class="mail-form"
         headerText=""
         inputPlaceholder="ВВЕДИТЕ СВОЙ EMAIL"
-        buttonText="ПОДПИСАТЬСЯ"
+        :buttonText="buttonText"
+        @subscribed="showFeedback"
     />    
 </template>
 
 <script setup>
+    import { ref } from 'vue';
+
+    const buttonText = ref("ПОДПИСАТЬСЯ");
+
+    const showFeedback = () => {
+        buttonText.value = 'ГОТОВО!';
+    }
 </script>
 
 
