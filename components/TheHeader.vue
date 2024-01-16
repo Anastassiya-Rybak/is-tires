@@ -1,6 +1,6 @@
 <template>
-    <header class="header container">
-        <nav class="header__nav">
+    <header class="header ">
+        <nav class="header__nav container">
             <nuxt-link to="/" class="header__logo" @click="resetSearch">ИСКРА СЕРВИС</nuxt-link>
             <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
@@ -61,6 +61,11 @@
 <style lang="scss" scoped>
     .header {
         position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #0c0c0c69;
 
         &__nav {
             display: flex;

@@ -64,7 +64,7 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-        padding: 30dvh 0;
+        padding: 40dvh 0 30dvh;
         color: #f1f1f1;
     }
 
