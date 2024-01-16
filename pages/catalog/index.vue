@@ -2,7 +2,7 @@
     <section class="catalog">
         <div class="catalog__filter-wrap container">
             <ButtonGreen text="ФИЛЬТРАЦИЯ" class="catalog__filter-btn" @click="toggleFilter"/>
-            <ButtonGreen text="СБРОС ПОИСКА" class="catalog__cancel-btn" v-show="showCancalBtn" @click="resetSearch"/>
+            <ButtonGreen text="СБРОС ПОИСКА" class="catalog__cancel-btn" v-show="showCancelBtn" @click="resetSearch"/>
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
@@ -133,6 +133,10 @@
                 this.toggleFilter();
                 this.getFilter(0);
             },
+            resetFilter(){
+                this.reset();
+                this.getFilter();
+            },
             toggleFilter() {
                 this.filterOn = !this.filterOn;
             },
@@ -141,10 +145,7 @@
                 for (let i = 0; i < selects.length; i++) {
                     selects[i].selectedIndex = 0;
                 }
-                this.filterStore.editItem('rd', '');
-                this.filterStore.editItem('tube', '');
-                this.filterStore.editItem('type', '');
-                this.filterStore.editItem('idx', '');
+                this.filterStore.resetFilter();
             },
             getFilter(w) {
                 this.productsSort = [];
@@ -194,10 +195,10 @@
             hasTriage(){
                 return this.productsSort.length === 0 && !this.notany ? true : false;
             },
-            showCancalBtn(){
+            showCancelBtn(){
                 return this.searchItem && this.$route.query.type === 'search' ? true : false;
             }
-        }
+        },
     }
 
 

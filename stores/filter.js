@@ -37,6 +37,13 @@ export const useFilterStore = defineStore ("filter", {
               this.$patch(JSON.parse(savedState))
             }
         },
+
+        resetFilter() {
+            this.editItem('rd', '');
+            this.editItem('tube', '');
+            this.editItem('type', '');
+            this.editItem('idx', '');
+        }
     }
 })
 

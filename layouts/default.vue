@@ -4,7 +4,7 @@
         <LazyTheHeader v-else @call="openModal('call')"/>
         <main>
             <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
-            <slot @form="openModal('form')" />
+            <slot />
             <section class="mailing-wrap">
                 <div class="container">
                     <div class="mailing">

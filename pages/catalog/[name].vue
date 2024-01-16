@@ -98,7 +98,7 @@
 
     .product-page-wrap {
         background-color: $main-light;
-        padding: 5vh 0;
+        padding: 12vh 0 5vh;
 
         @include media(1150px) {
             padding: 3vh 2vw;
