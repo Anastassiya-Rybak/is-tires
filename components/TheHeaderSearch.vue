@@ -9,6 +9,7 @@
             autocomplete="off"
             aria-expanded="true"
             spellcheck="true"
+            @keyup.enter="goSearch"
         >
         <label for="search-input">
             <button class="search__btn" @click.prevent="goSearch">Поиск</button>
