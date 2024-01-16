@@ -2,6 +2,7 @@
     <div>
         <LazyMobileTheHeader v-if="showMobileVersion" @call="openModal('call')"/>
         <LazyTheHeader v-else @call="openModal('call')"/>
+        <LoadingItem v-show="loading"/>
         <main>
             <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
             <slot />
@@ -23,6 +24,7 @@
     import { storeToRefs } from 'pinia';
     import { useMobileStore } from '~/stores/mobile';
 
+    const loading = ref(true);
     const mobileStore = useMobileStore();
     const { mobile } = storeToRefs(mobileStore);
 
@@ -33,6 +35,7 @@
         showMobileVersion.value = mediaQuery.matches;
         mobileStore.editItem(mediaQuery.matches);
         mobileStore.saveState();
+        loading.value = false;
     });
 
     const modalVisible = ref(false);
