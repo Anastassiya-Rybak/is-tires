@@ -65,7 +65,7 @@
     .header {
         position: relative;
         position: absolute;
-        top: 0;
+        top: 3vh;
         left: 0;
         width: 100%;
         background-color: #0c0c0c69;

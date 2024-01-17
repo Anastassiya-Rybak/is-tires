@@ -3,7 +3,7 @@
         <section class="frst-block-wrap">
             <div class="first-block container">
                 <h1>ИСКРА СЕРВИС</h1>
-                <p>Высококачественные шины и общее решение для шин позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
+                <p>Высококачественные шины позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
                 <div class="first-block__btns">
                     <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
                     <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
@@ -13,7 +13,7 @@
         </section>
         <section class="second-block-wrap">
             <div class="second-block container">
-                <h2>Рекомендуемые товары</h2>
+                <h2>Популярные позиции</h2>
                 <Swiper class="second-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="mobile ? 2 : 3"
@@ -64,7 +64,7 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-        padding: 40dvh 0 30dvh;
+        padding: 45dvh 0 30dvh;
         color: #f1f1f1;
     }
 
@@ -167,6 +167,7 @@
             letter-spacing: 0.1em;
             text-shadow: 0px 0.1em 0.1em rgba(0, 0, 0, 0.25);
             padding: 1.1em 0;
+            text-align: center;
 
             @include media(620px) {
                 font-size: 32px;
