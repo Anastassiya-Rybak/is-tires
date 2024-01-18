@@ -11,10 +11,21 @@
                 </div>
             </div>
         </section>
-        <section class="second-block-wrap">
-            <div class="second-block container">
+        <section class="second-block container">
+            <div class="second-block__text">
+                <span>МЫ ПРЕДЛАГАЕМ</span>
+                <h3>РАДИАЛЬНЫЕ И ДИАГОНАЛЬНЫЕ</h3>
+                <h2>КРУПНОГАБАРИТНЫЕ ШИНЫ</h2>
+            </div>
+            <TheCategoryCard class="second-block__card" 
+                v-for="category in categories" :key="category" 
+                :categoryName="category" />
+            <nuxt-link class="second-block__link" to="/catalog">ПЕРЕЙТИ К ПОЛНОМУ ПЕРЕЧНЮ ТОВАРОВ</nuxt-link>
+        </section>
+        <section class="therd-block-wrap">
+            <div class="therd-block container">
                 <h2>Популярные позиции</h2>
-                <Swiper class="second-block__slider"
+                <Swiper class="therd-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="mobile ? 2 : 3"
                 :space-between="mobile ? 10 : 40"
@@ -30,7 +41,7 @@
                 }">
                     <SwiperSlide
                     v-for="product in products.slice(0, 6)" :key="product">
-                        <ProductCard class="second-block__card" :productName="product.name" :noSlide="false"/>
+                        <ProductCard class="therd-block__card" :productName="product.name" :noSlide="false"/>
                     </SwiperSlide>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -50,8 +61,8 @@
     const { mobile } = storeToRefs(mobileStore);
 
     const products = JSON.products;
+    const categories = JSON.categories;
     const visible = ref(false);
-    const slides = ref([]);
 
     const visibleModal = () => {
         visible.value = !visible.value;
@@ -83,10 +94,12 @@
         }
 
         p {
+            width: 43%;
+            text-align: justify;
             font-size: 20px;
             line-height: 1.2em;
             letter-spacing: 2px;
-            margin: 1.6em auto;
+            margin: 1.6em 0;
 
             @include media(1000px) {
                 font-size: 16px;
@@ -148,17 +161,81 @@
                 }
             }            
         }
-    } 
+    }
 
-    .second-block-wrap {
+    .second-block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 1%;
+        row-gap: 10px;
+        align-items: center;
+        padding: 5vh 0;
+
+        &__text {
+            width: 59%;
+            display: flex;
+            flex-direction: column;
+
+            span {
+                color: $main-light;
+                font-size: 38px;
+                letter-spacing: 0.08em;
+                line-height: 2.5em;
+            }
+
+            h3,
+            h2 {
+                font-size: 42px;
+                letter-spacing: 0.08em;
+                line-height: 1.5em;
+            }
+
+            h3 {
+                color: $accent;
+            }
+
+            h2 {
+                color: $main-light;
+            }
+
+        }
+
+        &__card {
+            width: 19%;
+            height: 45vh;
+        }
+
+        &__link {
+            width: calc(38% + 10px);
+            border-radius: 10px;
+            background-color: #01aa58c9;
+            height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f1f1f1;
+            font-size: 24px;
+            font-weight: 800;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+
+            &:hover {
+                opacity: 1;
+                font-size: 25px;
+            }
+        }
+    }
+
+    .therd-block-wrap {
         background-image: url(./../assets/back/2block.png);
         background-position: start;
         background-size: cover;
         background-repeat: no-repeat;
-        padding-bottom: 100px;
+        padding: 2vh 0 8vh;
     }
 
-    .second-block {
+    .therd-block {
         position: relative;
 
         h2 {
@@ -171,7 +248,6 @@
 
             @include media(620px) {
                 font-size: 32px;
-                margin-left: 3%;
             }
 
             @include media(450px) {

@@ -185,7 +185,7 @@
                 const filterQuery = { ...this.$route.query };
                 if (filterQuery.type === 'filter') {
                     filterQuery.sort.split('+').forEach((el, idx) => {
-                        this.selects[idx].selectedLet = el === 'null' ? 0 : this.selects[idx].options.findIndex(n => n === el);
+                        this.selects[idx].selectedLet = (el === 'null') ? 0 : this.selects[idx].options.findIndex(n => n === el);
                     })
                 }
             }
@@ -419,7 +419,7 @@
 
         &__product-cards {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             flex-wrap: wrap;
             row-gap: 3dvh;
             margin-top: 3dvh;
