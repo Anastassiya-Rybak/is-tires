@@ -1,25 +1,31 @@
 <template>
-    <div class="product-card">
-        <div class="product-card__img">
+    <article class="product-card">
+        <figure class="product-card__img">
             <img :src="image" :alt="productName">
-        </div>
+        </figure>
         <h3>{{ productName }}</h3>
+        <p>{{ productDescription }}</p>
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
             <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
             <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
         </div>
-    </div>
+    </article>
 </template>
 
 <script setup>
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
     
     const props = defineProps({
         productName: {
             type: String,
             required: true,
             default: ""
+        },
+        desc: {
+            type: String,
+            required: true,
+            default: ''
         },
         noSlide: {
             type: Boolean,
@@ -36,6 +42,10 @@
         visible.value = !visible.value;
         if (visible.value) modalFrom.value = n;
     }
+
+    const productDescription = computed(() => {
+        return props.desc.length <= 55 ? props.desc : props.desc.slice(0, 56) + ' ...';
+    })
 </script>
 
 <style lang="scss">
@@ -47,7 +57,7 @@
         background-color: #ffffffb0;
         padding: 20px 10px;
 
-        border-radius: 10px;
+        border-radius: 20px;
         border: 1px solid rgba(0, 0, 0, 0.10);
         box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.11);
 
@@ -97,6 +107,14 @@
                 font-size: 22px;
                 margin-bottom: 5px;
             }
+        }
+
+        p {
+            width: 94%;
+            margin: 0 auto 20px;
+            text-align: justify;
+            letter-spacing: 0.03em;
+            line-height: 1.5em;
         }
 
         &__btns {

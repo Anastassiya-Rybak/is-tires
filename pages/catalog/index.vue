@@ -18,14 +18,14 @@
         <ClientOnly class="catalog__content">
             <div class="catalog__product-cards container" v-if="hasTriage">
                 <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
-                :productName="product.name" />
+                :productName="product.name" :desc="product.desc[0]" />
             </div>
             <div class="catalog__product-cards container" v-else-if="notany">
                 <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
             </div>
             <div class="catalog__product-cards container" v-else>
                 <ProductCard class="catalog__product-card" v-for="product in productsSort" :key="product"
-                :productName="product.name" />
+                :productName="product.name" :desc="product.desc[0]" />
             </div>
         </ClientOnly>
     </section>
@@ -352,7 +352,7 @@
 <style lang="scss" scoped>
     .catalog {
         background-color: #f1f1f1;
-        padding: 12vh 0 5vh;
+        padding: 14vh 0 5vh;
 
         @include media(690px) {
             padding: 10vh 0 5vh;

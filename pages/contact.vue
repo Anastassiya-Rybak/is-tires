@@ -37,7 +37,7 @@
 <style lang="scss" scoped>
     .contact-page-wrap {
         background-color: $main-light;
-        padding: 12vh 0;
+        padding: 25vh 0;
 
         @include media(690px) {
             padding: 11vh 0 5vh;
