@@ -34,7 +34,7 @@
     })
 
     const link = `/catalog/${props.productName}`;
-    const image = `/images/${props.productName}.png`;
+    const image = `/tyres/${props.productName}.webp`;
     const visible = ref(false);
     const modalFrom = ref('');
 

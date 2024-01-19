@@ -64,7 +64,7 @@
     import JSON from '~/server/bd.json'
 
     const { name } = useRoute().params;
-    const image = `/images/${name}.png`;
+    const image = `/tyres/${name}.webp`;
     const visible = ref(false);
     const products = JSON.products;
     const productInfo = ref({});
