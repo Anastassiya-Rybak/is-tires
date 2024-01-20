@@ -70,7 +70,7 @@
             width: 90%;
             overflow: hidden;
 
-            @include media(1240px) {
+            @include media(1300px) {
                 max-height: 220px;
             }
 
@@ -115,6 +115,31 @@
             text-align: justify;
             letter-spacing: 0.03em;
             line-height: 1.5em;
+            font-size: 90%;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            height: 40px;
+
+            @include media(1300px) {
+                font-size: 1.7vw;
+            }
+
+            @include media(550px) {
+                margin: 0 auto 10px;
+            }
+
+            &::after {
+                content: '';
+                width: 100%;
+                position: absolute;
+                height: 50%;
+                bottom: 0;
+                left: 0;
+                background: #ffffffb0;
+                background: linear-gradient(0deg, #ffffffc0 0%, #ffffffaf 58%, #ffffff6c 100%);                z-index: 3;
+            }
         }
 
         &__btns {
@@ -136,7 +161,7 @@
                 font-size: 16px;
                 width: calc(50% - 5px);
 
-                @include media(1240px) {
+                @include media(1280px) {
                     font-size: 12px;
                 }
 
@@ -171,7 +196,7 @@
             transition: 0.3s;
             box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
 
-            @include media(1240px) {
+            @include media(1280px) {
                 font-size: 12px;
             }
 

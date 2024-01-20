@@ -27,7 +27,7 @@
                 <h2>Популярные позиции</h2>
                 <Swiper class="therd-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
-                :slides-per-view="mobile ? 2 : 3"
+                :slides-per-view="mobile ? 1 : 3"
                 :space-between="mobile ? 10 : 40"
                 :loop="true"
                 :preventClicks = true
@@ -188,39 +188,35 @@
 
             span {
                 color: $main-light;
-                font-size: 38px;
+                font-size: 240%;
                 letter-spacing: 0.08em;
                 line-height: 2.5em;
 
-                @include media(1370px) {
-                    font-size: 32px;
+                @include media(1440px){
+                    font-size: 2.4vw;
                 }
 
-                @include media(1240px) {
-                    font-size: 26px;
-                }
-
-                @include media(1030px) {
-                    font-size: 20px;
+                @include media(680px) {
+                    font-size: 18px;
                 }
             }
 
             h3,
             h2 {
-                font-size: 42px;
+                font-size: 280%;
                 letter-spacing: 0.08em;
                 line-height: 1.5em;
 
-                @include media(1370px) {
-                    font-size: 36px;
+                @include media(1440px){
+                    font-size: 2.6vw;
                 }
 
-                @include media(1240px) {
-                    font-size: 30px;
+                @include media(680px) {
+                    font-size: 2.3vw;
                 }
 
-                @include media(1030px) {
-                    font-size: 24px;
+                @include media(500px) {
+                    font-size: 4.5vw;
                 }
             }
 
@@ -231,7 +227,6 @@
             h2 {
                 color: $main-light;
             }
-
         }
 
         &__card {
@@ -261,22 +256,17 @@
             align-items: center;
             justify-content: center;
             color: #f1f1f1;
-            font-size: 24px;
+            font-size: 120%;
             font-weight: 800;
             opacity: 0.7;
             transition: all 0.3s ease;
 
             @include media(1370px) {
                 height: 35vh;
-                font-size: 20px;
             }
 
-            @include media(1240px) {
-                font-size: 14px;
-            }
-
-            @include media(1030px) {
-                font-size: 10px;
+            @include media(1150px) {
+                font-size: 80%;
             }
 
             @include media(830px) {
@@ -286,25 +276,23 @@
 
             @include media(680px) {
                 height: 15vh;
+                font-size: 1.8vw;
                 width: 49%;
+            }
+
+            @include media(500px) {
+                height: 10vh;
+                font-size: 2.5vw;
             }
 
             @media (hover: hover) {
                 &:hover {
                     opacity: 1;
-                    font-size: 25px;
+                    font-size: 100%;
                     -webkit-tap-highlight-color: transparent;
 
-                    @include media(1370px) {
-                        font-size: 22px;
-                    }
-
-                    @include media(1240px) {
-                        font-size: 16px;
-                    }
-
-                    @include media(1030px) {
-                        font-size: 12px;
+                    @include media(1150px) {
+                        font-size: 70%;
                     }
                 }
             }
@@ -357,14 +345,30 @@
                 font-weight: 800;
             }
 
-            .swiper-button-next:hover::after,
-            .swiper-button-prev:hover::after {
-                color: #4b4b4b;
-                transform: scale(1.2);
+            @media (hover: hover) {
+                .swiper-button-next:hover::after,
+                .swiper-button-prev:hover::after {
+                    color: #4b4b4b;
+                    transform: scale(1.2);
+                }
+            }
+
+            @media (hover: none) {
+                .swiper-button-next:active::after,
+                .swiper-button-prev:active::after {
+                    color: #4b4b4b;
+                    transform: scale(1.2);
+                }
             }
         }
 
         &__card {
+            @include media(1300px) {
+                p {
+                    font-size: 80%;
+                }
+            }
+
             @include media(1070px) {
                 .product-card__img {
                     height: 230px;
@@ -374,6 +378,15 @@
                 h3 {
                     margin-bottom: 10px;
                 }
+            }
+
+            @include media(680px) {
+                width: 60%;
+                margin: 0 auto;
+            }
+
+            @include media(450px) {
+                width: 75%;
             }
         }
     }

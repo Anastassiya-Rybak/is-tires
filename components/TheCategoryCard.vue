@@ -97,22 +97,14 @@
             left: 0;
             width: 100%;
             height: 13%;
-            font-size: 16px;
+            font-size: 1vw;
             font-weight: 800;
-            word-spacing: 0.7em;
             background-color: #00a857c4;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            @include media(1370px) {
-                font-size: 12px;
-            }
-
-            @include media(1030px) {
-                font-size: 10px;
-            }
+            text-align: center;
 
             @include media(830px) {
                 top: 10%;
@@ -120,12 +112,12 @@
 
             @include media(680px) {
                 height: 20%;
-                font-size: 12px;
-                text-align: center;
+                font-size: 1.5vw;
             }
 
             @include media(500px) {
                 height: 32%;
+                font-size: 2.3vw;
             }
         }
     }
