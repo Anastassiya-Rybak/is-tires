@@ -64,8 +64,10 @@
             box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.43) inset;
             background-color: rgb(19, 19, 19);
 
-            &:hover {
-                filter: brightness(90%);
+            @media (hover:hover) {
+                &:hover {
+                    filter: brightness(90%);
+                }
             }
 
             &:active {

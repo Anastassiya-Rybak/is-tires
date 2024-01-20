@@ -183,8 +183,10 @@
                 font-size: 10px;
             }
 
-            &:hover {
-                filter: brightness(130%);
+            @media (hover: hover) {
+                &:hover {
+                    filter: brightness(130%);
+                }
             }
 
             &:active {

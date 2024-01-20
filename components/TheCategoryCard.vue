@@ -1,5 +1,5 @@
 <template>
-    <figure @click="goForCategory">
+    <figure class="second-block__card_base" @click="goForCategory">
         <img :src="`/images/${categoryName}.webp`" :alt="categoryName">
         <figcaption>{{ categoryName }}</figcaption>
     </figure>
@@ -34,28 +34,54 @@
 </script>
 
 <style lang="scss" scoped>
-    figure {
+    .second-block__card_base {
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
         border-radius: 10px;
         cursor: pointer;
 
-        &:hover {
-            border-radius: 50%;
-            filter: brightness(1.2);
+        @media (hover: hover) {
+            &:hover {
+                border-radius: 50%;
+                filter: brightness(1.2);
+            }
         }
 
-        &:hover>figcaption {
-            top: 40%;
-            animation: changePosition 0.4s ease-in-out alternate;
-            text-align: center;
-            padding: 2em 0;
-            height: fit-content;
+        @media (hover: none) {
+            &:active {
+                border-radius: 50%;
+                filter: brightness(1.2);
+            }
+        }
 
-            @keyframes changePosition {
-                from { top: 5%; }
-                to { top: 40%; }
+        @media (hover: hover) {
+            &:hover>figcaption {
+                top: 40%;
+                animation: changePosition 0.4s ease-in-out alternate;
+                text-align: center;
+                padding: 2em 0;
+                height: fit-content;
+
+                @keyframes changePosition {
+                    from { top: 5%; }
+                    to { top: 40%; }
+                }
+            }
+        }
+
+        @media (hover: none) {
+            &:active>figcaption {
+                top: 40%;
+                animation: changePosition 0.4s ease-in-out alternate;
+                text-align: center;
+                padding: 2em 0;
+                height: fit-content;
+
+                @keyframes changePosition {
+                    from { top: 5%; }
+                    to { top: 40%; }
+                }
             }
         }
 
@@ -74,9 +100,33 @@
             font-size: 16px;
             font-weight: 800;
             word-spacing: 0.7em;
-            padding: 0.6em 0.5em;
             background-color: #00a857c4;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            @include media(1370px) {
+                font-size: 12px;
+            }
+
+            @include media(1030px) {
+                font-size: 10px;
+            }
+
+            @include media(830px) {
+                top: 10%;
+            }
+
+            @include media(680px) {
+                height: 20%;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            @include media(500px) {
+                height: 32%;
+            }
         }
     }
 </style>

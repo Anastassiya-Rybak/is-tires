@@ -162,8 +162,17 @@
             width: 12%;
         }
 
-        &:hover {
-            opacity: 0.9;
+        @media (hover: hover) {
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+
+        @media (hover: none) {
+            &:active {
+                opacity: 0.9;
+                padding: 10px;
+            }
         }
 
         &:active {

@@ -17,8 +17,8 @@
                 <h3>РАДИАЛЬНЫЕ И ДИАГОНАЛЬНЫЕ</h3>
                 <h2>КРУПНОГАБАРИТНЫЕ ШИНЫ</h2>
             </div>
-            <TheCategoryCard class="second-block__card" 
-                v-for="category in categories" :key="category" 
+            <TheCategoryCard class="second-block__card"
+                v-for="(category, idx) in categories" :key="idx" 
                 :categoryName="category" />
             <nuxt-link class="second-block__link" to="/catalog">ПЕРЕЙТИ К ПОЛНОМУ ПЕРЕЧНЮ ТОВАРОВ</nuxt-link>
         </section>
@@ -172,16 +172,37 @@
         align-items: center;
         padding: 5vh 0;
 
+        @include media(680px) {
+            row-gap: 1vh;
+            justify-content: space-between;
+        }
+
         &__text {
             width: 59%;
             display: flex;
             flex-direction: column;
+
+            @include media(680px) {
+                width: 49%;
+            }
 
             span {
                 color: $main-light;
                 font-size: 38px;
                 letter-spacing: 0.08em;
                 line-height: 2.5em;
+
+                @include media(1370px) {
+                    font-size: 32px;
+                }
+
+                @include media(1240px) {
+                    font-size: 26px;
+                }
+
+                @include media(1030px) {
+                    font-size: 20px;
+                }
             }
 
             h3,
@@ -189,6 +210,18 @@
                 font-size: 42px;
                 letter-spacing: 0.08em;
                 line-height: 1.5em;
+
+                @include media(1370px) {
+                    font-size: 36px;
+                }
+
+                @include media(1240px) {
+                    font-size: 30px;
+                }
+
+                @include media(1030px) {
+                    font-size: 24px;
+                }
             }
 
             h3 {
@@ -204,6 +237,19 @@
         &__card {
             width: 19%;
             height: 45vh;
+
+            @include media(1370px) {
+                height: 35vh;
+            }
+
+            @include media(830px) {
+                height: 22vh;
+            }
+
+            @include media(680px) {
+                width: 49%;
+                height: 15vh;
+            }
         }
 
         &__link {
@@ -220,9 +266,54 @@
             opacity: 0.7;
             transition: all 0.3s ease;
 
-            &:hover {
+            @include media(1370px) {
+                height: 35vh;
+                font-size: 20px;
+            }
+
+            @include media(1240px) {
+                font-size: 14px;
+            }
+
+            @include media(1030px) {
+                font-size: 10px;
+            }
+
+            @include media(830px) {
                 opacity: 1;
-                font-size: 25px;
+                height: 22vh;
+            }
+
+            @include media(680px) {
+                height: 15vh;
+                width: 49%;
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    opacity: 1;
+                    font-size: 25px;
+                    -webkit-tap-highlight-color: transparent;
+
+                    @include media(1370px) {
+                        font-size: 22px;
+                    }
+
+                    @include media(1240px) {
+                        font-size: 16px;
+                    }
+
+                    @include media(1030px) {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+
+        &__text,
+        &__link {
+            @include media(500px) {
+                width: 100%;
             }
         }
     }
