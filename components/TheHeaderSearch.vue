@@ -1,7 +1,8 @@
 <template>
     <div class="header__search search">
         <input class="search__input" 
-            id="search-input" 
+            id="search-input"
+            ref="searchInput"
             type="search" 
             v-model="searchData"  
             placeholder="Введите товар/свойство"
@@ -18,13 +19,18 @@
 </template>
 
 <script setup>
-    import { ref, onBeforeUpdate } from 'vue';
+    import { ref, onBeforeUpdate, onMounted } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
 
     const searchStore = useSearchStore();
     const { inpData } = storeToRefs(searchStore);
     const searchData = ref(inpData);
+    const searchInput = ref(null);
+
+    onMounted(() => {
+        searchInput.value.focus();
+    })
 
     const goSearch = async () => {
         searchStore.editItem(searchData.value);

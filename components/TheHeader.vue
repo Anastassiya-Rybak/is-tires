@@ -13,8 +13,8 @@
                     <nuxt-link active-class="header__active-page" to="/contact" @click="getOut">КОНТАКТЫ</nuxt-link>
                 </li>
             </ul>
-            <LazyTheHeaderSearch v-show="searchOpen" />
-            <div v-show="!searchOpen" class="header__loop" @click="toggleVisible('searchOpen')" >
+            <LazyTheHeaderSearch v-if="searchOpen" />
+            <div v-else class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
             <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')" />
