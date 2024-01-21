@@ -1,16 +1,16 @@
 <template>
     <header class="header ">
         <nav class="header__nav container">
-            <nuxt-link to="/" class="header__logo" @click="reset">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link to="/" class="header__logo" @click="$emit('reset'), closeSearch">ИСКРА СЕРВИС</nuxt-link>
             <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/" @click="reset">ГЛАВНАЯ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/" @click="$emit('reset'), closeSearch">ГЛАВНАЯ</nuxt-link>
                 </li>
                 <li>
                     <nuxt-link active-class="header__active-page" to="/catalog">КАТАЛОГ</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/contact" @click="reset">КОНТАКТЫ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/contact" @click="$emit('reset'), closeSearch">КОНТАКТЫ</nuxt-link>
                 </li>
             </ul>
             <LazyTheHeaderSearch v-show="searchOpen" />
@@ -24,24 +24,18 @@
 
 <script setup>
     import { ref } from 'vue';
-    import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
-    import { useFilterStore } from '~/stores/filter';
 
     const searchOpen = ref(false);
-    const filterStore = useFilterStore();
 
     const searchStore = useSearchStore();
-    const { inpData } = storeToRefs(searchStore);
 
     onBeforeMount(() => {
         searchStore.restoreState();
     });
 
-    const reset = () => {
+    const closeSearch = () => {
         searchOpen.value = false;
-        searchStore.editItem('');
-        filterStore.resetFilter();
     };
 
     const toggleVisible = (item) => {

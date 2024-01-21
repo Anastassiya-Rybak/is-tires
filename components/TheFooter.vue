@@ -26,7 +26,7 @@
             </div>
             <div class="footer__btns">
                 <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')"/>
-                <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
+                <nuxt-link to="/catalog" @click="$emit('reset')">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
             </div>
         </div>
     </footer>
