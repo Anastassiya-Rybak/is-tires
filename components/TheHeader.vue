@@ -1,16 +1,16 @@
 <template>
     <header class="header ">
         <nav class="header__nav container">
-            <nuxt-link to="/" class="header__logo" @click="$emit('reset'), closeSearch">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link to="/" class="header__logo" @click="getOut">ИСКРА СЕРВИС</nuxt-link>
             <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/" @click="$emit('reset'), closeSearch">ГЛАВНАЯ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/" @click="getOut">ГЛАВНАЯ</nuxt-link>
                 </li>
                 <li>
                     <nuxt-link active-class="header__active-page" to="/catalog">КАТАЛОГ</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/contact" @click="$emit('reset'), closeSearch">КОНТАКТЫ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" to="/contact" @click="getOut">КОНТАКТЫ</nuxt-link>
                 </li>
             </ul>
             <LazyTheHeaderSearch v-show="searchOpen" />
@@ -34,8 +34,11 @@
         searchStore.restoreState();
     });
 
-    const closeSearch = () => {
+    const emit = defineEmits('reset');
+
+    const getOut = () => {
         searchOpen.value = false;
+        emit('reset');
     };
 
     const toggleVisible = (item) => {

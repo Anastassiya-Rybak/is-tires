@@ -49,8 +49,10 @@
         modalFrom.value = n;
     };
 
-    const reset = () => {
-        searchOpen.value = false;
+    const searchStore = useSearchStore();
+    const filterStore = useFilterStore();
+
+    const reset = async() => {
         searchStore.editItem('');
         filterStore.resetFilter();
     };
