@@ -1,9 +1,9 @@
 <template>
     <article class="product-card">
         <figure class="product-card__img">
-            <img :src="image" :alt="productName">
+            <img :src="image" :alt="productData.name">
         </figure>
-        <h3>{{ productName }}</h3>
+        <h3>{{ productData.name }}</h3>
         <p>{{ productDescription }}</p>
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
@@ -17,15 +17,10 @@
     import { ref, computed } from 'vue';
     
     const props = defineProps({
-        productName: {
-            type: String,
+        productData: {
+            type: Object,
             required: true,
-            default: ""
-        },
-        desc: {
-            type: String,
-            required: true,
-            default: ''
+            default: {}
         },
         noSlide: {
             type: Boolean,
@@ -33,8 +28,8 @@
         }
     })
 
-    const link = `/catalog/${props.productName}`;
-    const image = `/tyres/${props.productName}.webp`;
+    const link = `/catalog/${props.productData.id}`;
+    const image = `/tyres/${props.productData.id}.webp`;
     const visible = ref(false);
     const modalFrom = ref('');
 
@@ -44,7 +39,8 @@
     }
 
     const productDescription = computed(() => {
-        return props.desc.length <= 55 ? props.desc : props.desc.slice(0, 56) + ' ...';
+        const desc = props.productData.desc;
+        return desc[0].length <= 55 ? desc[0] : desc[0].slice(0, 56) + ' ...';
     })
 </script>
 

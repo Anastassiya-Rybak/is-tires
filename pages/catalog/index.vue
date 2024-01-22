@@ -18,14 +18,14 @@
         <ClientOnly class="catalog__content">
             <div class="catalog__product-cards container" v-if="hasTriage">
                 <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
-                :productName="product.name" :desc="product.desc[0]" />
+                :productData="product" />
             </div>
             <div class="catalog__product-cards container" v-else-if="notany">
                 <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
             </div>
             <div class="catalog__product-cards container" v-else>
                 <ProductCard class="catalog__product-card" v-for="product in productsSort" :key="product"
-                :productName="product.name" :desc="product.desc[0]" />
+                :productData="product" />
             </div>
         </ClientOnly>
     </section>
@@ -107,6 +107,7 @@
                     let result = Object.values(obj).flat();
 
                     result.forEach((el, idx) => {
+                        if (idx === 0) result = result.with(0, "");
                         if (Object.hasOwn(el, "size")) {
                             result = result.with(idx, Object.values(el));
                         }
@@ -116,7 +117,7 @@
 
                 this.products.forEach((product) => {
                     const fullInOne = openObjects(product).flat();
-                    if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) this.productsSort.push(product);
+                    if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) { this.productsSort.push(product); }
                 })
             },
             sortBeforePageLoad() {
@@ -148,15 +149,15 @@
             getFilter() {
                 this.productsSort = [];
                 this.notany = false;
+                const currentParameters = `${this.selectedRd ? this.selectedRd : 'null'}+${this.selectedType ? this.selectedType : 'null'}+${this.selectedIdx ? this.selectedIdx : 'null'}+${this.selectedTube ? this.selectedTube : 'null'}`;
                 let needsArr = [];
                 const updatedQuery = { ...this.$route.query };
-                if (updatedQuery.type !== 'filter') { // Если параметры фильтрации еще не записаны в query, то надо их записать.
+                if ( updatedQuery.sort !== currentParameters ) { // Если параметры фильтрации еще не записаны в query, то надо их записать.
                     updatedQuery.type = 'filter';
-                    updatedQuery.sort = `${this.selectedRd ? this.selectedRd : 'null'}+${this.selectedType ? this.selectedType : 'null'}+${this.selectedIdx ? this.selectedIdx : 'null'}+${this.selectedTube ? this.selectedTube : 'null'}`;
-                    needsArr = [this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube].filter((n) => n !== '');
-                } else { // Если параметры есть, то берем их оттуда.
-                    needsArr = updatedQuery.sort.split('+').filter((n) => n !== 'null');
+                    updatedQuery.sort = currentParameters;
                 }
+                needsArr = currentParameters.split('+').filter((n) => n !== 'null');
+                
                 if (needsArr.length !== 0) { // Если критерии фильтрации присутствуют, то фильтруем.
                     for (let i = 0; i < needsArr.length; i++) {
                         this.toSortOfProducts(needsArr[i]); 
@@ -184,153 +185,6 @@
             }
         },
     }
-
-
-
-    // ПОПЫТКА НАПИСАНИЯ НА COMPOSITION API
-
-    // import JSON from '~/server/bd.json';
-    // import { ref, onBeforeMount } from 'vue';
-    // import { storeToRefs } from 'pinia';
-    // import { useSearchStore } from '~/stores/search';
-
-    // const selects = [
-    //     {
-    //         name: "rd",
-    //         selectedLet: "selectedRd",
-    //         value: "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ",
-    //         options: ["РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
-    //     },
-    //     {
-    //         name: "type",
-    //         selectedLet: "selectedType",
-    //         value: "ПРИМЕНИМОСТЬ",
-    //         options: ["САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
-    //     },
-    //     {
-    //         name: "idx",
-    //         selectedLet: "selectedIdx",
-    //         value: "ПРОЧНОСТЬ КАРКАСА",
-    //         options: ["★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
-    //     },
-    //     {
-    //         name: "tube",
-    //         selectedLet: "selectedTube",
-    //         value: "КАМЕРА",
-    //         options: ["TT", "TL"]
-    //     }
-    // ]
-
-    // const products = JSON.products;
-    // const productsSort = ref([]);
-    // const filterOn = ref(false);
-    // const notany = ref(false);
-
-    // const searchStore = useSearchStore();
-    // // const { inpData } = storeToRefs(searchStore);
-    // const inpData = searchStore.inpData;
-
-    // onBeforeMount(() => {
-    //     searchStore.restoreState();
-    //     sortBeforePageLoad();
-    // })
-
-    // const sortBeforePageLoad = () => {
-
-    //     if (inpData){
-    //         console.log(inpData);
-    //         productsSort.value = [];
-    //         notany.value = false;
-    //         products.forEach((product) => {
-    //             let yes = false;
-    //             for (let productValue of Object.values(product)) {
-    //                 if (typeof productValue === 'string' && productValue.toLowerCase().includes(inpData.toLowerCase())) {
-    //                     yes = true;
-    //                 } else if (Array.isArray(productValue)) {
-    //                     productValue.forEach((productValueItem) => {
-    //                         if (typeof productValueItem === 'string' && productValueItem.toLowerCase().includes(inpData.toLowerCase())) {
-    //                             yes = true;
-    //                         }
-    //                         for( let i of Object.values(productValueItem)) {
-    //                             if (i.toLowerCase().includes(inpData.toLowerCase())) {
-    //                                 yes = true;
-    //                             }
-    //                         }
-    //                     })
-    //                 }
-    //             }
-    //             if (yes) productsSort.value.push(product);
-    //         })
-    //         if (productsSort.value.length === 0) notany.value = true;
-    //         $route.query.param = '';
-    //     }
-    // }
-    // const toggleFilter = () => {
-    //     filterOn.value = !filterOn.value;
-    // }
-    // const reset = () => {
-    //     const selects = document.querySelectorAll('select');
-    //     for (let i = 0; i < selects.length; i++) {
-    //         selects[i].selectedIndex = 0;
-    //     }
-    // }
-    // const getFilter = () => {
-    //     const selects = document.querySelectorAll('select');
-    //     productsSort.value = [];
-    //     notany.value = false;
-
-    //     const needs = {
-    //         "rd": '',
-    //         "type": '',
-    //         "idx_frame": '',
-    //         "tube": ''
-    //     }
-    //     for (let i = 0; i < selects.length; i++) {
-    //         const value = selects[i].options[selects[i].selectedIndex].value;
-    //         switch (i) {
-    //             case 0:
-    //                 if ( selects[i].selectedIndex !== 0 ) needs.rd = value;
-    //                 break;
-    //             case 1:
-    //                 if ( selects[i].selectedIndex !== 0 ) needs.type = value;
-    //                 break;
-    //             case 2:
-    //                 if ( selects[i].selectedIndex !== 0 ) needs.idx_frame = value;
-    //                 break;
-    //             case 3:
-    //                 if ( selects[i].selectedIndex !== 0 ) needs.tube = value;
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    //     const needsArr = Object.values(needs).filter((n) => n !== '');
-    //     if (needsArr.length !== 0) {
-    //         products.forEach((product) => {
-    //             let have = Object.values(product);
-    //             if (product.var) {
-    //                 product.var.forEach((productVar) => {
-    //                     const varframes = productVar.idx_frame.split(",");
-    //                     have = have.concat(varframes);
-    //                     have = have.concat(Object.values(productVar));
-    //                 })
-    //             }
-    //             if (product.idx_frame) {
-    //                 const frames = product.idx_frame.split(",");
-    //                 have = have.concat(frames);
-    //             }
-    //             if (needsArr.every(i => have.includes(i))) {
-    //                 productsSort.value.push(product);
-    //             }
-    //         })
-    //         if (productsSort.value.length === 0) notany.value = true;
-    //     }
-    // }
-
-    // const getApply =  () => {
-    //     openFilter();
-    //     getFilter();
-    // }
 </script>
 
 <style lang="scss" scoped>

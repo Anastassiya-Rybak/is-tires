@@ -5,20 +5,20 @@
         </div>
         <div class="product-page container">
             <div class="product-page__img">
-                <img :src='image' :alt="name">
+                <img :src='image' :alt="product.name">
             </div>
             <div class="product-page__text">
                 <div class="product-page__name">
-                    <h2>{{ name }}</h2>
+                    <h2>{{ product.name }}</h2>
                     <ClientOnly>
-                        <span>{{ productInfo.class }}</span>
+                        <span>{{ product.class }}</span>
                     </ClientOnly>
                 </div>
                 <ClientOnly>
-                    <span class="product-page__type" v-show="productInfo.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  {{ productInfo.type }}</span>
-                    <span class="product-page__type" v-show="productInfo.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  {{ productInfo.type }}</span>
-                    <div v-show="productInfo.desc" class="product-page__description">
-                        <ol v-for="n in productInfo.desc" :key="n">
+                    <span class="product-page__type" v-show="product.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  {{ product.type }}</span>
+                    <span class="product-page__type" v-show="product.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  {{ product.type }}</span>
+                    <div v-show="product.desc" class="product-page__description">
+                        <ol v-for="n in product.desc" :key="n">
                             <li>{{ n }}</li>
                         </ol>
                     </div>
@@ -34,8 +34,8 @@
                                 <th>LI/SS</th>
                             </tr>
                         </thead>
-                        <tbody v-if="productInfo.var">
-                            <tr v-for="v in productInfo.var" :key="v">
+                        <tbody v-if="product.var">
+                            <tr v-for="v in product.var" :key="v">
                                 <td>{{ v.size }}</td>
                                 <td>{{ v.idx_frame }}</td>
                                 <td>{{ v.tube }}</td>
@@ -44,10 +44,10 @@
                         </tbody>
                         <tbody v-else>
                             <tr>
-                                <td>{{ productInfo.size }}</td>
-                                <td>{{ productInfo.idx_frame }}</td>
-                                <td>{{ productInfo.tube }}</td>
-                                <td>{{ productInfo.li_ss }}</td>
+                                <td>{{ product.size }}</td>
+                                <td>{{ product.idx_frame }}</td>
+                                <td>{{ product.tube }}</td>
+                                <td>{{ product.li_ss }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,26 +60,13 @@
 </template>
 
 <script setup>
-    import { ref, onBeforeMount } from 'vue';
+    import { ref } from 'vue';
     import JSON from '~/server/bd.json'
 
-    const { name } = useRoute().params;
-    const image = `/tyres/${name}.webp`;
+    const { id } = useRoute().params;
+    const image = `/tyres/${id}.webp`;
     const visible = ref(false);
-    const products = JSON.products;
-    const productInfo = ref({});
-
-    onBeforeMount(() => {
-        findCurrentProduct();
-    })
-
-    const findCurrentProduct = () => {
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].name === name) {
-                productInfo.value = products[i];
-            }
-        }
-    }
+    const product = JSON.products[id-1];
 
     const visibleModal = () => {
         visible.value = !visible.value;

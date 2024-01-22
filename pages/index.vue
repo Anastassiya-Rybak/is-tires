@@ -41,7 +41,7 @@
                 }">
                     <SwiperSlide
                     v-for="product in products.slice(0, 6)" :key="product">
-                        <ProductCard class="therd-block__card" :productName="product.name" :desc="product.desc[0]" :noSlide="false"/>
+                        <ProductCard class="therd-block__card" :productData="product" :noSlide="false"/>
                     </SwiperSlide>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
