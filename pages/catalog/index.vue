@@ -103,28 +103,23 @@
                 location.reload();
             },
             sortBeforePageLoad() {
-                if (this.searchItem){
-                    this.productsSort = [];
-                    this.notany = false;
-                    this.products.forEach((product) => {
-                        let yes = false;
-                        for (let productValue of Object.values(product)) {
-                            if (typeof productValue === 'string' && productValue.toLowerCase().includes(this.searchItem.toLowerCase())) {
-                                yes = true;
-                            } else if (Array.isArray(productValue)) {
-                                productValue.forEach((productValueItem) => {
-                                    if (typeof productValueItem === 'string' && productValueItem.toLowerCase().includes(this.searchItem.toLowerCase())) {
-                                        yes = true;
-                                    }
-                                    for( let i of Object.values(productValueItem)) {
-                                        if (i.toLowerCase().includes(this.searchItem.toLowerCase())) {
-                                            yes = true;
-                                        }
-                                    }
-                                })
-                            }
+                const openObjects = (obj) => {
+                    let result = Object.values(obj).flat();
+
+                    result.forEach((el, idx) => {
+                        if (Object.hasOwn(el, "size")) {
+                            result = result.with(idx, Object.values(el));
                         }
-                        if (yes) this.productsSort.push(product);
+                    })
+                    return result;
+                }
+
+                if (this.searchItem) {
+                    this.productsSort=[];
+                    this.notany=false;
+                    this.products.forEach((product) => {
+                        const fullInOne = openObjects(product).flat();
+                        if (fullInOne.some(n => n.toLowerCase().includes(this.searchItem.toLowerCase()))) this.productsSort.push(product);
                     })
                     if (this.productsSort.length === 0) this.notany = true;
                 }
