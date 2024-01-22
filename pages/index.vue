@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="frst-block-wrap">
-            <div class="first-block container">
+            <div class="first-block">
                 <h1>ИСКРА СЕРВИС</h1>
                 <p>Высококачественные шины позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
                 <div class="first-block__btns">
@@ -80,62 +80,68 @@
     }
 
     .first-block{
+        width: 43%;
+        margin: 0 5%;
+
+        @include media(920px) {
+            width: 55%;
+        }
+
+        @include media(690px) {
+            width: 90%;
+            margin: 0 auto;
+        }
+
         h1 {
-            font-size: 64px;
+            font-size: 390%;
             letter-spacing: 0.08em;
 
-            @include media(600px) {
-                font-size: 48px;
+            @include media(1240px) {
+                font-size: 5.1vw;
             }
 
-            @include media(445px) {
-                font-size: 36px;
+            @include media(690px) {
+                font-size: 8vw;
             }
         }
 
         p {
-            width: 43%;
             text-align: justify;
             font-size: 20px;
             line-height: 1.2em;
             letter-spacing: 2px;
             margin: 1.6em 0;
 
-            @include media(1000px) {
-                font-size: 16px;
-                text-align: justify;
+            @include media(1240px) {
+                font-size: 1.5vw;
             }
 
-            @include media(445px) {
-                font-size: 14px;
+            @include media(690px) {
+                font-size: 2.9vw;
             }
         }
 
         &__btns {
             display: flex;
-            gap: 3%;
-
-            @include media(600px) {
-                justify-content: space-between;
+            justify-content: space-between;
+            @include media(690px) {
+                flex-direction: column;
+                gap: 1vh;
             }
 
             button,
             a {
-                width: 20%;
+                width: 49%;
                 font-size: 14px;
 
                 @include media(1000px) {
-                    width: 35%;
+                    font-size: 1.2vw;
                 }
 
-                @include media(750px) {
-                    width: 45%;
+                @include media(690px) {
+                    font-size: 2.5vw;
+                    width: 100%;
                 }
-
-                @include media(445px) {
-                    font-size: 12px;
-                }
-
             }
 
             a {

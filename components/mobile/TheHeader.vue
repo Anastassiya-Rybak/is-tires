@@ -7,8 +7,6 @@
                     <hr><hr><hr>
                 </div>
             </div>
-            <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" 
-                @click="$emit('call')" />
         </nav>
         <LazyMobileTheHeaderMenu v-if="burgerOpen" 
             @close-menu="toggleVisible" />
@@ -57,24 +55,21 @@
         &__logo {
             font-size: 22px;
             width: 15%;
+
+            @include media(450px) {
+            }
         }
 
         &__burger {
             width: 5%;
             transition: all 0.4s;
-            margin-left: 40%;
 
             @include media(580px) {
                 width: 6%;
             }
 
             @include media(480px) {
-                margin-left: 35%;
                 width: 7%;
-            }
-
-            @include media(450px) {
-                margin-left: 30%;
             }
 
             div {
@@ -86,14 +81,6 @@
                 hr {
                     border: 1px solid $accent;
                 }
-            }
-        }
-
-        &__call-btn {
-            font-size: 14px;
-
-            @include media(580px) {
-                font-size: 12px;
             }
         }
     }

@@ -14,6 +14,8 @@
                 <nuxt-link active-class="active-page" to="/contact" @click="reset">КОНТАКТЫ</nuxt-link>
             </li>
         </ul>
+        <ButtonGreen class="menu-out__call-btn" text="ОБРАТНЫЙ ЗВОНОК" 
+            @click="$emit('call')" />
     </nav>
 </template>
 
@@ -97,6 +99,11 @@
                 bottom: 0;
                 background-color: $accent;
             }
+        }
+
+        &__call-btn {
+            margin-top: 20vh;
+            width: 60%;
         }
     }
 </style>
