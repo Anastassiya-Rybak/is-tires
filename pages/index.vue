@@ -80,8 +80,14 @@
     }
 
     .first-block{
-        width: 43%;
-        margin: 0 5%;
+        width: 90%;
+        max-width: 1440px;
+        margin: 0 auto;
+
+        @include media (1440px) {
+            width: 43%;
+            margin: 0 5%;
+        }
 
         @include media(920px) {
             width: 55%;
@@ -111,6 +117,11 @@
             line-height: 1.2em;
             letter-spacing: 2px;
             margin: 1.6em 0;
+            width: 43%;
+
+            @include media (1440px) {
+                width: 100%;
+            }
 
             @include media(1240px) {
                 font-size: 1.5vw;
@@ -124,6 +135,12 @@
         &__btns {
             display: flex;
             justify-content: space-between;
+            width: 43%;
+
+            @include media (1440px) {
+                width: 100%;
+            }
+
             @include media(690px) {
                 flex-direction: column;
                 gap: 1vh;
