@@ -89,7 +89,7 @@
             }
         },
         beforeMount() {
-            this.$route.query.type === 'search' ? this.sortBeforePageLoad() : this.getFilter(1);
+            this.$route.query.type === 'search' ? this.sortBeforePageLoad() : this.getFilter();
             this.checkSelects();
         },
         methods: {
@@ -102,7 +102,7 @@
                 });
                 location.reload();
             },
-            sortBeforePageLoad() {
+            toSortOfProducts(item){
                 const openObjects = (obj) => {
                     let result = Object.values(obj).flat();
 
@@ -114,19 +114,22 @@
                     return result;
                 }
 
+                this.products.forEach((product) => {
+                    const fullInOne = openObjects(product).flat();
+                    if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) this.productsSort.push(product);
+                })
+            },
+            sortBeforePageLoad() {
                 if (this.searchItem) {
                     this.productsSort=[];
                     this.notany=false;
-                    this.products.forEach((product) => {
-                        const fullInOne = openObjects(product).flat();
-                        if (fullInOne.some(n => n.toLowerCase().includes(this.searchItem.toLowerCase()))) this.productsSort.push(product);
-                    })
+                    this.toSortOfProducts(this.searchItem);
                     if (this.productsSort.length === 0) this.notany = true;
                 }
             },
             getApply (){
                 this.toggleFilter();
-                this.getFilter(0);
+                this.getFilter();
             },
             resetFilter(){
                 this.reset();
@@ -142,36 +145,22 @@
                 }
                 this.filterStore.resetFilter();
             },
-            getFilter(w) {
+            getFilter() {
                 this.productsSort = [];
                 this.notany = false;
                 let needsArr = [];
                 const updatedQuery = { ...this.$route.query };
-                if (updatedQuery.type !== 'filter' || w === 0) {
+                if (updatedQuery.type !== 'filter') { // Если параметры фильтрации еще не записаны в query, то надо их записать.
                     updatedQuery.type = 'filter';
                     updatedQuery.sort = `${this.selectedRd ? this.selectedRd : 'null'}+${this.selectedType ? this.selectedType : 'null'}+${this.selectedIdx ? this.selectedIdx : 'null'}+${this.selectedTube ? this.selectedTube : 'null'}`;
                     needsArr = [this.selectedRd, this.selectedType, this.selectedIdx, this.selectedTube].filter((n) => n !== '');
-                } else if (updatedQuery.type === 'filter') {
+                } else { // Если параметры есть, то берем их оттуда.
                     needsArr = updatedQuery.sort.split('+').filter((n) => n !== 'null');
                 }
-                if (needsArr.length !== 0) {
-                    this.products.forEach((product) => {
-                        let have = Object.values(product);
-                        if (product.var) {
-                            product.var.forEach((productVar) => {
-                                const varframes = productVar.idx_frame.split(",");
-                                have = have.concat(varframes);
-                                have = have.concat(Object.values(productVar));
-                            })
-                        }
-                        if (product.idx_frame) {
-                            const frames = product.idx_frame.split(",");
-                            have = have.concat(frames);
-                        }
-                        if (needsArr.every(i => have.includes(i))) {
-                            this.productsSort.push(product);
-                        }
-                    })
+                if (needsArr.length !== 0) { // Если критерии фильтрации присутствуют, то фильтруем.
+                    for (let i = 0; i < needsArr.length; i++) {
+                        this.toSortOfProducts(needsArr[i]); 
+                    }
                     if (this.productsSort.length === 0) this.notany = true;
                     this.$router.push({ query: updatedQuery });
                 } else { this.$router.push({ query: '' }); }
