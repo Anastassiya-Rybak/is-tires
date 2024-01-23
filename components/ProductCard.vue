@@ -42,6 +42,13 @@
         const desc = props.productData.desc;
         return desc[0].length <= 55 ? desc[0] : desc[0].slice(0, 56) + ' ...';
     })
+
+    const openMore = (async () =>{
+        await navigateTo({
+            path: link,
+            query: false
+        });
+    })
 </script>
 
 <style lang="scss">
@@ -57,6 +64,10 @@
         border: 1px solid rgba(155, 155, 155, 0.1);
         box-shadow: 0px 10px 8px 0px rgba(197, 197, 197, 0.11);
         cursor: pointer;
+
+        &:hover {
+            background-color: #ffffff;
+        }
 
         &:hover>.product-card__img {
             transform: scale(1.3);
@@ -130,6 +141,7 @@
 
             @include media(550px) {
                 margin: 0 auto 10px;
+                height: 20px;
             }
 
             &::after {
@@ -150,7 +162,7 @@
             justify-content: space-between;
 
             @include media(710px) {
-                flex-wrap: wrap;
+                flex-direction: column-reverse;
                 gap: 7px;
             }
 
