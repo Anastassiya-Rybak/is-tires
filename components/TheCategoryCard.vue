@@ -57,15 +57,15 @@
 
         @media (hover: hover) {
             &:hover>figcaption {
-                top: 40%;
+                top: 0;
                 animation: changePosition 0.4s ease-in-out alternate;
                 text-align: center;
                 padding: 2em 0;
-                height: fit-content;
+                height: 100%;
 
                 @keyframes changePosition {
                     from { top: 5%; }
-                    to { top: 40%; }
+                    to { top: 0; }
                 }
             }
         }

@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    pageTransition: {
+      name: 'test',
+      mode: 'out-in'
+    }
+  },
   alias: {
     pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
   },
@@ -39,20 +45,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  // nitro: {
-  //   devProxy: {
-  //     "/proxy/test": "http://localhost:3000",
-  //   },
-  //   proxy: {
-  //     '/api/': 'https://us8.api.mailchimp.com/3.0',
-  //   },  
-  // },
-  // router: {
-  //   middleware: 'saveState'
-  // },
-  // plugins: [
-  //     { src: '~/plugins/pinia.js' }
-  //   ],
   build: {
     transpile: ['swiper'],
   },

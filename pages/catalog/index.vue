@@ -2,7 +2,7 @@
     <section class="catalog">
         <div class="catalog__filter-wrap container">
             <ButtonGreen text="ФИЛЬТРАЦИЯ" class="catalog__filter-btn" @click="toggleFilter"/>
-            <ButtonGreen text="СБРОС ПОИСКА" class="catalog__cancel-btn" v-show="showCancelBtn" @click="resetSearch"/>
+            <button class="catalog__cancel-btn" v-show="showCancelBtn" @click.prevent="resetSearch">СБРОС ПОИСКА</button>
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
@@ -10,9 +10,9 @@
                     :selectData="select"/>
                 </div>
                 <div class="catalog__filter-btns">
-                    <ButtonGreen text="ПРИМЕНИТЬ" @click="getApply"/>
-                    <ButtonGreen text="СБРОСИТЬ ВСЕ" @click="reset"/>
-                </div>
+                    <ButtonGreen class="catalog__apply-btn" text="ПРИМЕНИТЬ" @click="getApply"/>
+                    <button class="catalog__cancel-btn" @click.prevent="reset">СБРОСИТЬ ПАРАМЕТРЫ</button>
+                </div> 
             </div>
         </div>
         <ClientOnly class="catalog__content">
@@ -228,8 +228,7 @@
             padding: 7vh 0 3vh;
         }
 
-        &__filter-btn,
-        &__cancel-btn {
+        &__filter-btn {
             font-size: 20px;
             font-weight: 900;
             padding: 0.5em 1em;
@@ -249,7 +248,18 @@
 
         &__cancel-btn {
             margin-left: 2vw;
-            background-color: $main-dark;
+            color: $main-dark;
+            font-size: 20px;
+            font-weight: 900;
+            padding: 0.5em 1em;
+            border: 0.1px solid $main-dark; 
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+
+            @include hover(){
+                opacity: 0.7;
+            }
         }
 
         &__selects {
@@ -267,7 +277,6 @@
 
         &__filter-btns {
             display: flex;
-            gap: 20px;
 
             button {
                 padding: 0.7em;
@@ -275,10 +284,6 @@
 
                 @include media(1100px) {
                     font-size: 12px;
-                }
-
-                &:last-child {
-                    background-color: $main-dark;
                 }
             }
         }

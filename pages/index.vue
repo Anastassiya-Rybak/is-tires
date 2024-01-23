@@ -33,7 +33,7 @@
                 :preventClicks = true
                 :autoplay="{
                     delay: 5000,
-                    disableOnInteraction: false,
+                    disableOnInteraction: true,
                 }"
                 :navigation="{
                     nextEl: '.swiper-button-next',
@@ -43,8 +43,6 @@
                     v-for="product in products.slice(0, 6)" :key="product">
                         <ProductCard class="therd-block__card" :productData="product" :noSlide="false"/>
                     </SwiperSlide>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
                 </Swiper>
             </div>
         </section>
@@ -70,6 +68,9 @@
 </script>
 
 <style lang="scss">
+    .swiper {
+        overflow-y: visible;
+    }
     .frst-block-wrap {
         background-image: url(./../assets/back/1block.png);
         background-position: center;

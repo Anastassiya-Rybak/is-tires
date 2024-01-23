@@ -1,10 +1,10 @@
 <template>
-    <article class="product-card">
+    <article class="product-card" @click="openMore">
         <figure class="product-card__img">
             <img :src="image" :alt="productData.name">
         </figure>
         <h3>{{ productData.name }}</h3>
-        <p>{{ productDescription }}</p>
+        <p :class="{full: !noSlide}">{{ productDescription }}</p>
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
             <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
@@ -54,9 +54,14 @@
         padding: 20px 10px;
 
         border-radius: 20px;
-        border: 1px solid rgba(0, 0, 0, 0.10);
-        box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.11);
+        border: 1px solid rgba(155, 155, 155, 0.1);
+        box-shadow: 0px 10px 8px 0px rgba(197, 197, 197, 0.11);
+        cursor: pointer;
 
+        &:hover>.product-card__img {
+            transform: scale(1.3);
+        }
+        
         @include media(1240px) {
             padding: 0 10px 10px;
         }
@@ -65,6 +70,7 @@
             height: 270px;
             width: 90%;
             overflow: hidden;
+            transition: all 0.4s ease;
 
             @include media(1300px) {
                 max-height: 220px;
@@ -153,9 +159,9 @@
             }
 
             button {
-                padding: 0.6em 0;
-                font-size: 16px;
-                width: calc(50% - 5px);
+                padding: 0.7em 0.1em;
+                font-size: 14px;
+                width: calc(55% - 5px);
 
                 @include media(1280px) {
                     font-size: 12px;
@@ -176,21 +182,22 @@
         }
 
         &__more {
-            width: calc(50% - 5px);
-            padding: 0.8em 0;
-            background-color: rgb(19, 19, 19);
+            width: calc(45% - 5px);
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             cursor: pointer;
-            color: $main-light;
+            color: $main-dark;
             font-size: 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.089);
+            letter-spacing: 0.1em;
             text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
             transition: 0.3s;
-            box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
+
+            @include hover(){
+                opacity: 0.8;
+                transform: scale(1.01);
+            }
 
             @include media(1280px) {
                 font-size: 12px;
@@ -216,7 +223,13 @@
         }
 
         .full {
-            width: 100% !important;
+            width: 90% !important;
+            text-align: center;
+            margin: 1vh auto;
+
+            &::after {
+                display: none;
+            }
         }
     }
 </style>
