@@ -108,21 +108,20 @@
                 });
                 location.reload();
             },
+            openObjects(obj){
+                let result = Object.values(obj).flat();
+
+                result.forEach((el, idx) => {
+                    if (idx === 0) result = result.with(0, "");
+                    if (Object.hasOwn(el, "size")) {
+                        result = result.with(idx, Object.values(el));
+                    }
+                })
+                return result;
+            },
             toSortOfProducts(item){
-                const openObjects = (obj) => {
-                    let result = Object.values(obj).flat();
-
-                    result.forEach((el, idx) => {
-                        if (idx === 0) result = result.with(0, "");
-                        if (Object.hasOwn(el, "size")) {
-                            result = result.with(idx, Object.values(el));
-                        }
-                    })
-                    return result;
-                }
-
                 this.products.forEach((product) => {
-                    const fullInOne = openObjects(product).flat();
+                    const fullInOne = this.openObjects(product).flat();
                     if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) { this.productsSort.push(product); }
                 })
             },
@@ -155,7 +154,7 @@
             getFilter() {
                 this.productsSort = [];
                 this.notany = false;
-                const currentParameters = `${this.selectedRd ? this.selectedRd : 'null'}+${this.selectedType ? this.selectedType : 'null'}+${this.selectedSize ? this.selectedSize : 'null'}+${this.selectedIdx ? this.selectedIdx : 'null'}+${this.selectedTube ? this.selectedTube : 'null'}`;
+                const currentParameters = `${(this.selectedRd && this.selectedRd !== "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ") ? this.selectedRd : 'null'}+${(this.selectedType && this.selectedType !== "ПРИМЕНИМОСТЬ") ? this.selectedType : 'null'}+${(this.selectedSize && this.selectedSize !== "РАЗМЕР") ? this.selectedSize : 'null'}+${(this.selectedIdx && this.selectedIdx !== "ПРОЧНОСТЬ КАРКАСА") ? this.selectedIdx : 'null'}+${(this.selectedTube && this.selectedTube !== "КАМЕРА") ? this.selectedTube : 'null'}`;
                 let needsArr = [];
                 const updatedQuery = { ...this.$route.query };
                 if ( updatedQuery.sort !== currentParameters ) { // Если параметры фильтрации еще не записаны в query, то надо их записать.
@@ -163,11 +162,34 @@
                     updatedQuery.sort = currentParameters;
                 }
                 needsArr = currentParameters.split('+').filter((n) => n !== 'null');
-                
-                if (needsArr.length !== 0) { // Если критерии фильтрации присутствуют, то фильтруем.
-                    for (let i = 0; i < needsArr.length; i++) {
-                        this.toSortOfProducts(needsArr[i]); 
+
+                const toFilterOfProducts = (arr) => { // Выясняем соответсвуют ли эти продукты и всем остальным параметрам запроса.
+                    const resultArr = [];
+                    for (let i = 1; i < needsArr.length; i++) {
+                        arr.forEach((product) => {
+                            const fullInOne = this.openObjects(product).flat();
+                            if (fullInOne.some(n => n.toLowerCase().includes(needsArr[i].toLowerCase()))) { resultArr.push(product); }
+                        })
+                        if (resultArr.length === 0) {
+                            return [resultArr, true];
+                        } else if (needsArr.length >= 2) { 
+                            needsArr.shift();
+                            toFilterOfProducts(resultArr);
+                        }
                     }
+                    return [resultArr, false]
+                }
+                
+                if (needsArr.length !== 0 && needsArr.length >= 2) { // Если критерии фильтрации присутствуют, то фильтруем.
+                    this.toSortOfProducts(needsArr[0]);
+                    if (this.productsSort.length !== 0) {
+                        let filterResult = toFilterOfProducts(this.productsSort)
+                        this.notany = filterResult[1];
+                        this.productsSort = filterResult[0];
+                    } else { this.notany = true; }
+                    this.$router.push({ query: updatedQuery });
+                } else if (needsArr.length === 1) {
+                    this.toSortOfProducts(needsArr[0]);
                     if (this.productsSort.length === 0) this.notany = true;
                     this.$router.push({ query: updatedQuery });
                 } else { this.$router.push({ query: '' }); }
