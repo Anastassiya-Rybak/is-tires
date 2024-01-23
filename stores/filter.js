@@ -3,6 +3,7 @@ export const useFilterStore = defineStore ("filter", {
     state: () => ({
         selectedRd: "",
         selectedType: "",
+        selectedSize: "",
         selectedIdx: "",
         selectedTube: ""
     }),
@@ -15,6 +16,9 @@ export const useFilterStore = defineStore ("filter", {
                     break;
                 case 'type':
                     this.selectedType = newData;
+                    break;
+                case 'size':
+                    this.selectedSize = newData;
                     break;
                 case 'idx':
                     this.selectedIdx = newData;
@@ -43,6 +47,7 @@ export const useFilterStore = defineStore ("filter", {
             this.editItem('tube', '');
             this.editItem('type', '');
             this.editItem('idx', '');
+            this.editItem('size', '');
         }
     }
 })
