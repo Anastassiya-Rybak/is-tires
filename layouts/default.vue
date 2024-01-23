@@ -1,7 +1,7 @@
 <template>
     <div>
-        <LazyMobileTheHeader v-if="showMobileVersion" @call="openModal('call')"/>
-        <LazyTheHeader v-else @call="openModal('call')" @reset="reset"/>
+        <LazyMobileTheHeader id="header" v-if="showMobileVersion" @call="openModal('call')"/>
+        <LazyTheHeader id="header" v-else @call="openModal('call')" @reset="reset"/>
         <LoadingItem v-show="loading"/>
         <main>
             <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
@@ -14,6 +14,9 @@
                     </div>
                 </div>
             </section>
+            <a href="#header" class="up">
+                <img src="~/assets/arrow-button-up.svg" alt="вверх">
+            </a>
         </main>
         <TheFooter @call="openModal('call')" @form="openModal('form')"
         @reset="reset"/>
@@ -118,6 +121,28 @@
     }
     @keyframes showModal {
         from { height: 0px; } to { height: 200px; }
+    }
+
+    .up {
+        position: fixed;
+        bottom: 7vh;
+        right: 7vw;
+
+        width: 5%;
+
+        background: none;
+        border: none;
+        z-index: 5;
+
+        opacity: 0.7;
+        transition: all 0.3s ease;
+
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+            filter: invert(1);
+        }
     }
 
 </style>
