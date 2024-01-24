@@ -4,6 +4,7 @@
             <div class="first-block">
                 <h1>ИСКРА СЕРВИС</h1>
                 <p>Высококачественные шины позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
+                <p>Поставляемые нами шины соответствуют официальным стандартам и требованиям сертификации по всему миру.</p>
                 <div class="first-block__btns">
                     <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
                     <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
@@ -118,7 +119,7 @@
             line-height: 1.2em;
             letter-spacing: 2px;
             margin: 1.6em 0;
-            width: 43%;
+            width: 47%;
 
             @include media (1440px) {
                 width: 100%;
@@ -136,7 +137,7 @@
         &__btns {
             display: flex;
             justify-content: space-between;
-            width: 43%;
+            width: 47%;
 
             @include media (1440px) {
                 width: 100%;
