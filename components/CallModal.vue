@@ -236,6 +236,7 @@
 
         .select-met {
             width: 30%;
+            background-size: 15px;
 
             @include media(1270px) {
                 width: 34%;

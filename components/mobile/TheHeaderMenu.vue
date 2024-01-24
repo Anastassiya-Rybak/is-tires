@@ -5,17 +5,18 @@
         </button>
         <ul class="menu-out__content" >
             <li>
-                <nuxt-link active-class="active-page" to="/" @click="reset">ГЛАВНАЯ</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/')" @click="reset">{{ $t("main_nav") }}</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" to="/catalog" @click="reset">КАТАЛОГ</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/catalog')" @click="reset">{{ $t("catalog_nav") }}</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" to="/contact" @click="reset">КОНТАКТЫ</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/contact')" @click="reset">{{ $t("contacts_nav") }}</nuxt-link>
             </li>
         </ul>
-        <ButtonGreen class="menu-out__call-btn" text="ОБРАТНЫЙ ЗВОНОК" 
-            @click="$emit('call')" />
+        <MobileSelectLocal />
+        <ButtonGreen class="menu-out__call-btn" :text="$t('call_btn')" 
+            @click="$emit('tocall')" />
     </nav>
 </template>
 
@@ -24,10 +25,12 @@
     import { useSearchStore } from '~/stores/search';
     import { useFilterStore } from '~/stores/filter';
 
+    const localePath = useLocalePath();
+
     const filterStore = useFilterStore();
     const searchStore = useSearchStore();
 
-    const emit = defineEmits('close-menu');
+    const emit = defineEmits(['close-menu', 'tocall']);
 
     const reset = () => {
         searchStore.editItem('');
@@ -102,7 +105,7 @@
         }
 
         &__call-btn {
-            margin-top: 20vh;
+            margin-top: 2vh;
             width: 60%;
         }
     }

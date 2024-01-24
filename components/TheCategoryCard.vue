@@ -10,6 +10,8 @@
 
     const filterStore = useFilterStore();
 
+    const localePath = useLocalePath();
+
     const props = defineProps({
         categoryName: {
             type: String,
@@ -24,7 +26,7 @@
     const goForCategory = async () => {
         editFilter();
         await navigateTo({
-            path: '/catalog',
+            path: localePath('/catalog'),
             query: {
                 type: 'filter',
                 sort: `null+${props.categoryName}+null+null`

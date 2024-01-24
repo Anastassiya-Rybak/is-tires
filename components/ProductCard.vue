@@ -8,7 +8,7 @@
         <div class="product-card__btns">
             <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
             <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
-            <nuxt-link :to="link" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
+            <nuxt-link :to="localePath(link)" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
         </div>
     </article>
 </template>
@@ -28,6 +28,8 @@
         }
     })
 
+    const localePath = useLocalePath();
+
     const link = `/catalog/${props.productData.id}`;
     const image = `/tyres/${props.productData.id}.webp`;
     const visible = ref(false);
@@ -45,7 +47,7 @@
 
     const openMore = (async () =>{
         await navigateTo({
-            path: link,
+            path: localePath(link),
             query: false
         });
     })

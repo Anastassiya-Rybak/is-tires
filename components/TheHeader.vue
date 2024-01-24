@@ -1,23 +1,24 @@
 <template>
     <header class="header ">
         <nav class="header__nav container">
-            <nuxt-link to="/" class="header__logo" @click="getOut">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link :to="localePath('/')" class="header__logo" @click="getOut">{{ $t("home_title") }}</nuxt-link>
             <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/" @click="getOut">ГЛАВНАЯ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/')" @click="getOut">{{ $t("main_nav") }}</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/catalog">КАТАЛОГ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/catalog')">{{ $t("catalog_nav") }}</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" to="/contact" @click="getOut">КОНТАКТЫ</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/contact')" @click="getOut">{{ $t("contacts_nav") }}</nuxt-link>
                 </li>
             </ul>
             <LazyTheHeaderSearch v-if="searchOpen" />
             <div v-else class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
-            <ButtonGreen class="header__call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')" />
+            <ButtonGreen class="header__call-btn" :text="$t('call_btn')" @click="$emit('call')" />
+            <SelectLocal />
         </nav>
     </header>
 </template>
@@ -27,8 +28,9 @@
     import { useSearchStore } from '~/stores/search';
 
     const searchOpen = ref(false);
-
     const searchStore = useSearchStore();
+
+    const localePath = useLocalePath();
 
     onBeforeMount(() => {
         searchStore.restoreState();

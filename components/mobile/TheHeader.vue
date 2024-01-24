@@ -1,7 +1,7 @@
 <template>
-    <header class="header container">
+    <header class="header container" @tocall="$emit('call')">
         <nav class="header__nav">
-            <nuxt-link to="/" class="header__logo" @click="reset">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link :to="localePath('/')" class="header__logo" @click="reset">ИСКРА СЕРВИС</nuxt-link>
             <div class="header__burger burger-wrap" @click="toggleVisible">
                 <div class="burger">
                     <hr><hr><hr>
@@ -19,6 +19,8 @@
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
     import { useFilterStore } from '~/stores/filter';
+
+    const localePath = useLocalePath();
 
     const burgerOpen = ref(false);
     const filterStore = useFilterStore();

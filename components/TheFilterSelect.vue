@@ -1,5 +1,5 @@
 <template>
-    <select v-model="selectedValue" @change="editFilter">
+    <select class="filter-select-wrap" v-model="selectedValue" @change="editFilter">
         <option v-for="(option, idx) in selectData.options" :key="idx" :value="option">{{ option }}</option>
     </select>
 </template>
@@ -27,11 +27,12 @@
 </script>
 
 <style lang="scss" scoped>
-    select {
+    .filter-select-wrap {
         padding: 0.7em 2em 0.7em 0.7em;
         font-size: 14px;
         border-radius: 10px;
         border: 1px solid $accent;
+        background-size: 15px;
 
         @include media(1100px) {
             font-size: 12px;

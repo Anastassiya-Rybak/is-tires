@@ -24,22 +24,12 @@
         transition: 0.3s;
         box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
 
-        @media (hover: hover){
-            &:hover {
+        @include hover() {
                 filter: brightness(90%);
-            }
-        }
-
-        @media (hover: none){
-            &:active {
-                filter: brightness(90%);
-                transform: scale(0.98, 0.98);
-            }
         }
 
         &:active {
             transform: scale(0.98, 0.98);
         }
-
     }
 </style>

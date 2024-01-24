@@ -22,7 +22,37 @@ export default defineNuxtConfig({
       },
     ],
     'nuxt-swiper',
-    '@nuxt/image'
+    '@nuxt/image',
+    [
+     '@nuxtjs/i18n',
+      {
+        lazy: true,
+        langDir: "locales",
+        strategy: "prefix_except_default",
+        locales: [
+          {
+            code: "ru-RU",
+            iso: "ru-RU",
+            name: "Русский",
+            file: "ru-RU.json"
+          },
+          {
+            code: "kk-KZ",
+            iso: "kk-KZ",
+            name: "Қазақ",
+            file: "kk-KZ.json"
+          },
+          {
+            code: "en-US",
+            iso: "en-US",
+            name: "English",
+            file: "en-US.json"
+          }
+        ],
+        defaultLocale: "ru-RU"
+      },
+    ]
+  
   ],
   newsletter: {
     mailchimp: {

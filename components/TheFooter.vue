@@ -26,18 +26,21 @@
             </div>
             <div class="footer__btns">
                 <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')"/>
-                <nuxt-link to="/catalog" @click="goAndReset">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
+                <nuxt-link :to="link" @click="goAndReset">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
             </div>
         </div>
     </footer>
 </template>
 
 <script setup>
+    const localePath = useLocalePath();
+    const link = localePath('/catalog');
+
     const emit = defineEmits('reset');
     const goAndReset = async () => {
         emit('reset');
         await navigateTo({
-            path: '/catalog',
+            path: link,
             query: false
         });
         location.reload();

@@ -6,7 +6,7 @@
                 <p>Высококачественные шины позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
                 <p>Поставляемые нами шины соответствуют официальным стандартам и требованиям сертификации по всему миру.</p>
                 <div class="first-block__btns">
-                    <nuxt-link to="/catalog">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
+                    <nuxt-link :to="localePath('/catalog')">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
                     <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
                     <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
                 </div>
@@ -21,7 +21,7 @@
             <TheCategoryCard class="second-block__card"
                 v-for="(category, idx) in categories" :key="idx" 
                 :categoryName="category" />
-            <nuxt-link class="second-block__link" to="/catalog">ПЕРЕЙТИ К ПОЛНОМУ ПЕРЕЧНЮ ТОВАРОВ</nuxt-link>
+            <nuxt-link class="second-block__link" :to="localePath('/catalog')">ПЕРЕЙТИ К ПОЛНОМУ ПЕРЕЧНЮ ТОВАРОВ</nuxt-link>
         </section>
         <section class="therd-block-wrap">
             <div class="therd-block container">
@@ -55,6 +55,8 @@
     import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
     import { useMobileStore } from '~/stores/mobile';
+
+    const localePath = useLocalePath();
 
     const mobileStore = useMobileStore();
     const { mobile } = storeToRefs(mobileStore);
