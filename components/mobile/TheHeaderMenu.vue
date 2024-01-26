@@ -5,17 +5,17 @@
         </button>
         <ul class="menu-out__content" >
             <li>
-                <nuxt-link active-class="active-page" :to="localePath('/')" @click="reset">{{ $t("main_nav") }}</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/')" @click="reset">{{ $t("layout.header.nav.main") }}</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" :to="localePath('/catalog')" @click="reset">{{ $t("catalog_nav") }}</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/catalog')" @click="reset">{{ $t("layout.header.nav.catalog") }}</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="active-page" :to="localePath('/contact')" @click="reset">{{ $t("contacts_nav") }}</nuxt-link>
+                <nuxt-link active-class="active-page" :to="localePath('/contact')" @click="reset">{{ $t("layout.header.nav.contacts") }}</nuxt-link>
             </li>
         </ul>
         <MobileSelectLocal />
-        <ButtonGreen class="menu-out__call-btn" :text="$t('call_btn')" 
+        <ButtonGreen class="menu-out__call-btn" :text="$t('layout.header.call_btn')" 
             @click="$emit('tocall')" />
     </nav>
 </template>

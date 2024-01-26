@@ -1,7 +1,34 @@
 {
     "home_title": "ИСКРА СЕРВИС",
-    "main_nav": "ГЛАВНАЯ",
-    "catalog_nav": "КАТАЛОГ",
-    "contacts_nav": "КОНТАКТЫ",
-    "call_btn": "ОБРАТНЫЙ ЗВОНОК"
+    "layout": {
+        "header": {
+            "nav": {
+                "main": "ГЛАВНАЯ",
+                "catalog": "КАТАЛОГ",
+                "contacts": "КОНТАКТЫ"
+            },
+            "call_btn": "ОБРАТНЫЙ ЗВОНОК",
+            "search": {
+                "btn": "Поиск",
+                "placeholder": "Введите название товара / свойства"
+            }
+        },
+        "mailing": {
+            "title": "Узнавайте первыми о самых актуальных предложениях!"
+        },
+        "modal": {
+            "fill_the_form": "ЗАПОЛНИТЕ ФОРМУ",
+            "send_request": "ОТПРАВИТЬ ЗАПРОС",
+            "contact_me": "СВЯЖИТЕСЬ СО МНОЙ",
+            "close_btn": "Закрыть",
+            "call_placeholder": "Номер телефона",
+            "name_placeholder": "Как к Вам обращаться?",
+            "email_placeholder": "Эл. почта для связи",
+            "messege_placeholder": "Опишите суть запроса",
+            "method": "Способ связи"
+        },
+        "footer": {
+
+        }
+    }
 }

@@ -9,7 +9,7 @@
             <section class="mailing-wrap">
                 <div class="container">
                     <div class="mailing">
-                        <h3>Узнавайте первыми о самых актуальных предложениях!</h3>
+                        <h3>{{ $t("layout.mailing.title") }}</h3>
                         <mailing-form />
                     </div>
                 </div>

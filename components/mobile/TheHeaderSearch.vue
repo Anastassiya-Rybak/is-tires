@@ -4,7 +4,7 @@
             id="search-input" 
             type="search" 
             v-model="searchData"  
-            placeholder="Введите название товара / свойства"
+            :placeholder="$t('layout.header.search.placeholder')"
             autosave
             autocomplete="off"
             aria-expanded="true"
@@ -12,7 +12,7 @@
             @keyup.enter="goSearch"
         >
         <label for="search-input">
-            <button class="search__btn" @click.prevent="goSearch">Поиск</button>
+            <button class="search__btn" @click.prevent="goSearch">{{ $t("layout.header.search.btn") }}</button>
         </label>
     </div>
 </template>
@@ -26,12 +26,14 @@
     const { inpData } = storeToRefs(searchStore);
     const searchData = ref(inpData);
 
+    const localePath = useLocalePath();
+
     const goSearch = async () => {
         searchStore.editItem(searchData.value);
         searchStore.saveState();
         if (searchData.value !== '') {
             await navigateTo({
-                path: '/catalog',
+                path: localePath('/catalog'),
                 query: {
                     type: 'search',
                     sort: searchData.value

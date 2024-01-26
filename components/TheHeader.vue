@@ -4,20 +4,20 @@
             <nuxt-link :to="localePath('/')" class="header__logo" @click="getOut">{{ $t("home_title") }}</nuxt-link>
             <ul class="header__menu" :class="{'header__menu_compact': searchOpen}">
                 <li>
-                    <nuxt-link active-class="header__active-page" :to="localePath('/')" @click="getOut">{{ $t("main_nav") }}</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/')" @click="getOut">{{ $t("layout.header.nav.main") }}</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" :to="localePath('/catalog')">{{ $t("catalog_nav") }}</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/catalog')">{{ $t("layout.header.nav.catalog") }}</nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link active-class="header__active-page" :to="localePath('/contact')" @click="getOut">{{ $t("contacts_nav") }}</nuxt-link>
+                    <nuxt-link active-class="header__active-page" :to="localePath('/contact')" @click="getOut">{{ $t("layout.header.nav.contacts") }}</nuxt-link>
                 </li>
             </ul>
             <LazyTheHeaderSearch v-if="searchOpen" />
             <div v-else class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
-            <ButtonGreen class="header__call-btn" :text="$t('call_btn')" @click="$emit('call')" />
+            <ButtonGreen class="header__call-btn" :text="$t('layout.header.call_btn')" @click="$emit('call')" />
             <SelectLocal />
         </nav>
     </header>

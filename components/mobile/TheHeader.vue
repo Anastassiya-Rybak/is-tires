@@ -1,7 +1,7 @@
 <template>
     <header class="header container" @tocall="$emit('call')">
         <nav class="header__nav">
-            <nuxt-link :to="localePath('/')" class="header__logo" @click="reset">ИСКРА СЕРВИС</nuxt-link>
+            <nuxt-link :to="localePath('/')" class="header__logo" @click="reset">{{ $t("home_title") }}</nuxt-link>
             <div class="header__burger burger-wrap" @click="toggleVisible">
                 <div class="burger">
                     <hr><hr><hr>

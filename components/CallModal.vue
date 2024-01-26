@@ -2,28 +2,28 @@
     <section class="call-modal-wrapper" @click="$emit('close-modal')">
         <form v-if="from === 'form'" class="call-modal" target="hidden-iframe"
         :action="url" @click.stop method="POST" @submit="handleSubmit">
-            <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
-            <input v-model="formData.name" name="user-name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
-            <input v-model="formData.email" type="email" name="user-email" id="email" placeholder="Укажите Вашу почту для ответа" required>
-            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" placeholder="Опишите суть Вашего запроса тут" required></textarea>
+            <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
+            <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
+            <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
+            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.messege_placeholder')" required></textarea>
             <ButtonGreen type="submit" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
         <form v-else class="call-modal" @click.stop method="POST">
-            <h2>ЗАПОЛНИТЕ ФОРМУ</h2>
-            <input v-model="callData.name" type="text" class="user-name" placeholder="Как к Вам обращаться?" required>
+            <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
+            <input v-model="callData.name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
             <select v-model="callData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
-                <option value="Способ связи" selected>Способ связи</option>
+                <option value="Способ связи" selected>{{ $t('layout.modal.method') }}</option>
                 <option value="Phone">Phone</option>
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Telegram">Telegram</option>
             </select>
-            <input v-model="callData.tel" type="tel" name="number" id="call-number" placeholder="Номер Вашего телефона">
+            <input v-model="callData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
             <ButtonGreen @click.prevent="handleCall" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
-                <img src="./../assets/close.png" alt="Закрыть">
+                <img src="./../assets/close.png" :alt="$t('layout.modal.close_btn')">
             </div>
         </form>
     </section>
@@ -54,8 +54,7 @@
                     tel: ''
                 },
                 url: 'https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41',
-                btnText: this.from === 'form' ? 'ОТПРАВИТЬ ЗАПРОС' : 'СВЯЖИТЕСЬ СО МНОЙ'
-            };
+            }; 
         },
         methods: {
             async handleSubmit(event) {
@@ -126,6 +125,9 @@
             message() {
                 return process.env.WA_INSTANCE_ID;
             },
+            btnText(){
+                return this.from === 'form' ? this.$t("layout.modal.send_request") : this.$t("layout.modal.contact_me")
+            }
         },
     }
 </script>
