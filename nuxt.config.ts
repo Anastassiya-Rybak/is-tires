@@ -49,7 +49,12 @@ export default defineNuxtConfig({
             file: "en-US.json"
           }
         ],
-        defaultLocale: "ru-RU"
+        defaultLocale: "ru-RU",
+        detectBrowserLanguage: {
+          useCookie: true,
+          cookieKey: 'i18n_redirected',
+          redirectOn: 'root',  // recommended
+        }
       },
     ]
   

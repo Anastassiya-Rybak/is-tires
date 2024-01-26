@@ -1,7 +1,7 @@
 <template>
     <section class="product-page-wrap">
         <div class="back-btn container">
-            <ButtonGreen class="back-btn-in" text="НАЗАД" @click="$router.back()" />
+            <ButtonGreen class="back-btn-in" :text="$t('layout.btns.back')" @click="$router.back()" />
         </div>
         <div class="product-page container">
             <div class="product-page__img">
@@ -15,8 +15,7 @@
                     </ClientOnly>
                 </div>
                 <ClientOnly>
-                    <span class="product-page__type" v-show="product.rd === 'РАДИАЛЬНЫЕ'">РАДИАЛЬНАЯ  |  {{ product.type }}</span>
-                    <span class="product-page__type" v-show="product.rd === 'ДИАГОНАЛЬНЫЕ'">ДИАГОНАЛЬНАЯ  |  {{ product.type }}</span>
+                    <span class="product-page__type"> {{ $t('products.rd', product.rd === 'РАДИАЛЬНЫЕ' ? 1 : 2) }} | {{ product.type }}</span>
                     <div v-show="product.desc" class="product-page__description">
                         <ol v-for="n in product.desc" :key="n">
                             <li>{{ n }}</li>

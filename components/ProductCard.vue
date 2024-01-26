@@ -6,15 +6,16 @@
         <h3>{{ productData.name }}</h3>
         <p :class="{full: !noSlide}">{{ productDescription }}</p>
         <div class="product-card__btns">
-            <LazyButtonGreen v-show="noSlide" text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal('form')"/>
+            <LazyButtonGreen v-show="noSlide" :text="$t('layout.btns.application')" @click="visibleModal('form')"/>
             <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
-            <nuxt-link :to="localePath(link)" class="product-card__more" :class="{full: !noSlide}">ПОДРОБНЕЕ</nuxt-link>
+            <nuxt-link :to="localePath(link)" class="product-card__more" :class="{full: !noSlide}">{{ $t('layout.btns.more') }}</nuxt-link>
         </div>
     </article>
 </template>
 
 <script setup>
     import { ref, computed } from 'vue';
+    import { useI18n } from 'vue-i18n';
     
     const props = defineProps({
         productData: {
@@ -41,8 +42,9 @@
     }
 
     const productDescription = computed(() => {
-        const desc = props.productData.desc;
-        return desc[0].length <= 55 ? desc[0] : desc[0].slice(0, 56) + ' ...';
+        const { t } = useI18n();
+        const desc = t(`products.description.${props.productData.id}`, 1);
+        return desc.length <= 55 ? desc : desc.slice(0, 56) + ' ...';
     })
 
     const openMore = (async () =>{
