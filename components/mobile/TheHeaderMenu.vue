@@ -15,7 +15,7 @@
             </li>
         </ul>
         <MobileSelectLocal />
-        <ButtonGreen class="menu-out__call-btn" :text="$t('layout.header.call_btn')" 
+        <ButtonGreen class="menu-out__call-btn" :text="$t('layout.btns.call_btn')" 
             @click="$emit('tocall')" />
     </nav>
 </template>

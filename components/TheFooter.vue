@@ -2,31 +2,31 @@
     <footer class="footer">
         <div class="footer__content">
             <div class="footer__contacts-data">
-                <h2>СВЯЗАТЬСЯ С НАМИ</h2>
+                <h2>{{ $t('layout.footer.title') }}</h2>
                 <ul>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/locate.svg" alt="Адрес">
+                            <img src="./../assets/locate.svg" :alt="$t('layout.footer.adress')">
                         </div>
                         <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">г. Караганда, ​БЦ Pazl  (​Проспект Бухар-жырау, 57/1)</a>
                     </li>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/tel.svg" alt="Телефон">
+                            <img src="./../assets/tel.svg" :alt="$t('layout.footer.tel')">
                         </div>
-                        <a href="tel:8136745677554"> 8136745677554 </a>
+                        <a href="tel:8136745677554">8-136-745-67-75 </a>
                     </li>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/mail.svg" alt="Почтовый адрес">
+                            <img src="./../assets/mail.svg" :alt="$t('layout.footer.email')">
                         </div>
                             <a href="mailto:email@shelter.com">email@shelter.com</a>
                     </li>
                 </ul>
             </div>
             <div class="footer__btns">
-                <ButtonGreen class="call-btn" text="ОБРАТНЫЙ ЗВОНОК" @click="$emit('call')"/>
-                <nuxt-link :to="link" @click="goAndReset">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
+                <ButtonGreen class="call-btn" :text="$t('layout.btns.call_btn')" @click="$emit('call')"/>
+                <nuxt-link :to="link" @click="goAndReset">{{$t('layout.btns.open')}}</nuxt-link>
             </div>
         </div>
     </footer>

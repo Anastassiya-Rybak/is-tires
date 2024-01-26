@@ -17,7 +17,7 @@
             <div v-else class="header__loop" @click="toggleVisible('searchOpen')" >
                 <img src="./../assets/Frame 5.svg" alt="Поиск по сайту">
             </div>
-            <ButtonGreen class="header__call-btn" :text="$t('layout.header.call_btn')" @click="$emit('call')" />
+            <ButtonGreen class="header__call-btn" :text="$t('layout.btns.call_btn')" @click="$emit('call')" />
             <SelectLocal />
         </nav>
     </header>

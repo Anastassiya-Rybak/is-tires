@@ -126,7 +126,7 @@
                 return process.env.WA_INSTANCE_ID;
             },
             btnText(){
-                return this.from === 'form' ? this.$t("layout.modal.send_request") : this.$t("layout.modal.contact_me")
+                return this.from === 'form' ? this.$t("layout.modal.send_request") : this.$t("layout.btns.contact_me")
             }
         },
     }

@@ -2,30 +2,31 @@
     <div>
         <section class="frst-block-wrap">
             <div class="first-block">
-                <h1>ИСКРА СЕРВИС</h1>
-                <p>Высококачественные шины позволяют максимально повысить производительность вашего автопарка и снизить эксплуатационные расходы.</p>
-                <p>Поставляемые нами шины соответствуют официальным стандартам и требованиям сертификации по всему миру.</p>
+                <h1>{{ $t("main.first_block.title") }}</h1>
+                <p>{{ $t("main.first_block.paragraf_1") }}</p>
+                <p>{{ $t("main.first_block.paragraf_2") }}</p>
                 <div class="first-block__btns">
-                    <nuxt-link :to="localePath('/catalog')">ОТКРЫТЬ КАТАЛОГ</nuxt-link>
-                    <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" @click="visibleModal" />
+                    <nuxt-link :to="localePath('/catalog')">{{ $t("layout.btns.open") }}</nuxt-link>
+                    <ButtonGreen :text="$t('layout.btns.application')" @click="visibleModal" />
                     <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
                 </div>
             </div>
         </section>
         <section class="second-block container">
             <div class="second-block__text">
-                <span>МЫ ПРЕДЛАГАЕМ</span>
-                <h3>РАДИАЛЬНЫЕ И ДИАГОНАЛЬНЫЕ</h3>
-                <h2>КРУПНОГАБАРИТНЫЕ ШИНЫ</h2>
+                <span>{{ $t("main.second_block.span") }}</span>
+                <h3>{{ $t("main.second_block.h3") }}</h3>
+                <h2>{{ $t("main.second_block.h2") }}</h2>
             </div>
             <TheCategoryCard class="second-block__card"
                 v-for="(category, idx) in categories" :key="idx" 
-                :categoryName="category" />
-            <nuxt-link class="second-block__link" :to="localePath('/catalog')">ПЕРЕЙТИ К ПОЛНОМУ ПЕРЕЧНЮ ТОВАРОВ</nuxt-link>
+                :categoryName="$t('main.second_block.categories', idx + 1)"
+                :category="category" />
+            <nuxt-link class="second-block__link" :to="localePath('/catalog')">{{ $t("main.second_block.link") }}</nuxt-link>
         </section>
         <section class="therd-block-wrap">
             <div class="therd-block container">
-                <h2>Популярные позиции</h2>
+                <h2>{{ $t('main.therd_block.title') }}</h2>
                 <Swiper class="therd-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="mobile ? 1 : 3"

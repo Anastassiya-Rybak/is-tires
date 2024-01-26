@@ -1,6 +1,6 @@
 <template>
     <figure class="second-block__card_base" @click="goForCategory">
-        <img :src="`/images/${categoryName}.webp`" :alt="categoryName">
+        <img :src="`/images/${category}.webp`" :alt="categoryName">
         <figcaption>{{ categoryName }}</figcaption>
     </figure>
 </template>
@@ -16,11 +16,15 @@
         categoryName: {
             type: String,
             required: true
+        },
+        category: {
+            type: String,
+            required: true
         }
     })
 
     const editFilter = () => {
-        filterStore.editItem("selectedType", props.categoryName);
+        filterStore.editItem("selectedType", props.category);
     }
 
     const goForCategory = async () => {
@@ -29,7 +33,7 @@
             path: localePath('/catalog'),
             query: {
                 type: 'filter',
-                sort: `null+${props.categoryName}+null+null`
+                sort: `null+${props.category}+null+null`
             }
         });
     }
