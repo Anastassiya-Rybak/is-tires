@@ -6,7 +6,7 @@
         <h3>{{ productData.name }}</h3>
         <p :class="{full: !noSlide}">{{ productDescription }}</p>
         <div class="product-card__btns">
-            <LazyButtonGreen v-show="noSlide" :text="$t('layout.btns.application')" @click="visibleModal('form')"/>
+            <LazyButtonGreen v-show="noSlide" :text="$t('layout.btns.application')" @click.stop @click="visibleModal('form')"/>
             <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
             <nuxt-link :to="localePath(link)" class="product-card__more" :class="{full: !noSlide}">{{ $t('layout.btns.more') }}</nuxt-link>
         </div>
@@ -43,7 +43,7 @@
 
     const productDescription = computed(() => {
         const { t } = useI18n();
-        const desc = t(`products.description.${props.productData.id}`, 1);
+        const desc = t(`products.description.${props.productData.id}.1`);
         return desc.length <= 55 ? desc : desc.slice(0, 56) + ' ...';
     })
 

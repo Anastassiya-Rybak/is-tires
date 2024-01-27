@@ -15,10 +15,10 @@
                     </ClientOnly>
                 </div>
                 <ClientOnly>
-                    <span class="product-page__type"> {{ $t('products.rd', product.rd === 'РАДИАЛЬНЫЕ' ? 1 : 2) }} | {{ $t('main.second_block.categories', typeIdx) }}</span>
+                    <span class="product-page__type"> {{ $t('products.rd', product.rd === 'РАДИАЛЬНЫЕ' ? 1 : 2) }} | {{ $t(`main.second_block.categories.${typeIdx}`) }}</span>
                     <div class="product-page__description">
                         <ol v-for="(n, idx) in product.desc" :key="idx">
-                            <li>{{ $t(`products.description.${product.id}`, idx + 1) }}</li>
+                            <li>{{ $t(`products.description.${product.id}.${idx + 1}`) }}</li>
                         </ol>
                     </div>
                 </ClientOnly>

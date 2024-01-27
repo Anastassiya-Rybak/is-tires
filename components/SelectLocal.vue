@@ -1,6 +1,6 @@
 <template>
     <select class="lang-select" v-model="lang" name="locale" id="locales" @change="changeState">
-        <option selected value="ru-RU">RU</option>
+        <option value="ru-RU">RU</option>
         <option value="kk-KZ">KZ</option>
         <option value="en-US">EN</option>
     </select>
