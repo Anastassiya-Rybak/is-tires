@@ -20,7 +20,7 @@
             </div>
             <TheCategoryCard class="second-block__card"
                 v-for="(category, idx) in categories" :key="idx" 
-                :categoryName="$t('main.second_block.categories', idx + 1)"
+                :categoryName="$t(`main.second_block.categories.${idx + 1}`)"
                 :category="category" />
             <nuxt-link class="second-block__link" :to="localePath('/catalog')">{{ $t("main.second_block.link") }}</nuxt-link>
         </section>

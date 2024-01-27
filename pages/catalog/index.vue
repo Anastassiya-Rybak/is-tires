@@ -1,17 +1,17 @@
 <template>
     <section class="catalog">
         <div class="catalog__filter-wrap container">
-            <ButtonGreen text="ФИЛЬТРАЦИЯ" class="catalog__filter-btn" @click="toggleFilter"/>
-            <button class="catalog__cancel-btn" v-show="showCancelBtn" @click.prevent="resetSearch">СБРОС ПОИСКА</button>
+            <ButtonGreen :text="$t('layout.btns.filter')" class="catalog__filter-btn" @click="toggleFilter"/>
+            <button class="catalog__cancel-btn" v-show="showCancelBtn" @click.prevent="resetSearch">{{ $t('layout.btns.reset', 1) }}</button>
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
-                    <TheFilterSelect v-for="(select, idx) in selects" :key="idx"
+                    <TheFilterSelect v-for="(select, idx) in selects" :key="idx" :index="idx"
                     :aria-label="select.name" :name="select.name" :id="select.name + 'id'" class="filter-item"
                     :selectData="select"/>
                 </div>
                 <div class="catalog__filter-btns">
-                    <ButtonGreen class="catalog__apply-btn" text="ПРИМЕНИТЬ" @click="getApply"/>
-                    <button class="catalog__cancel-btn" @click.prevent="reset">СБРОСИТЬ ПАРАМЕТРЫ</button>
+                    <ButtonGreen class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" @click="getApply"/>
+                    <button class="catalog__cancel-btn" @click.prevent="reset">{{ $t('layout.btns.reset', 2) }}</button>
                 </div> 
             </div>
         </div>
@@ -45,11 +45,13 @@
             const filterStore = useFilterStore();
             const searchStore = useSearchStore();
             const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
+            const localePath = useLocalePath();
             
             return {
                 filterStore,
                 searchStore,
-                selectedRd, selectedType, selectedSize, selectedIdx, selectedTube 
+                selectedRd, selectedType, selectedSize, selectedIdx, selectedTube,
+                localePath
             }
         },
         data() {
@@ -60,38 +62,7 @@
                 filterOn: false,
                 notany: false,
                 visible: false,
-                selects: [
-                    {
-                        name: "rd",
-                        selectedLet: 0,
-                        selectValue: "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ",
-                        options: ["РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ","РАДИАЛЬНЫЕ", "ДИАГОНАЛЬНЫЕ"]
-                    },
-                    {
-                        name: "type",
-                        selectedLet: 0,
-                        selectValue: "ПРИМЕНИМОСТЬ",
-                        options: ["ПРИМЕНИМОСТЬ","САМОСВАЛЫ С ЖЕСТКОЙ РАМОЙ", "ШАРНИРНО-СОЧЛЕНЕННЫЕ САМОСВАЛЫ", "ПОГРУЗЧИКИ И БУЛЬДОЗЕРЫ", "ГРЕЙДЕРЫ", "ПОДЗЕМНАЯ ТЕХНИКА", "МОБИЛЬНЫЕ КРАНЫ", "СКРЕПЕРЫ", "СПЕЦИАЛЬНАЯ И ПОРТОВАЯ ТЕХНИКА", "ТЕХНИКА ДЛЯ УСЛОВИЙ ПУСТЫНИ", "ДОРОЖНЫЕ КАТКИ"]
-                    },
-                    {
-                        name: "size",
-                        selectedLet: 0,
-                        selectValue: "РАЗМЕР",
-                        options: ["РАЗМЕР", "46/90R57", "33.00R51", "27.00R49","53/80R63","50/80R57","14.00R25","13.00R25(10.00 Rim)","13.00R25(8.50 Rim)","18.00R25","16.00R25","18.00R33","24.00R35","21.00R35","21.00R33","36.00R51","40.00R57","37.00R57","17.5R25","20.5R25","29.5R29","750/65R25","875/65R29","33.25R29","775/65R29","23.5R25","26.5R25","29.5R25","35/65R33","14.00R24","385/95R24 (14.00R24)","385/95R25(14.00R25)","525/80R25(20.5R25)","385/95R25 (14.00R25)","445/95R25 (16.00R25)","505/95R25 (18.00R25)","15.5-25","16/70-20","14.00-24","17.5-25","20.5-25","23.5-25","26.5-25","29.5-25","29.5-29","45/65-45","14.00-24TG","18.00-25","24-21","66×43.00-25","66×44.00-25","18-20","27.25-21","21.00-25","11.00-20","13/80-20","23.1-26","13.00-25","14.00-25","16.00-25","12.00-24"]
-                    },
-                    {
-                        name: "idx",
-                        selectedLet: 0,
-                        selectValue: "ПРОЧНОСТЬ КАРКАСА",
-                        options: ["ПРОЧНОСТЬ КАРКАСА","★★★","★★★RF","★★","★","★★RF","12PR","8","10","12","16","18","20","22","28","14PR","16PR","20PR","24PR","28PR","32PR","34PR","58PR","40PR","36PR","44PR"]
-                    },
-                    {
-                        name: "tube",
-                        selectedLet: 0,
-                        selectValue: "КАМЕРА",
-                        options: ["КАМЕРА","TT", "TL"]
-                    }
-                ]
+                selects: JSON.selects
             }
         },
         beforeMount() {
@@ -103,7 +74,7 @@
                 this.searchStore.editItem('');
                 this.searchStore.saveState();
                 await navigateTo({
-                    path: '/catalog',
+                    path: this.localePath('/catalog'),
                     query: false
                 });
                 location.reload();

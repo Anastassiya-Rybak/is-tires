@@ -15,22 +15,22 @@
                     </ClientOnly>
                 </div>
                 <ClientOnly>
-                    <span class="product-page__type"> {{ $t('products.rd', product.rd === 'РАДИАЛЬНЫЕ' ? 1 : 2) }} | {{ product.type }}</span>
-                    <div v-show="product.desc" class="product-page__description">
-                        <ol v-for="n in product.desc" :key="n">
-                            <li>{{ n }}</li>
+                    <span class="product-page__type"> {{ $t('products.rd', product.rd === 'РАДИАЛЬНЫЕ' ? 1 : 2) }} | {{ $t('main.second_block.categories', typeIdx) }}</span>
+                    <div class="product-page__description">
+                        <ol v-for="(n, idx) in product.desc" :key="idx">
+                            <li>{{ $t(`products.description.${product.id}`, idx + 1) }}</li>
                         </ol>
                     </div>
                 </ClientOnly>
                 <ClientOnly>
                     <table>
-                        <caption>Спецификации</caption>
+                        <caption>{{ $t('products.table.caption') }}</caption>
                         <thead>
                             <tr>
-                                <th>РАЗМЕР</th>
-                                <th>ИНДЕКС ПРОЧНОСТИ КАРКАСА</th>
-                                <th>КАМЕРА TT/TL</th>
-                                <th>LI/SS</th>
+                                <th>{{ $t('products.table.size') }}</th>
+                                <th>{{ $t('products.table.idx') }}</th>
+                                <th>{{ $t('products.table.tube') }}</th>
+                                <th>{{ $t('products.table.li_ss') }}</th>
                             </tr>
                         </thead>
                         <tbody v-if="product.var">
@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
                 </ClientOnly>
-                <ButtonGreen text="ОСТАВИТЬ ЗАЯВКУ" class="product-page__application" @click="visibleModal"/>
+                <ButtonGreen :text="$t('layout.btns.application')" class="product-page__application" @click="visibleModal"/>
                 <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
             </div>
         </div>
@@ -66,10 +66,15 @@
     const image = `/tyres/${id}.webp`;
     const visible = ref(false);
     const product = JSON.products[id-1];
+    const categories = JSON.categories;
 
     const visibleModal = () => {
         visible.value = !visible.value;
     }
+
+    const typeIdx = computed(() => {
+        return categories.findIndex(el => el === product.type) + 1;
+    })
 
 </script>
     
