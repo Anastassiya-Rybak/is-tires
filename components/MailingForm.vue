@@ -2,7 +2,7 @@
     <newsletter-form 
         class="mail-form"
         headerText=""
-        inputPlaceholder="ВВЕДИТЕ СВОЙ EMAIL"
+        :inputPlaceholder="$t('layout.modal.email_placeholder')"
         :buttonText="buttonText"
         @subscribed="showFeedback"
     />    
@@ -10,11 +10,14 @@
 
 <script setup>
     import { ref } from 'vue';
+    import { useI18n } from 'vue-i18n';
 
-    const buttonText = ref("ПОДПИСАТЬСЯ");
+    const { t } = useI18n();
+
+    const buttonText = ref(t('layout.btns.follow'));
 
     const showFeedback = () => {
-        buttonText.value = 'ГОТОВО!';
+        buttonText.value = t('layout.btns.ready');
     }
 </script>
 

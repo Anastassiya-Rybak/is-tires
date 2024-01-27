@@ -8,7 +8,7 @@
                         <div class="footer__img">
                             <img src="./../assets/locate.svg" :alt="$t('layout.footer.adress')">
                         </div>
-                        <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">г. Караганда, ​БЦ Pazl  (​Проспект Бухар-жырау, 57/1)</a>
+                        <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">{{ $t('layout.footer.adress') }}</a>
                     </li>
                     <li>
                         <div class="footer__img">
