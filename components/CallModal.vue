@@ -23,7 +23,7 @@
             <input v-model="callData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
             <ButtonGreen @click.prevent="handleCall" class="call-modal__btn" :text="btnText"/>
             <div class="close-call-window" @click="$emit('close-modal')">
-                <img src="./../assets/close.png" :alt="$t('layout.modal.close_btn')">
+                <img src="./../assets/close.png" :alt="$t('layout.btns.close_btn')">
             </div>
         </form>
     </section>

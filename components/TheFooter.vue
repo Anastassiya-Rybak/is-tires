@@ -6,19 +6,19 @@
                 <ul>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/locate.svg" :alt="$t('layout.footer.adress')">
+                            <img src="./../assets/locate.svg" :alt="$t('layout.footer.adress_alt')">
                         </div>
                         <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">{{ $t('layout.footer.adress') }}</a>
                     </li>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/tel.svg" :alt="$t('layout.footer.tel')">
+                            <img src="./../assets/tel.svg" :alt="$t('layout.footer.tel_alt')">
                         </div>
                         <a href="tel:8136745677554">8-136-745-67-75 </a>
                     </li>
                     <li>
                         <div class="footer__img">
-                            <img src="./../assets/mail.svg" :alt="$t('layout.footer.email')">
+                            <img src="./../assets/mail.svg" :alt="$t('layout.footer.email_alt')">
                         </div>
                             <a href="mailto:email@shelter.com">email@shelter.com</a>
                     </li>

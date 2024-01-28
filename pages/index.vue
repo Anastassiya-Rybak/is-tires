@@ -26,7 +26,7 @@
         </section>
         <section class="therd-block-wrap">
             <div class="therd-block container">
-                <h2>{{ $t('main.therd_block.title') }}</h2>
+                <h2>{{ $t('main.third_block.title') }}</h2>
                 <Swiper class="therd-block__slider"
                 :modules="[SwiperAutoplay, SwiperNavigation]"
                 :slides-per-view="mobile ? 1 : 3"
