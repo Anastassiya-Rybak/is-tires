@@ -3,13 +3,13 @@
         <form class="call-modal" target="hidden-iframe" @click.stop>
             <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
-            <div v-if="from === 'form'">
+            <div class="call-modal__body" v-if="from === 'form'">
                 <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
                 <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.messege_placeholder')" required></textarea>
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="">
             </div>
-            <div v-else>
+            <div class="call-modal__body" v-else>
                 <select v-model="formData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
                     <option value="Способ связи" selected>{{ $t('layout.modal.method') }}</option>
                     <option value="Phone">Phone</option>
@@ -201,8 +201,17 @@
             font-size: 1.3em;
             padding: 8px;
         }
+
+        &__body {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 2vh;
+            justify-content: space-between;
+        }
+
         input,
-        textarea {
+        textarea:not(#call-number) {
             width: 100%;
         }
 
