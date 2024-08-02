@@ -1,36 +1,35 @@
 <template>
     <section class="call-modal-wrapper" @click="$emit('close-modal')">
-        <form v-if="from === 'form'" class="call-modal" target="hidden-iframe" @click.stop>
+        <form class="call-modal" target="hidden-iframe" @click.stop>
             <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
-            <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
-            <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.messege_placeholder')" required></textarea>
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="">
-            <ButtonGreen type="submit" class="call-modal__btn" :text="btnText" @click.prevent="handleSubmit"/>
+            <div v-if="from === 'form'">
+                <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
+                <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.messege_placeholder')" required></textarea>
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="">
+            </div>
+            <div v-else>
+                <select v-model="formData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
+                    <option value="Способ связи" selected>{{ $t('layout.modal.method') }}</option>
+                    <option value="Phone">Phone</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Telegram">Telegram</option>
+                </select>
+                <input v-model="formData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
+            </div>
+            <ButtonGreen type="submit" class="call-modal__btn" :text="btnText" @click.prevent="submitCallModalData"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
-        <!-- <form v-else class="call-modal" @click.stop method="POST">
-            <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
-            <input v-model="callData.name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
-            <select v-model="callData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
-                <option value="Способ связи" selected>{{ $t('layout.modal.method') }}</option>
-                <option value="Phone">Phone</option>
-                <option value="WhatsApp">WhatsApp</option>
-                <option value="Telegram">Telegram</option>
-            </select>
-            <input v-model="callData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
-            <ButtonGreen @click.prevent="handleCall" class="call-modal__btn" :text="btnText"/>
-            <div class="close-call-window" @click="$emit('close-modal')">
-                <img src="./../assets/close.png" :alt="$t('layout.btns.close_btn')">
-            </div>
-        </form> -->
-    </section>
+
+</section>
 </template>
 
 <script setup>
+    import { useHandleCall } from '~/composables/useHandleCall';
+
     const props = defineProps({
         from: {
             type: String,
@@ -43,8 +42,10 @@
         name: '',
         email: '',
         message: '',
-        method: 'Способ связи'
+        method: 'Способ связи',
+        tel: ''
     };
+
     const btnText = ref('Отправить');
 
     const handleSubmit = () => {
@@ -71,105 +72,34 @@
         }        
     }
 
-    // import ButtonGreen from './ButtonGreen.vue'
-    // export default {
-    //     name: 'CallModal',
-    //     components: { ButtonGreen },
-    //     props: {
-    //         from: {
-    //             type: String,
-    //             required: true,
-    //             default: ""
-    //         },
-    //     },
-    //     data() {
-    //         return {
-    //             formData: {
-    //                 name: '',
-    //                 email: '',
-    //                 message: '',
-    //             },
-    //             callData: {
-    //                 name: '',
-    //                 method: 'Способ связи',
-    //                 tel: ''
-    //             },
-    //             url: 'https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41',
-    //         }; 
-    //     },
-    //     methods: {
-    //         async handleSubmit() {
-    //             try {
-    //                 // Отправляем данные на сервер с использованием fetch
-    //                 const response = await fetch('https://formsubmit.co/ajax/7c41d79fcd709f6bf7d62753f5059d41', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                         'Accept': 'application/json'
-    //                     },
-    //                     body: JSON.stringify(this.formData),
-    //                 });
+    const handleCall = () => {
+        const usersMessage = `${formData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${formData.tel} посредством ${formData.method}`;
 
-    //                 if (response.ok) {
-    //                     // Обработайте успешный ответ от сервера
-    //                     const data = await response.json();
-    //                     console.log('Успешно отправлено:', data);
-    //                     for (let key in this.formData) {
-    //                         this.formData[key] = "";
-    //                     }
-    //                     this.btnText = "ЗАПРОС ОТПРАВЛЕН"
-    //                     // Выполните дополнительные действия при успешной отправке
-    //                 } else {
-    //                     // Обработайте ошибку отправки запроса
-    //                     console.error('Ошибка отправки:', response.status);
-    //                     // Выполните дополнительные действия при ошибке
-    //                 }
-    //             } catch (error) {
-    //                 console.error('Ошибка отправки:', error);
-    //             }
-    //         },
-    //         async handleCall(){
-    //             // const apiKey = 'instance67025';
-    //             // const phone = '+77776840869';
-    //             const message = `${this.callData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${this.callData.tel} посредством ${this.callData.method}`;
+        const res = useHandleCall(usersMessage);
 
-    //             var myHeaders = new Headers();
-    //             myHeaders.append("Authorization", "App 85f2d1beb2da1f7a358891e9384ac6e3-14a0e93b-69d2-4144-8a19-a8cae3f38f84");
-    //             myHeaders.append("Content-Type", "application/json");
-    //             myHeaders.append("Accept", "application/json");
+        if (res) {
+            for (let key in formData) {                
+                key !== 'method' ? formData[key] = "" : formData[key] = 'Способ связи';
+            }
+            btnText.value = 'Отправлено';
+            setTimeout(() => {
+                btnText.value = 'Отправить';
+            }, 2000);
+        } else {
+            btnText.value = 'Ошибка';
+            setTimeout(() => {
+                btnText.value = 'Отправить';
+            }, 2000);
+        };        
+    }
 
-    //             var raw = JSON.stringify({
-    //                 "from": "447860099299",
-    //                 "to": "77776840869",
-    //                 "messageId": "a28dd97c-1ffb-4fcf-99f1-0b557ed381da",
-    //                 "content": {
-    //                     "text": message
-    //                 }
-    //             });
-
-    //             var requestOptions = {
-    //                 method: 'POST',
-    //                 headers: myHeaders,
-    //                 body: raw,
-    //                 redirect: 'follow'
-    //             };
-
-    //             fetch("https://dk1yxl.api.infobip.com/whatsapp/1/message/text", requestOptions)
-    //                 .then(response => response.text())
-    //                 .then(result => this.$emit('close-modal'))
-    //                 .catch(error => console.log('error', error));
-
-    //         }
-    //     },
-    //     computed: {
-    //         message() {
-    //             return process.env.WA_INSTANCE_ID;
-    //         },
-    //         btnText(){
-    //             return this.from === 'form' ? this.$t("layout.modal.send_request") : this.$t("layout.btns.contact_me")
-    //         }
-    //     },
-    // }
+    const submitCallModalData = () => {
+        if (props.from === 'form') {
+            handleSubmit();
+        } else {
+            handleCall();
+        }
+    }
 </script>
 
 <style lang="scss" scoped>

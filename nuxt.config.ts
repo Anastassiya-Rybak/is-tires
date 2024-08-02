@@ -93,6 +93,10 @@ export default defineNuxtConfig({
         apiUrl: process.env.NUXT_PUBLIC_WAHATSAPP_API_URL,
         instanceId: process.env.NUXT_PUBLIC_WAHATSAPP_INSTANCE_ID,
         token: process.env.NUXT_PUBLIC_WAHATSAPP_TOKEN
+      },
+      infobip: {
+        apiKey: process.env.NUXT_PUBLIC_INFOBIP_API_KEY,
+        recipient: process.env.NUXT_PUBLIC_INFOBIP_RECIPIENT
       }
     }
   },
