@@ -1,6 +1,6 @@
 <template>
     <section class="call-modal-wrapper" @click="$emit('close-modal')">
-        <form v-if="from === 'form'" class="call-modal" target="hidden-iframe" @click.stop method="POST">
+        <form v-if="from === 'form'" class="call-modal" target="hidden-iframe" @click.stop>
             <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
             <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
@@ -31,8 +31,6 @@
 </template>
 
 <script setup>
-    import {useHandleSubmit} from '@/composables/useHandleSubmit';
-
     const props = defineProps({
         from: {
             type: String,
@@ -49,20 +47,28 @@
     };
     const btnText = ref('Отправить');
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         const info = {
             name: formData.name,
             email: formData.email,
             message: formData.message
         }
+        const res = useHandleSubmit(info);
 
-        const { response } = useHandleSubmit(info);
-
-        if (response.ok) {
-            for (let key in formData.value) {
-                key !== 3 ? formData.value[key] = "" : formData.value[key] = 'Способ связи';
+        if (res) {
+            for (let key in formData) {
+                key !== 3 ? formData[key] = "" : formData[key] = 'Способ связи';
             }
-        }
+            btnText.value = 'Отправлено';
+            setTimeout(() => {
+                btnText.value = 'Отправить';
+            }, 2000);
+        } else {
+            btnText.value = 'Ошибка';
+            setTimeout(() => {
+                btnText.value = 'Отправить';
+            }, 2000);
+        }        
     }
 
     // import ButtonGreen from './ButtonGreen.vue'

@@ -4,7 +4,7 @@
         <LazyTheHeader id="header" v-else @call="openModal('call')" @reset="reset"/>
         <LoadingItem v-show="loading"/>
         <main>
-            <LazyCallModal v-show = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
+            <LazyCallModal v-if = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
             <slot />
             <section class="mailing-wrap">
                 <div class="container">
@@ -18,8 +18,7 @@
                 <img src="~/assets/arrow-button-up.svg" alt="вверх">
             </a>
         </main>
-        <TheFooter @call="openModal('call')" @form="openModal('form')"
-        @reset="reset"/>
+        <TheFooter @call="openModal('call')" @form="openModal('form')" @reset="reset"/>
     </div>
 </template>
 

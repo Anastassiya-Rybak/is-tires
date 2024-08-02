@@ -23,6 +23,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@unhead/shared": "^1.8.9",
     "@vue/devtools-api": "^6.5.1",
+    "dotenv": "^16.4.5",
     "nuxt-newsletter": "^0.2.0",
     "nuxt-swiper": "^1.2.2",
     "request": "^2.88.2",

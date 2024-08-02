@@ -1,21 +1,24 @@
+export const useHandleSubmit = async (obj) => {
+    //Отправляем информацию на API https://formsubmit.co/, которыйперенаправляет сообщение на указанную почту. По ключу можно запросить архив.
+    const config = useRuntimeConfig();
+    let response;
+    
+    try {
 
-export const useHandleSubmit = (obj) => {
+        response = await fetch(`https://formsubmit.co/ajax/${config.public.submit.email}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(obj) 
+        })
 
-    fetch('https://formsubmit.co/ajax/vyacheslavovna.an@mail.ru', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(obj),
-    });
+    } catch (error) {
 
-    if (response.ok) {
-        const data = response.json();
-        console.log('Успешно отправлено:', data);
-    } else {
-        console.error('Ошибка отправки:', response.status);
+        console.error('Ошибка отправки:', error);
+        return { response: null, error: error.message };
+        
     }
-
-    return { response }
+    return response.ok
 }
