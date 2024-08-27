@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="frst-block-wrap">
-            <div class="first-block">
+            <div class="first-block container">
                 <h1>{{ $t("main.first_block.title") }}</h1>
                 <p>{{ $t("main.first_block.paragraf_1") }}</p>
                 <p>{{ $t("main.first_block.paragraf_2") }}</p>
@@ -85,13 +85,9 @@
     }
 
     .first-block{
-        width: 90%;
-        max-width: 1440px;
-        margin: 0 auto;
-
         @include media (1440px) {
             width: 43%;
-            margin: 0 5%;
+            margin: 0 5%; 
         }
 
         @include media(920px) {

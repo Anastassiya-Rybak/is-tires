@@ -1,8 +1,8 @@
 <template>
     <div>
-        <LazyMobileTheHeader id="header" v-if="showMobileVersion" @call="openModal('call')"/>
-        <LazyTheHeader id="header" v-else @call="openModal('call')" @reset="reset"/>
-        <LoadingItem v-show="loading"/>
+        <LazyMobileTheHeader id="header-mob" v-if="showMobileVersion" @call="openModal('call')"/>
+        <LazyHeaderTheHeader id="header-desk" v-else @call="openModal('call')" @reset="reset"/>
+        <LoadingItem v-if="loading"/>
         <main>
             <LazyCallModal v-if = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
             <slot />
