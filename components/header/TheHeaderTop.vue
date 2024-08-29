@@ -5,7 +5,7 @@
             <li><a href="tel: +00000000000">+00000000000</a></li>
             <li><a href="emailto: company@mail.ru">company@mail.ru</a></li>
         </ul>
-        <ButtonGreen class="contact-line__call-btn" :text="$t('layout.btns.call_btn')" />
+        <TheButton class="contact-line__call-btn" :text="$t('layout.btns.call_btn')" colour="green" />
     </div>
 </template>
 

@@ -18,7 +18,7 @@
                 </select>
                 <input v-model="formData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
             </div>
-            <ButtonGreen type="submit" class="call-modal__btn" :text="btnText" @click.prevent="submitCallModalData"/>
+            <TheButton type="submit" class="call-modal__btn" :text="btnText" colour="green" @click.prevent="submitCallModalData"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>

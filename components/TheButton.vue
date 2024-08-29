@@ -1,5 +1,5 @@
 <template>
-    <button class="btn">{{ text }}</button>
+    <button class="btn" :class="getColour">{{ text }}</button>
 </template>
 
 <script setup>
@@ -8,7 +8,16 @@
             type: String,
             required: true,
             default: ""
+        },
+        colour: {
+            type: String,
+            required: true,
+            default: ""
         }
+    })
+
+    const getColour = computed( () => {
+        return `btn_${props.colour}`;
     })
 </script>
 
@@ -20,9 +29,16 @@
         color: $main-light;
         border: 1px solid rgba(0, 0, 0, 0.089);
         text-shadow: 0px 0.3em 0.3em rgba(0, 0, 0, 0.25);
-        background-color: $accent;
         transition: 0.3s;
         box-shadow: 0px 0.3em 0.3em 0px rgba(255, 255, 255, 0.68) inset, 0px 0.1em 0.15em 0.02em rgba(0, 0, 0, 0.25);
+
+        &_green {
+            background-color: $accent;
+        }
+
+        &_black {
+            background-color: black;
+        }
 
         @include hover() {
                 filter: brightness(90%);

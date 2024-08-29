@@ -24,7 +24,7 @@
                     <input type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')">
                     <input  type="email" name="email" id="email" :placeholder="$t('layout.modal.email_placeholder')">
                     <textarea  name="" id="form-text" cols="30" rows="10" :placeholder="$t('contacts.textarea')"></textarea>
-                    <ButtonGreen  class="call-me" :text="$t('contacts.messege_btn')"/>
+                    <TheButton  class="call-me" :text="$t('contacts.messege_btn')" colour="green"/>
                 </form>
             </section>
         </div>

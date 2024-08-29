@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div class="footer__btns">
-                <ButtonGreen class="call-btn" :text="$t('layout.btns.call_btn')" @click="$emit('call')"/>
+                <TheButton class="call-btn" :text="$t('layout.btns.call_btn')" colour="green" @click="$emit('call')"/>
                 <nuxt-link :to="link" @click="goAndReset">{{$t('layout.btns.open')}}</nuxt-link>
             </div>
         </div>

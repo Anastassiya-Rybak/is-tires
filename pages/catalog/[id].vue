@@ -1,7 +1,7 @@
 <template>
     <section class="product-page-wrap">
         <div class="back-btn container">
-            <ButtonGreen class="back-btn-in" :text="$t('layout.btns.back')" @click="$router.back()" />
+            <TheButton class="back-btn-in" :text="$t('layout.btns.back')" colour="green" @click="$router.back()" />
         </div>
         <div class="product-page container">
             <div class="product-page__img">
@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
                 </ClientOnly>
-                <ButtonGreen :text="$t('layout.btns.application')" class="product-page__application" @click="visibleModal"/>
+                <TheButton :text="$t('layout.btns.application')" colour="green" class="product-page__application" @click="visibleModal"/>
                 <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
             </div>
         </div>

@@ -7,7 +7,7 @@
                 <p>{{ $t("main.first_block.paragraf_2") }}</p>
                 <div class="first-block__btns">
                     <nuxt-link :to="localePath('/catalog')">{{ $t("layout.btns.open") }}</nuxt-link>
-                    <ButtonGreen :text="$t('layout.btns.application')" @click="visibleModal" />
+                    <TheButton :text="$t('layout.btns.application')" colour="green" @click="visibleModal" />
                     <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
                 </div>
             </div>
