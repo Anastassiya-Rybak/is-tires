@@ -16,10 +16,6 @@
             </div>
         </div>
         <ClientOnly class="catalog__content">
-            <!-- <div class="catalog__product-cards container" v-if="!hasSortRequest">
-                <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
-                :productData="product" />
-            </div> -->
             <!-- TODO: обработать case с отсутстыием продукции. -->
             <div class="catalog__product-cards container" v-if="nothing">
                 <p>К сожалению, не найдено продукции, подходящей под указанные критерии.</p>
@@ -58,11 +54,6 @@
     const filterOn = ref(false);
     const nothing = ref(false);
     const selects = JSON.selects;
-    const localePath = useLocalePath();
-
-    const hasSortRequest = computed(() => {
-        return (sortedProducts.value.length === 0 && !nothing.value) ? false : true;
-    })
 
     const showResetSerchBtn = ref(false);
 
@@ -71,7 +62,7 @@
         showResetSerchBtn.value = false;
 
         await navigateTo({
-            path: localePath('/catalog')
+            path: '/catalog'
         });
     }
 
@@ -153,10 +144,6 @@
         getFilter();
     }
 
-    const showCancelBtn = computed(() => {
-        return props.searchItem && route.query.type === 'search' ? true : false;
-    })
-
     onBeforeMount(()=>{
         if (route.query.sort) {  
             route.query.type === 'search' 
@@ -166,134 +153,18 @@
     })
 
     watch(() => sortedProducts.value, (oldState, newState)=>{ 
-        // if (sortedProducts.value != products) {
-            (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
-        // }       
+        (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
     })
 
     watch(() => route.fullPath,(older, newer) => {     
         if (route.query.type && route.query.type === 'search') {
             sortedProducts.value = sortProducts(route.query.sort);
             showResetSerchBtn.value = true;
-        } else {
+        } else if (route.query.type) {
             sortedProducts.value = getFilter(route.query.sort);            
         }
     })
 
-    //     methods: {
-    //         async resetSearch(){
-    //             this.searchStore.editItem('');
-    //             this.searchStore.saveState();
-    //             await navigateTo({
-    //                 path: this.localePath('/catalog'),
-    //                 query: false
-    //             });
-    //             location.reload();
-    //         },
-            // openObjects(obj){
-            //     let result = Object.values(obj).flat();
-
-            //     result.forEach((el, idx) => {
-            //         if (idx === 0) result = result.with(0, "");
-            //         if (Object.hasOwn(el, "size")) {
-            //             result = result.with(idx, Object.values(el));
-            //         }
-            //     })
-            //     return result;
-            // },
-            // toSortOfProducts(item){
-            //     this.products.forEach((product) => {
-            //         const fullInOne = this.openObjects(product).flat();
-            //         if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) { this.productsSort.push(product); }
-            //     })
-            // },
-            // sortBeforePageLoad() {
-            //     if (this.searchItem) {
-            //         this.productsSort=[];
-            //         this.notany=false;
-            //         this.toSortOfProducts(this.searchItem);
-            //         if (this.productsSort.length === 0) this.notany = true;
-            //     }
-            // },
-            // getApply (){
-            //     this.toggleFilter();
-            //     this.getFilter();
-            // },
-            // resetFilter(){
-            //     this.reset();
-            //     this.getFilter();
-            // },
-            // toggleFilter() {
-            //     this.filterOn = !this.filterOn;
-            // },
-            // reset() {
-            //     const selects = document.querySelectorAll('select');
-            //     for (let i = 0; i < selects.length; i++) {
-            //         selects[i].selectedIndex = 0;
-            //     }
-            //     this.filterStore.resetFilter();
-            // },
-            // getFilter() {
-            //     this.productsSort = [];
-            //     this.notany = false;
-            //     const currentParameters = `${(this.selectedRd && this.selectedRd !== "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ") ? this.selectedRd : 'null'}+${(this.selectedType && this.selectedType !== "ПРИМЕНИМОСТЬ") ? this.selectedType : 'null'}+${(this.selectedSize && this.selectedSize !== "РАЗМЕР") ? this.selectedSize : 'null'}+${(this.selectedIdx && this.selectedIdx !== "ПРОЧНОСТЬ КАРКАСА") ? this.selectedIdx : 'null'}+${(this.selectedTube && this.selectedTube !== "КАМЕРА") ? this.selectedTube : 'null'}`;
-            //     let needsArr = [];
-            //     const updatedQuery = { ...this.$route.query };
-            //     if ( updatedQuery.sort !== currentParameters ) { // Если параметры фильтрации еще не записаны в query, то надо их записать.
-            //         updatedQuery.type = 'filter';
-            //         updatedQuery.sort = currentParameters;
-            //     }
-            //     needsArr = currentParameters.split('+').filter((n) => n !== 'null');
-
-            //     const toFilterOfProducts = (arr) => { // Выясняем соответсвуют ли эти продукты и всем остальным параметрам запроса.
-            //         const resultArr = [];
-            //         for (let i = 1; i < needsArr.length; i++) {
-            //             arr.forEach((product) => {
-            //                 const fullInOne = this.openObjects(product).flat();
-            //                 if (fullInOne.some(n => n.toLowerCase().includes(needsArr[i].toLowerCase()))) { resultArr.push(product); }
-            //             })
-            //             if (resultArr.length === 0) {
-            //                 return [resultArr, true];
-            //             } else if (needsArr.length >= 2) { 
-            //                 needsArr.shift();
-            //                 toFilterOfProducts(resultArr);
-            //             }
-            //         }
-            //         return [resultArr, false]
-            //     }
-                
-            //     if (needsArr.length !== 0 && needsArr.length >= 2) { // Если критерии фильтрации присутствуют, то фильтруем.
-            //         this.toSortOfProducts(needsArr[0]);
-            //         if (this.productsSort.length !== 0) {
-            //             let filterResult = toFilterOfProducts(this.productsSort)
-            //             this.notany = filterResult[1];
-            //             this.productsSort = filterResult[0];
-            //         } else { this.notany = true; }
-            //         this.$router.push({ query: updatedQuery });
-            //     } else if (needsArr.length === 1) {
-            //         this.toSortOfProducts(needsArr[0]);
-            //         if (this.productsSort.length === 0) this.notany = true;
-            //         this.$router.push({ query: updatedQuery });
-            //     } else { this.$router.push({ query: '' }); }
-            // },
-            // checkSelects(){
-            //     const filterQuery = { ...this.$route.query };
-            //     if (filterQuery.type === 'filter') {
-            //         filterQuery.sort.split('+').forEach((el, idx) => {
-            //             this.selects[idx].selectedLet = (el === 'null') ? 0 : this.selects[idx].options.findIndex(n => n === el);
-            //         })
-            //     }
-            // }
-            
-    //     },
-    //     computed: {
-            // hasTriage(){
-            //     return this.productsSort.length === 0 && !this.notany ? true : false;
-            // },
-            // showCancelBtn(){
-            //     return this.searchItem && this.$route.query.type === 'search' ? true : false;
-            // }
-    //     },
 </script>
 
 <style lang="scss" scoped>

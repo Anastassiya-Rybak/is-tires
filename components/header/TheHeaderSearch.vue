@@ -21,16 +21,12 @@
 </template>
 
 <script setup>
-    import { ref, onBeforeUpdate } from 'vue';
-    import { storeToRefs } from 'pinia';
-    import { useSearchStore } from '~/stores/search';
+    import { ref } from 'vue';
+    import { useRoute } from 'vue-router';
 
-    // const searchStore = useSearchStore();
-    // const { inpData } = storeToRefs(searchStore);
     const searchData = ref('');
     const opened = ref(false);
-
-    const localePath = useLocalePath();
+    const route = useRoute();
 
     const closeField = () => {
         const searchBlock = document.getElementById('search');
@@ -41,17 +37,14 @@
 
     const goSearch = async () => {        
         closeField();
-        // searchStore.editItem(searchData.value);
-        // searchStore.saveState();
         if (searchData.value) {
             await navigateTo({
-                path: localePath('/catalog'),
+                path: '/catalog',
                 query: {
                     type: 'search',
                     sort: searchData.value
                 }
             });
-            // location.reload()
         }
     };
 
@@ -64,14 +57,11 @@
         })
     }
 
-    // onBeforeUpdate(() => {
-    //     if (searchData.value === '') {
-    //         searchStore.restoreState();
-    //     }
-    // });
-
-    // TODO: дописать вочер за роутом и очищать поиск строку, когда квери сбрасываются.
-
+    watch(() => route.fullPath, (older, newer) => {     
+        if (!route.query.type || route.query.type !== 'search') {
+            searchData.value = '';
+        } 
+    })
 </script>
 
 <style lang="scss" scoped>
