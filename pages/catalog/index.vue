@@ -152,7 +152,7 @@
         }        
     })
 
-    watch(() => sortedProducts.value, (oldState, newState)=>{ 
+    watch(() => sortedProducts.value, (newState, oldState)=>{         
         (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
     })
 
