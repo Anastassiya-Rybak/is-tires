@@ -9,6 +9,7 @@
     import { useFilterStore } from '~/stores/filter';
 
     const filterStore = useFilterStore();
+    const router = useRouter();
 
     const localePath = useLocalePath();
 
@@ -25,12 +26,13 @@
 
     const editFilter = () => {
         filterStore.editItem("selectedType", props.category);
+        filterStore.saveState();
     }
 
-    const goForCategory = async () => {
+    const goForCategory = () => {
         editFilter();
-        await navigateTo({
-            path: localePath('/catalog'),
+        router.push({
+            path: '/catalog',
             query: {
                 type: 'filter',
                 sort: `null+${props.category}+null+null`

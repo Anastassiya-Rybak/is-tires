@@ -1,7 +1,7 @@
 <template>
     <div>
         <LazyMobileTheHeader id="header-mob" v-if="showMobileVersion" @call="openModal('call')"/>
-        <LazyHeaderTheHeader id="header-desk" v-else @call="openModal('call')" @reset="reset"/>
+        <LazyHeaderTheHeader id="header-desk" v-else @call="openModal('call')"/>
         <LoadingItem v-if="loading"/>
         <main>
             <LazyCallModal v-if = "modalVisible" :from="modalFrom" @close-modal="modalVisible = false" />
@@ -26,7 +26,7 @@
     import { ref, onMounted } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useMobileStore } from '~/stores/mobile';
-    import { useSearchStore } from '~/stores/search';
+    // import { useSearchStore } from '~/stores/search';
     import { useFilterStore } from '~/stores/filter';
 
     const loading = ref(true);
@@ -51,13 +51,13 @@
         modalFrom.value = n;
     };
 
-    const searchStore = useSearchStore();
+    // const searchStore = useSearchStore();
     const filterStore = useFilterStore();
 
-    const reset = async() => {
-        searchStore.editItem('');
-        filterStore.resetFilter();
-    };
+    // const reset = async() => {
+    //     searchStore.editItem('');
+    //     filterStore.resetFilter();
+    // };
 </script>
 
 <style lang="scss">

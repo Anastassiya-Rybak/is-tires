@@ -2,7 +2,6 @@
     <div class="header__search search" :class="{'search_open': opened}" id="search">
         <input class="search__input"
             id="search-input"
-            ref="searchInput"
             type="search" 
             v-model="searchData"  
             :placeholder="opened ? $t('layout.header.search.placeholder') : ''"
@@ -22,14 +21,13 @@
 </template>
 
 <script setup>
-    import { ref, onBeforeUpdate, onMounted } from 'vue';
+    import { ref, onBeforeUpdate } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useSearchStore } from '~/stores/search';
 
-    const searchStore = useSearchStore();
-    const { inpData } = storeToRefs(searchStore);
-    const searchData = ref(inpData);
-    const searchInput = ref(null);
+    // const searchStore = useSearchStore();
+    // const { inpData } = storeToRefs(searchStore);
+    const searchData = ref('');
     const opened = ref(false);
 
     const localePath = useLocalePath();
@@ -43,8 +41,8 @@
 
     const goSearch = async () => {        
         closeField();
-        searchStore.editItem(searchData.value);
-        searchStore.saveState();
+        // searchStore.editItem(searchData.value);
+        // searchStore.saveState();
         if (searchData.value) {
             await navigateTo({
                 path: localePath('/catalog'),
@@ -53,7 +51,7 @@
                     sort: searchData.value
                 }
             });
-            location.reload()
+            // location.reload()
         }
     };
 
@@ -66,12 +64,13 @@
         })
     }
 
-    onBeforeUpdate(() => {
-        if (searchData.value === '') {
-            searchStore.editItem(searchData.value);
-            searchStore.saveState();
-        }
-    });
+    // onBeforeUpdate(() => {
+    //     if (searchData.value === '') {
+    //         searchStore.restoreState();
+    //     }
+    // });
+
+    // TODO: дописать вочер за роутом и очищать поиск строку, когда квери сбрасываются.
 
 </script>
 

@@ -18,17 +18,19 @@
         index: {
             type: Number,
             required: true
+        },
+        save: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     });
 
-    const filterStore = useFilterStore();
+    // направлять трушный пропс когда нужно сохраниться, для соблюдения компонентного разделения ответственности
+
     const currentSelect = ref(`selects.${props.index + 1}`)
 
     const selectedValue = ref(props.selectData.options[props.selectData.selectedLet]);
-
-    const editFilter = () => {
-        filterStore.editItem(props.selectData.name, selectedValue.value);
-    }
 
     const findValue = (idx, option) => {
         const { t } = useI18n();
