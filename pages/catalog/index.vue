@@ -1,189 +1,299 @@
 <template>
     <section class="catalog">
         <div class="catalog__filter-wrap container">
-            <ButtonGreen :text="$t('layout.btns.filter')" class="catalog__filter-btn" @click="toggleFilter"/>
-            <button class="catalog__cancel-btn" v-show="showCancelBtn" @click.prevent="resetSearch">{{ $t('layout.btns.reset', 1) }}</button>
+            <TheButton colour="green" class="catalog__filter-btn" :text="$t('layout.btns.filter')" @click="toggleFilter"/>
+            <TheButton v-if="showResetSerchBtn" :text="$t('layout.btns.reset', 1)" colour="black" @click.prevent="resetSearch" />
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx" :index="idx"
                     :aria-label="select.name" :name="select.name" :id="select.name + 'id'" class="filter-item"
-                    :selectData="select"/>
+                    :selectData="select" :save="isSave"/>
                 </div>
                 <div class="catalog__filter-btns">
-                    <ButtonGreen class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" @click="getApply"/>
-                    <button class="catalog__cancel-btn" @click.prevent="reset">{{ $t('layout.btns.reset', 2) }}</button>
+                    <TheButton class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" colour="green" @click="getApply"/>
+                    <TheButton :text="$t('layout.btns.reset', 2)" colour="black" @click.prevent="reset" />
                 </div> 
             </div>
         </div>
         <ClientOnly class="catalog__content">
-            <div class="catalog__product-cards container" v-if="hasTriage">
+            <!-- <div class="catalog__product-cards container" v-if="!hasSortRequest">
                 <ProductCard class="catalog__product-card" v-for="product in products" :key="product"
                 :productData="product" />
-            </div>
-            <div class="catalog__product-cards container" v-else-if="notany">
-                <p>Ксожалению, не найдено товара, подходящего под указанные критерии.</p>
+            </div> -->
+            <!-- TODO: обработать case с отсутстыием продукции. -->
+            <div class="catalog__product-cards container" v-if="nothing">
+                <p>К сожалению, не найдено продукции, подходящей под указанные критерии.</p>
             </div>
             <div class="catalog__product-cards container" v-else>
-                <ProductCard class="catalog__product-card" v-for="product in productsSort" :key="product"
+                <ProductCard class="catalog__product-card" v-for="product in sortedProducts" :key="product"
                 :productData="product" />
             </div>
         </ClientOnly>
     </section>
 </template>
 
-<script>
-    import ProductCard from '~/components/ProductCard.vue';
-    import JSON from '~/server/bd.json';
-    import { storeToRefs } from 'pinia';
+<script setup>
     import { useFilterStore } from '~/stores/filter';
     import { useSearchStore } from '~/stores/search';
+    import { useRoute, useRouter } from 'vue-router';
+    import JSON from '~/server/bd.json';
+    import { ref } from 'vue';
+    import { storeToRefs } from 'pinia';
 
-    export default {
-        name: 'catalog',
-        components: { ProductCard },
-        setup(){
-            const filterStore = useFilterStore();
-            const searchStore = useSearchStore();
-            const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
-            const localePath = useLocalePath();
-            
-            return {
-                filterStore,
-                searchStore,
-                selectedRd, selectedType, selectedSize, selectedIdx, selectedTube,
-                localePath
-            }
-        },
-        data() {
-            return {
-                searchItem: this.$route.query.sort,
-                products: JSON.products,
-                productsSort: [],
-                filterOn: false,
-                notany: false,
-                visible: false,
-                selects: JSON.selects
-            }
-        },
-        beforeMount() {
-            this.$route.query.type === 'search' ? this.sortBeforePageLoad() : this.getFilter();
-            this.checkSelects();
-        },
-        methods: {
-            async resetSearch(){
-                this.searchStore.editItem('');
-                this.searchStore.saveState();
-                await navigateTo({
-                    path: this.localePath('/catalog'),
-                    query: false
-                });
-                location.reload();
-            },
-            openObjects(obj){
-                let result = Object.values(obj).flat();
+    const route = useRoute();
+    const router = useRouter();
+    const filterStore = useFilterStore();
+    const searchStore = useSearchStore();
+    const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
+    const filterCombo = [selectedRd, selectedType, selectedSize, selectedIdx, selectedTube];
+    const isSave = ref(false);
+    const props = defineProps({
+        searchItem: {
+            type: String || undefined,
+        }
+    })
 
-                result.forEach((el, idx) => {
-                    if (idx === 0) result = result.with(0, "");
-                    if (Object.hasOwn(el, "size")) {
-                        result = result.with(idx, Object.values(el));
-                    }
-                })
-                return result;
-            },
-            toSortOfProducts(item){
-                this.products.forEach((product) => {
-                    const fullInOne = this.openObjects(product).flat();
-                    if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) { this.productsSort.push(product); }
-                })
-            },
-            sortBeforePageLoad() {
-                if (this.searchItem) {
-                    this.productsSort=[];
-                    this.notany=false;
-                    this.toSortOfProducts(this.searchItem);
-                    if (this.productsSort.length === 0) this.notany = true;
-                }
-            },
-            getApply (){
-                this.toggleFilter();
-                this.getFilter();
-            },
-            resetFilter(){
-                this.reset();
-                this.getFilter();
-            },
-            toggleFilter() {
-                this.filterOn = !this.filterOn;
-            },
-            reset() {
-                const selects = document.querySelectorAll('select');
-                for (let i = 0; i < selects.length; i++) {
-                    selects[i].selectedIndex = 0;
-                }
-                this.filterStore.resetFilter();
-            },
-            getFilter() {
-                this.productsSort = [];
-                this.notany = false;
-                const currentParameters = `${(this.selectedRd && this.selectedRd !== "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ") ? this.selectedRd : 'null'}+${(this.selectedType && this.selectedType !== "ПРИМЕНИМОСТЬ") ? this.selectedType : 'null'}+${(this.selectedSize && this.selectedSize !== "РАЗМЕР") ? this.selectedSize : 'null'}+${(this.selectedIdx && this.selectedIdx !== "ПРОЧНОСТЬ КАРКАСА") ? this.selectedIdx : 'null'}+${(this.selectedTube && this.selectedTube !== "КАМЕРА") ? this.selectedTube : 'null'}`;
-                let needsArr = [];
-                const updatedQuery = { ...this.$route.query };
-                if ( updatedQuery.sort !== currentParameters ) { // Если параметры фильтрации еще не записаны в query, то надо их записать.
-                    updatedQuery.type = 'filter';
-                    updatedQuery.sort = currentParameters;
-                }
-                needsArr = currentParameters.split('+').filter((n) => n !== 'null');
+    const products = JSON.products;
+    const sortedProducts = ref(products);
+    const filterOn = ref(false);
+    const nothing = ref(false);
+    const selects = JSON.selects;
+    const localePath = useLocalePath();
 
-                const toFilterOfProducts = (arr) => { // Выясняем соответсвуют ли эти продукты и всем остальным параметрам запроса.
-                    const resultArr = [];
-                    for (let i = 1; i < needsArr.length; i++) {
-                        arr.forEach((product) => {
-                            const fullInOne = this.openObjects(product).flat();
-                            if (fullInOne.some(n => n.toLowerCase().includes(needsArr[i].toLowerCase()))) { resultArr.push(product); }
-                        })
-                        if (resultArr.length === 0) {
-                            return [resultArr, true];
-                        } else if (needsArr.length >= 2) { 
-                            needsArr.shift();
-                            toFilterOfProducts(resultArr);
-                        }
-                    }
-                    return [resultArr, false]
-                }
-                
-                if (needsArr.length !== 0 && needsArr.length >= 2) { // Если критерии фильтрации присутствуют, то фильтруем.
-                    this.toSortOfProducts(needsArr[0]);
-                    if (this.productsSort.length !== 0) {
-                        let filterResult = toFilterOfProducts(this.productsSort)
-                        this.notany = filterResult[1];
-                        this.productsSort = filterResult[0];
-                    } else { this.notany = true; }
-                    this.$router.push({ query: updatedQuery });
-                } else if (needsArr.length === 1) {
-                    this.toSortOfProducts(needsArr[0]);
-                    if (this.productsSort.length === 0) this.notany = true;
-                    this.$router.push({ query: updatedQuery });
-                } else { this.$router.push({ query: '' }); }
-            },
-            checkSelects(){
-                const filterQuery = { ...this.$route.query };
-                if (filterQuery.type === 'filter') {
-                    filterQuery.sort.split('+').forEach((el, idx) => {
-                        this.selects[idx].selectedLet = (el === 'null') ? 0 : this.selects[idx].options.findIndex(n => n === el);
-                    })
-                }
-            }
-            
-        },
-        computed: {
-            hasTriage(){
-                return this.productsSort.length === 0 && !this.notany ? true : false;
-            },
-            showCancelBtn(){
-                return this.searchItem && this.$route.query.type === 'search' ? true : false;
-            }
-        },
+    const hasSortRequest = computed(() => {
+        return (sortedProducts.value.length === 0 && !nothing.value) ? false : true;
+    })
+
+    const showResetSerchBtn = ref(false);
+
+    const resetSearch = async() => {
+        sortedProducts.value = products;
+        showResetSerchBtn.value = false;
+
+        await navigateTo({
+            path: localePath('/catalog')
+        });
     }
+
+    const openObject = (obj) => {
+        const firstDoor = Object.values(obj).flat();
+
+        const secondDoor = firstDoor.filter(prop => typeof prop === 'object').map(prop => {
+            Object.values(prop)
+        }).flat();
+
+        const result = firstDoor.filter(n => typeof n !== 'object').concat(secondDoor).join();
+
+        return result;
+    }
+
+    const saveParams = () => {
+
+    }
+
+    const getFilter = (item) => {
+        const sortedItems = [];
+
+        // const currentParameters = filterCombo.map(filter => {
+        //     (filter && !selects.some(obj => { obj.options[0] == filter })) ? filter : 'null'
+        // });
+
+        let needsArr = [];
+
+        // const updatedQuery = { ...route.query };
+        // if ( updatedQuery.sort.split('+') !== currentParameters ) {
+        //     updatedQuery.type = 'filter';
+        //     updatedQuery.sort = currentParameters.join('+');
+        // }
+        
+        needsArr = item.split('+').filter((n) => n !== 'null');
+
+        // needsArr = currentParameters.filter((n) => n !== 'null');
+        
+        if ( needsArr.length !== 0 ) {
+            needsArr.forEach(need => { sortedItems.concat(sortProducts(need)); })
+        }
+        // router.push({ query: updatedQuery });
+        return sortedItems;
+    }
+
+    const sortProducts = (item) => {
+        const sortedItem = [];
+
+        products.forEach((product) => {  
+            const valueMerger = openObject(product);
+            if (valueMerger.toLowerCase().includes(item.toLowerCase())) { 
+                sortedItem.push(product); 
+            } else if (route.query.type !== 'search') { sortedItem.length = 0; }
+        });
+        
+        return sortedItem
+    }
+
+    const toggleFilter = () => {
+        filterOn.value = !filterOn.value;
+    }
+
+    const reset = () => {
+        const selectElements = document.querySelectorAll('select');
+        
+        for (let i = 0; i < selectElements.length; i++) {
+            selects[i].selectedIndex = 0;
+        }
+        filterStore.resetFilter();
+    }
+
+    const resetFilter = () => {
+        reset();
+        getFilter();
+    }
+
+    const getApply = () => {
+        toggleFilter();
+        getFilter();
+    }
+
+    const showCancelBtn = computed(() => {
+        return props.searchItem && route.query.type === 'search' ? true : false;
+    })
+
+    onBeforeMount(()=>{
+        if (route.query.sort) {  
+            route.query.type === 'search' 
+            ? sortedProducts.value = sortProducts(route.query.sort) 
+            : sortedProducts.value = getFilter(route.query.sort);
+        }        
+    })
+
+    watch(() => sortedProducts.value, (oldState, newState)=>{ 
+        // if (sortedProducts.value != products) {
+            (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
+        // }       
+    })
+
+    watch(() => route.fullPath,(older, newer) => {     
+        if (route.query.type && route.query.type === 'search') {
+            sortedProducts.value = sortProducts(route.query.sort);
+            showResetSerchBtn.value = true;
+        } else {
+            sortedProducts.value = getFilter(route.query.sort);            
+        }
+    })
+
+    //     methods: {
+    //         async resetSearch(){
+    //             this.searchStore.editItem('');
+    //             this.searchStore.saveState();
+    //             await navigateTo({
+    //                 path: this.localePath('/catalog'),
+    //                 query: false
+    //             });
+    //             location.reload();
+    //         },
+            // openObjects(obj){
+            //     let result = Object.values(obj).flat();
+
+            //     result.forEach((el, idx) => {
+            //         if (idx === 0) result = result.with(0, "");
+            //         if (Object.hasOwn(el, "size")) {
+            //             result = result.with(idx, Object.values(el));
+            //         }
+            //     })
+            //     return result;
+            // },
+            // toSortOfProducts(item){
+            //     this.products.forEach((product) => {
+            //         const fullInOne = this.openObjects(product).flat();
+            //         if (fullInOne.some(n => n.toLowerCase().includes(item.toLowerCase()))) { this.productsSort.push(product); }
+            //     })
+            // },
+            // sortBeforePageLoad() {
+            //     if (this.searchItem) {
+            //         this.productsSort=[];
+            //         this.notany=false;
+            //         this.toSortOfProducts(this.searchItem);
+            //         if (this.productsSort.length === 0) this.notany = true;
+            //     }
+            // },
+            // getApply (){
+            //     this.toggleFilter();
+            //     this.getFilter();
+            // },
+            // resetFilter(){
+            //     this.reset();
+            //     this.getFilter();
+            // },
+            // toggleFilter() {
+            //     this.filterOn = !this.filterOn;
+            // },
+            // reset() {
+            //     const selects = document.querySelectorAll('select');
+            //     for (let i = 0; i < selects.length; i++) {
+            //         selects[i].selectedIndex = 0;
+            //     }
+            //     this.filterStore.resetFilter();
+            // },
+            // getFilter() {
+            //     this.productsSort = [];
+            //     this.notany = false;
+            //     const currentParameters = `${(this.selectedRd && this.selectedRd !== "РАДИАЛЬНЫЕ/ДИАГОНАЛЬНЫЕ") ? this.selectedRd : 'null'}+${(this.selectedType && this.selectedType !== "ПРИМЕНИМОСТЬ") ? this.selectedType : 'null'}+${(this.selectedSize && this.selectedSize !== "РАЗМЕР") ? this.selectedSize : 'null'}+${(this.selectedIdx && this.selectedIdx !== "ПРОЧНОСТЬ КАРКАСА") ? this.selectedIdx : 'null'}+${(this.selectedTube && this.selectedTube !== "КАМЕРА") ? this.selectedTube : 'null'}`;
+            //     let needsArr = [];
+            //     const updatedQuery = { ...this.$route.query };
+            //     if ( updatedQuery.sort !== currentParameters ) { // Если параметры фильтрации еще не записаны в query, то надо их записать.
+            //         updatedQuery.type = 'filter';
+            //         updatedQuery.sort = currentParameters;
+            //     }
+            //     needsArr = currentParameters.split('+').filter((n) => n !== 'null');
+
+            //     const toFilterOfProducts = (arr) => { // Выясняем соответсвуют ли эти продукты и всем остальным параметрам запроса.
+            //         const resultArr = [];
+            //         for (let i = 1; i < needsArr.length; i++) {
+            //             arr.forEach((product) => {
+            //                 const fullInOne = this.openObjects(product).flat();
+            //                 if (fullInOne.some(n => n.toLowerCase().includes(needsArr[i].toLowerCase()))) { resultArr.push(product); }
+            //             })
+            //             if (resultArr.length === 0) {
+            //                 return [resultArr, true];
+            //             } else if (needsArr.length >= 2) { 
+            //                 needsArr.shift();
+            //                 toFilterOfProducts(resultArr);
+            //             }
+            //         }
+            //         return [resultArr, false]
+            //     }
+                
+            //     if (needsArr.length !== 0 && needsArr.length >= 2) { // Если критерии фильтрации присутствуют, то фильтруем.
+            //         this.toSortOfProducts(needsArr[0]);
+            //         if (this.productsSort.length !== 0) {
+            //             let filterResult = toFilterOfProducts(this.productsSort)
+            //             this.notany = filterResult[1];
+            //             this.productsSort = filterResult[0];
+            //         } else { this.notany = true; }
+            //         this.$router.push({ query: updatedQuery });
+            //     } else if (needsArr.length === 1) {
+            //         this.toSortOfProducts(needsArr[0]);
+            //         if (this.productsSort.length === 0) this.notany = true;
+            //         this.$router.push({ query: updatedQuery });
+            //     } else { this.$router.push({ query: '' }); }
+            // },
+            // checkSelects(){
+            //     const filterQuery = { ...this.$route.query };
+            //     if (filterQuery.type === 'filter') {
+            //         filterQuery.sort.split('+').forEach((el, idx) => {
+            //             this.selects[idx].selectedLet = (el === 'null') ? 0 : this.selects[idx].options.findIndex(n => n === el);
+            //         })
+            //     }
+            // }
+            
+    //     },
+    //     computed: {
+            // hasTriage(){
+            //     return this.productsSort.length === 0 && !this.notany ? true : false;
+            // },
+            // showCancelBtn(){
+            //     return this.searchItem && this.$route.query.type === 'search' ? true : false;
+            // }
+    //     },
 </script>
 
 <style lang="scss" scoped>
