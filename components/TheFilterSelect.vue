@@ -6,7 +6,6 @@
 
 <script setup>
     import { ref } from 'vue';
-    import { useFilterStore } from '~/stores/filter';
     import { useI18n } from 'vue-i18n';
 
     const props = defineProps({
@@ -19,17 +18,9 @@
             type: Number,
             required: true
         },
-        save: {
-            type: Boolean,
-            required: true,
-            default: false
-        }
     });
 
-    // направлять трушный пропс когда нужно сохраниться, для соблюдения компонентного разделения ответственности
-
-    const currentSelect = ref(`selects.${props.index + 1}`)
-
+    const currentSelect = ref(`selects.${props.index + 1}`);
     const selectedValue = ref(props.selectData.options[props.selectData.selectedLet]);
 
     const findValue = (idx, option) => {

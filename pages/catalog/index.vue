@@ -2,7 +2,7 @@
     <section class="catalog">
         <div class="catalog__filter-wrap container">
             <TheButton colour="green" class="catalog__filter-btn" :text="$t('layout.btns.filter')" @click="toggleFilter"/>
-            <TheButton v-if="showResetSerchBtn" :text="$t('layout.btns.reset', 1)" colour="black" @click.prevent="resetSearch" />
+            <TheButton v-if="showResetSerchBtn" :text="$t('layout.btns.reset', 1)" colour="black" @click.prevent="resetSortQuery" />
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx" :index="idx"
@@ -10,13 +10,12 @@
                     :selectData="select" :save="isSave"/>
                 </div>
                 <div class="catalog__filter-btns">
-                    <TheButton class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" colour="green" @click="getApply"/>
-                    <TheButton :text="$t('layout.btns.reset', 2)" colour="black" @click.prevent="reset" />
+                    <TheButton class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" colour="green" @click.prevent="getApply"/>
+                    <TheButton :text="$t('layout.btns.reset', 2)" colour="black" @click.prevent="resetSortQuery" />
                 </div> 
             </div>
         </div>
         <ClientOnly class="catalog__content">
-            <!-- TODO: обработать case с отсутстыием продукции. -->
             <div class="catalog__product-cards container" v-if="nothing">
                 <p>К сожалению, не найдено продукции, подходящей под указанные критерии.</p>
             </div>
@@ -30,24 +29,16 @@
 
 <script setup>
     import { useFilterStore } from '~/stores/filter';
-    import { useSearchStore } from '~/stores/search';
-    import { useRoute, useRouter } from 'vue-router';
+    import { useRoute } from 'vue-router';
     import JSON from '~/server/bd.json';
     import { ref } from 'vue';
     import { storeToRefs } from 'pinia';
 
     const route = useRoute();
-    const router = useRouter();
     const filterStore = useFilterStore();
-    const searchStore = useSearchStore();
     const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
     const filterCombo = [selectedRd, selectedType, selectedSize, selectedIdx, selectedTube];
     const isSave = ref(false);
-    const props = defineProps({
-        searchItem: {
-            type: String || undefined,
-        }
-    })
 
     const products = JSON.products;
     const sortedProducts = ref(products);
@@ -57,9 +48,10 @@
 
     const showResetSerchBtn = ref(false);
 
-    const resetSearch = async() => {
+    const resetSortQuery = async() => {
         sortedProducts.value = products;
         showResetSerchBtn.value = false;
+        reset()
 
         await navigateTo({
             path: '/catalog'
@@ -78,46 +70,63 @@
         return result;
     }
 
-    const saveParams = () => {
-
+    const matchSiblings = (arr1, arr2) => {
+        const maxLength = Math.max(arr1.length, arr2.length);
+        const broad = arr1.length === maxLength ? arr1 : arr2;
+        const narrow = arr1.length !== maxLength ? arr1 : arr2;
+        let res = [];
+        for (let i = 0; i < broad.length; i++) {
+            for (let i2 = 0; i2 < narrow.length; i2++) {
+                if (narrow[i2].id === broad[i].id){
+                    res.push(narrow[i2]);
+                }
+            }
+        }
+        return res;
     }
 
     const getFilter = (item) => {
-        const sortedItems = [];
+        let sortedItems = [];        
 
-        // const currentParameters = filterCombo.map(filter => {
-        //     (filter && !selects.some(obj => { obj.options[0] == filter })) ? filter : 'null'
-        // });
-
-        let needsArr = [];
-
-        // const updatedQuery = { ...route.query };
-        // if ( updatedQuery.sort.split('+') !== currentParameters ) {
-        //     updatedQuery.type = 'filter';
-        //     updatedQuery.sort = currentParameters.join('+');
-        // }
+        let needsArr = item.split(" ");
+        if (route.query.type === 'filter') {
+            let resu = [];
+            for (let i = 0; i < needsArr.length; i++) {
+                let tem = Number(needsArr[i])
+                if(tem !== 0){
+                    resu.push(selects[i].options[tem])
+                } 
+            }
+            needsArr = resu;            
+        };
         
-        needsArr = item.split('+').filter((n) => n !== 'null');
-
-        // needsArr = currentParameters.filter((n) => n !== 'null');
-        
-        if ( needsArr.length !== 0 ) {
-            needsArr.forEach(need => { sortedItems.concat(sortProducts(need)); })
-        }
-        // router.push({ query: updatedQuery });
+        if ( needsArr.length !== 0 && needsArr.length >= 2) {
+            needsArr.forEach(need => { sortedItems.push(sortProducts(need)); });
+            let matchSortedItems = [];
+            sortedItems.forEach((n, idx) => {
+                if (idx === 0) {
+                    matchSortedItems = matchSiblings(n, sortedItems[idx+1]);
+                } else if (matchSortedItems.length !== 0) {
+                    matchSortedItems = matchSiblings(n, matchSortedItems);
+                } else {
+                    return [];
+                }
+            });
+            sortedItems = matchSortedItems;
+        } else if ( needsArr.length !== 0 ) {
+            sortedItems = sortProducts(needsArr[0]);
+        };
         return sortedItems;
     }
 
-    const sortProducts = (item) => {
-        const sortedItem = [];
-
+    const sortProducts = (prop) => {
+        const sortedItem = [];        
         products.forEach((product) => {  
-            const valueMerger = openObject(product);
-            if (valueMerger.toLowerCase().includes(item.toLowerCase())) { 
-                sortedItem.push(product); 
-            } else if (route.query.type !== 'search') { sortedItem.length = 0; }
+            const valueMerger = openObject(product);            
+            if (valueMerger.toLowerCase().includes(prop.toLowerCase())) {                 
+                sortedItem.push(product);
+            }
         });
-        
         return sortedItem
     }
 
@@ -129,26 +138,35 @@
         const selectElements = document.querySelectorAll('select');
         
         for (let i = 0; i < selectElements.length; i++) {
-            selects[i].selectedIndex = 0;
+            selectElements[i].selectedIndex = 0;
         }
         filterStore.resetFilter();
     }
 
-    const resetFilter = () => {
-        reset();
-        getFilter();
+    const saveFilterProperties = async () => {
+        const selectsCollection = document.querySelectorAll('.filter-select-wrap');
+        const dataToSeaarch = [];
+        selectsCollection.forEach(select => {
+            dataToSeaarch.push(select.selectedIndex);
+        })
+        await navigateTo({
+            path: '/catalog',
+            query: {
+                type: 'filter',
+                sort: dataToSeaarch.join(' ')
+            }
+        })
     }
 
     const getApply = () => {
         toggleFilter();
-        getFilter();
+        saveFilterProperties();
+        sortedProducts.value = getFilter(route.query.sort);
     }
 
     onBeforeMount(()=>{
         if (route.query.sort) {  
-            route.query.type === 'search' 
-            ? sortedProducts.value = sortProducts(route.query.sort) 
-            : sortedProducts.value = getFilter(route.query.sort);
+            sortedProducts.value = getFilter(route.query.sort);
         }        
     })
 
@@ -156,11 +174,12 @@
         (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
     })
 
-    watch(() => route.fullPath,(older, newer) => {     
-        if (route.query.type && route.query.type === 'search') {
-            sortedProducts.value = sortProducts(route.query.sort);
+    watch(() => route.fullPath,(older, newer) => {   
+        const routeType = route.query.type;  
+        if (routeType && routeType === 'search') {
+            sortedProducts.value = getFilter(route.query.sort);
             showResetSerchBtn.value = true;
-        } else if (route.query.type) {
+        } else if (routeType) {
             sortedProducts.value = getFilter(route.query.sort);            
         }
     })
