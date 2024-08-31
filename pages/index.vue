@@ -21,8 +21,8 @@
             <TheCategoryCard class="second-block__card"
                 v-for="(category, idx) in categories" :key="idx" 
                 :categoryName="$t(`main.second_block.categories.${idx + 1}`)"
-                :category="category" />
-            <nuxt-link class="second-block__link" :to="localePath('/catalog')">{{ $t("main.second_block.link") }}</nuxt-link>
+                :category="category" :index="idx"/>
+            <nuxt-link class="second-block__link" :to="'/catalog'">{{ $t("main.second_block.link") }}</nuxt-link>
         </section>
         <section class="therd-block-wrap">
             <div class="therd-block container">
@@ -56,8 +56,6 @@
     import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
     import { useMobileStore } from '~/stores/mobile';
-
-    const localePath = useLocalePath();
 
     const mobileStore = useMobileStore();
     const { mobile } = storeToRefs(mobileStore);

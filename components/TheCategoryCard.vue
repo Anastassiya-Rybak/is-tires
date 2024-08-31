@@ -6,13 +6,7 @@
 </template>
 
 <script setup>
-    import { useFilterStore } from '~/stores/filter';
-
-    const filterStore = useFilterStore();
     const router = useRouter();
-
-    const localePath = useLocalePath();
-
     const props = defineProps({
         categoryName: {
             type: String,
@@ -21,21 +15,19 @@
         category: {
             type: String,
             required: true
+        },
+        index: {
+            type: Number,
+            required: true
         }
     })
 
-    const editFilter = () => {
-        filterStore.editItem("selectedType", props.category);
-        filterStore.saveState();
-    }
-
     const goForCategory = () => {
-        editFilter();
         router.push({
             path: '/catalog',
             query: {
                 type: 'filter',
-                sort: `null+${props.category}+null+null`
+                sort: `0 ${props.index + 1} 0 0 0`
             }
         });
     }

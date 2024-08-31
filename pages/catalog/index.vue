@@ -36,8 +36,8 @@
 
     const route = useRoute();
     const filterStore = useFilterStore();
-    const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
-    const filterCombo = [selectedRd, selectedType, selectedSize, selectedIdx, selectedTube];
+    // const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
+    // const filterCombo = [selectedRd, selectedType, selectedSize, selectedIdx, selectedTube];
     const isSave = ref(false);
 
     const products = JSON.products;
@@ -140,28 +140,34 @@
         for (let i = 0; i < selectElements.length; i++) {
             selectElements[i].selectedIndex = 0;
         }
-        filterStore.resetFilter();
     }
 
-    const saveFilterProperties = async () => {
+    const saveFilterProperties = async (arr) => {
+        await navigateTo({
+            path: '/catalog',
+            query: {
+                type: 'filter',
+                sort: arr.join(' ')
+            }
+        })
+    }
+
+    const checkSelects = () => {
         const selectsCollection = document.querySelectorAll('.filter-select-wrap');
         const dataToSeaarch = [];
         selectsCollection.forEach(select => {
             dataToSeaarch.push(select.selectedIndex);
         })
-        await navigateTo({
-            path: '/catalog',
-            query: {
-                type: 'filter',
-                sort: dataToSeaarch.join(' ')
-            }
-        })
+        return dataToSeaarch;
     }
 
     const getApply = () => {
-        toggleFilter();
-        saveFilterProperties();
-        sortedProducts.value = getFilter(route.query.sort);
+        const check = checkSelects();
+        if (check.some(n => n != 0)) {
+            toggleFilter();
+            saveFilterProperties(check);
+            sortedProducts.value = getFilter(route.query.sort);
+        };
     }
 
     onBeforeMount(()=>{
@@ -169,6 +175,14 @@
             sortedProducts.value = getFilter(route.query.sort);
         }        
     })
+
+    onMounted(() => {
+        if (route.query.type === 'filter') {
+            const selectElements = document.querySelectorAll('select');
+            const needsArr = route.query.sort.split(' ');
+            selectElements.forEach((n,idx) => n.selectedIndex = needsArr[idx-1]);
+        };
+    }),
 
     watch(() => sortedProducts.value, (newState, oldState)=>{         
         (newState.length === 0 && route.query.sort) ? nothing.value = true : nothing.value = false;
