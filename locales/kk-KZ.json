@@ -21,7 +21,7 @@
             "call_placeholder": "Телефон нөмірі",
             "name_placeholder": "Сізге қалай атанса береміз?",
             "email_placeholder": "Байланыс үшін электрондық пошта",
-            "messege_placeholder": "Сұрау туралы сипаттау",
+            "message_placeholder": "Сұрау туралы сипаттау",
             "method": "Байланыс тәсілі"
         },
         "footer": {
@@ -574,8 +574,8 @@
     },
     "contacts": {
         "title": "КОМПАНИЯ БАЙЛАНЫСЫ",
-        "messege": "ХАБАРЛАСУ ЖАТА",
+        "message": "ХАБАРЛАСУ ЖАТА",
         "textarea": "Хабар . . .",
-        "messege_btn": "ЖІБЕРУ"
+        "message_btn": "ЖІБЕРУ"
     }
 }

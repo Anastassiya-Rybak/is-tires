@@ -20,11 +20,11 @@
             </section>
             <section class="contact-page__form">
                 <form method="POST">
-                    <h2>{{ $t('contacts.messege') }}</h2>
+                    <h2>{{ $t('contacts.message') }}</h2>
                     <input type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')">
                     <input  type="email" name="email" id="email" :placeholder="$t('layout.modal.email_placeholder')">
                     <textarea  name="" id="form-text" cols="30" rows="10" :placeholder="$t('contacts.textarea')"></textarea>
-                    <TheButton  class="call-me" :text="$t('contacts.messege_btn')" colour="green"/>
+                    <TheButton  class="call-me" :text="$t('contacts.message_btn')" colour="green"/>
                 </form>
             </section>
         </div>

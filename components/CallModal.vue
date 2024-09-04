@@ -5,7 +5,7 @@
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
             <div class="call-modal__body" v-if="from === 'form'">
                 <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
-                <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.messege_placeholder')" required></textarea>
+                <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.message_placeholder')" required></textarea>
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="">
             </div>
