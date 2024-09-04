@@ -19,33 +19,31 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1vh 0;
-
         &__list {
             width: 70%;
             display: flex;
             justify-content: baseline;
             gap: 3%;
             text-transform: uppercase;
-            font-size: 0.8em;
+            font-size: calcFlexFontSize(10, 12);
             letter-spacing: 0.2em;
             opacity: 0.7;
 
             &:hover {
                 opacity: 1;
             }
+
+            @include media(1100px){
+                width: 60%;
+            }
         }
 
         &__call-btn {
             width: 15%;
-            font-size: 12px;
+            font-size: calcFlexFontSize(10, 12);
 
-            @include media(1015px) {
-                font-size: 8px;
-            }
-
-            @include media(690px) {
-                font-size: 14px;
+            @include media(1100px){
+                width: 25%;
             }
         }
     }

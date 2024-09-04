@@ -5,6 +5,15 @@ $accent: #00a857;
 
 // mixins
 
+@function calcFlexFontSize($f-min, $f-max) {
+  $k: calc(($f-max - $f-min) / (1440 - 460));
+  $b: $f-min - $k * 460;
+
+  $b: $b * 1px;
+
+  @return calc(#{$k} * 100vw + #{$b});
+}
+
 @mixin media($width) {
   @media (max-width: $width) {
     @content

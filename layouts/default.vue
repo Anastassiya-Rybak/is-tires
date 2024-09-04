@@ -26,8 +26,6 @@
     import { ref, onMounted } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useMobileStore } from '~/stores/mobile';
-    // import { useSearchStore } from '~/stores/search';
-    import { useFilterStore } from '~/stores/filter';
 
     const loading = ref(true);
     const mobileStore = useMobileStore();
@@ -50,14 +48,6 @@
         modalVisible.value = true;
         modalFrom.value = n;
     };
-
-    // const searchStore = useSearchStore();
-    const filterStore = useFilterStore();
-
-    // const reset = async() => {
-    //     searchStore.editItem('');
-    //     filterStore.resetFilter();
-    // };
 </script>
 
 <style lang="scss">

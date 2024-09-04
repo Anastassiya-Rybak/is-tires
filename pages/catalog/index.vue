@@ -203,7 +203,7 @@
 <style lang="scss" scoped>
     .catalog {
         background-color: #f1f1f1;
-        padding: 14vh 0 5vh;
+        padding: 16vh 0 5vh;
 
         @include media(690px) {
             padding: 10vh 0 5vh;

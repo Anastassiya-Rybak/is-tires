@@ -40,6 +40,10 @@
         &__top {
             position: absolute;
             top: -70%;
+
+            @include media(1010px){
+                top: -90%;
+            }
         }
 
         &__logo {
@@ -59,7 +63,6 @@
             justify-content: space-around;
             align-items: center;
             padding: 0 10%;
-            // width: 55%;
             flex: content;
             margin: 1.4vw 0;
 
