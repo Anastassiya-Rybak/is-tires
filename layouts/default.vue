@@ -18,7 +18,7 @@
                 <img src="~/assets/arrow-button-up.svg" alt="вверх">
             </a>
         </main>
-        <TheFooter @call="openModal('call')" @form="openModal('form')" @reset="reset"/>
+        <TheFooter @call="openModal('call')" @form="openModal('form')"/>
     </div>
 </template>
 

@@ -1,16 +1,16 @@
 <template>
     <nav class="nav container">
         <HeaderTheHeaderTop class="nav__top" />
-        <nuxt-link :to="localePath('/')" class="nav__logo" @click="getOut">{{ $t("home_title") }}</nuxt-link>
+        <nuxt-link :to="localePath('/')" class="nav__logo">{{ $t("home_title") }}</nuxt-link>
         <ul class="nav__menu">
             <li>
-                <nuxt-link active-class="header__active-page" :to="localePath('/')" @click="getOut">{{ $t("layout.header.nav.main") }}</nuxt-link>
+                <nuxt-link active-class="header__active-page" :to="localePath('/')">{{ $t("layout.header.nav.main") }}</nuxt-link>
             </li>
             <li>
                 <nuxt-link active-class="header__active-page" :to="localePath('/catalog')">{{ $t("layout.header.nav.catalog") }}</nuxt-link>
             </li>
             <li>
-                <nuxt-link active-class="header__active-page" :to="localePath('/contact')" @click="getOut">{{ $t("layout.header.nav.contacts") }}</nuxt-link>
+                <nuxt-link active-class="header__active-page" :to="localePath('/contact')">{{ $t("layout.header.nav.contacts") }}</nuxt-link>
             </li>
         </ul>
         <HeaderTheHeaderSearch />
@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
     import { useSearchStore } from '~/stores/search';
 
     const searchStore = useSearchStore();
@@ -29,11 +28,6 @@
         searchStore.restoreState();
     });
 
-    const emit = defineEmits('reset');
-
-    const getOut = () => {
-        emit('reset');
-    };
 </script>
 
 <style lang="scss" scoped>

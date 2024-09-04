@@ -36,14 +36,11 @@
     const localePath = useLocalePath();
     const link = localePath('/catalog');
 
-    const emit = defineEmits('reset');
     const goAndReset = async () => {
-        emit('reset');
         await navigateTo({
             path: link,
             query: false
         });
-        location.reload();
     }
 </script>
 
