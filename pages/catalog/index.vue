@@ -168,6 +168,7 @@
     onBeforeMount(()=>{
         if (route.query.type && route.query.type === 'search') {
             showResetSerchBtn.value = true;
+            sortedProducts.value = getFilter(route.query.sort);
         } else if (route.query.sort) {  
             sortedProducts.value = getFilter(route.query.sort);
         }        
