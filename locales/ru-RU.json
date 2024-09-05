@@ -21,7 +21,7 @@
             "call_placeholder": "Номер телефона",
             "name_placeholder": "Как к Вам обращаться?",
             "email_placeholder": "Эл. почта для связи",
-            "messege_placeholder": "Опишите суть запроса",
+            "message_placeholder": "Опишите суть запроса",
             "method": "Способ связи"
         },
         "footer": {
@@ -582,8 +582,8 @@
     },
     "contacts": {
         "title": "КОНТАКТЫ КОМПАНИИ",
-        "messege": "ОСТАВИТЬ СООБЩЕНИЕ",
+        "message": "ОСТАВИТЬ СООБЩЕНИЕ",
         "textarea": "Сообщение . . .",
-        "messege_btn": "ОТПРАВИТЬ"
+        "message_btn": "ОТПРАВИТЬ"
     }
 }

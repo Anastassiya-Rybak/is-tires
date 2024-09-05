@@ -28,19 +28,14 @@
 </template>
 
 <script setup>
-    import { useFilterStore } from '~/stores/filter';
     import { useRoute } from 'vue-router';
     import JSON from '~/server/bd.json';
     import { ref } from 'vue';
-    import { storeToRefs } from 'pinia';
 
     const route = useRoute();
-    const filterStore = useFilterStore();
-    // const { selectedRd, selectedType, selectedSize, selectedIdx, selectedTube } = storeToRefs(filterStore);
-    // const filterCombo = [selectedRd, selectedType, selectedSize, selectedIdx, selectedTube];
     const isSave = ref(false);
 
-    const products = JSON.products;
+    const { products } = JSON;
     const sortedProducts = ref(products);
     const filterOn = ref(false);
     const nothing = ref(false);
@@ -171,7 +166,9 @@
     }
 
     onBeforeMount(()=>{
-        if (route.query.sort) {  
+        if (route.query.type && route.query.type === 'search') {
+            showResetSerchBtn.value = true;
+        } else if (route.query.sort) {  
             sortedProducts.value = getFilter(route.query.sort);
         }        
     })

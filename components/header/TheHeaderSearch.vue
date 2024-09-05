@@ -50,17 +50,25 @@
 
     const openField = () => {
         opened.value = true;
-        document.addEventListener('click', (event) => {                    
-            if (event.target.closest('.search') != document.getElementById('search')) { 
+        function conditionalCloseField (event) {
+            if (event.target.closest('.search') != document.getElementById('search') && opened.value) { 
                 closeField();
+                document.removeEventListener('click', conditionalCloseField);
             }
-        })
+        }
+        document.addEventListener('click', conditionalCloseField);
     }
 
     watch(() => route.fullPath, (older, newer) => {     
         if (!route.query.type || route.query.type !== 'search') {
             searchData.value = '';
-        } 
+        }
+    })
+
+    onMounted(() => {
+        if (route.query.type && route.query.type === 'search') {
+            searchData.value = route.query.sort;
+        }
     })
 </script>
 
