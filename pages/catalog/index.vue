@@ -1,8 +1,8 @@
 <template>
     <section class="catalog">
         <div class="catalog__filter-wrap container">
-            <TheButton colour="green" class="catalog__filter-btn" :text="$t('layout.btns.filter')" @click="toggleFilter"/>
-            <TheButton v-if="showResetSerchBtn" :text="$t('layout.btns.reset', 1)" colour="black" @click.prevent="resetSortQuery" />
+            <TheButton colour="green" class="catalog__filter-main-btn" :text="$t('layout.btns.filter')" @click="toggleFilter"/>
+            <TheButton class="catalog__search-reset-btn" v-if="showResetSerchBtn" :text="$t('layout.btns.reset', 1)" colour="black" @click.prevent="resetSortQuery" />
             <div class="catalog__filter-content" v-show="filterOn">
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx" :index="idx"
@@ -210,7 +210,8 @@
             padding: 7vh 0 3vh;
         }
 
-        &__filter-btn {
+        &__filter-main-btn,
+        &__search-reset-btn  {
             font-size: 20px;
             font-weight: 900;
             padding: 0.5em 1em;
@@ -226,6 +227,10 @@
             &:active {
                 transform: scale(0.98, 0.98);
             }
+        }
+
+        &__search-reset-btn {
+            margin-left: 3%;
         }
 
         &__cancel-btn {
@@ -258,7 +263,9 @@
         }
 
         &__filter-btns {
+            width: 23%;
             display: flex;
+            justify-content: space-between;
 
             button {
                 padding: 0.7em;
