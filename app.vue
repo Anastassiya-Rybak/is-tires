@@ -6,24 +6,13 @@
 </template>
 
 <script setup>
-    useHead({
-        title: 'Искра Сервис',
-        htmlAttrs: {
-            lang: 'ru'
-        },
-        meta: [
-            { name: 'description', content: 'Высококачественные шины для крупногабаритной техники.' }
-        ],
-        bodyAttrs: {
-            class: 'test'
-        },
-    }),
+    const { t } = useI18n();
     useSeoMeta({
-        title: 'Искра Сервис',
-        ogTitle: 'Искра Сервис',
-        description: 'Высококачественные шины для крупногабаритной техники..',
-        ogDescription: 'Высококачественные шины для крупногабаритной техники.',
-        ogImage: '',
+        title: () => t('home_title'),
+        ogTitle: () => t('home_title'),
+        description: () => t('home_title'),
+        ogDescription: () => t('home_title'),
+        ogImage: () => '',
     })
 </script>
 

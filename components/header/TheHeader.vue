@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <HeaderTheHeaderNav class="header__nav"/>
+        <HeaderTheHeaderNav class="header__nav" @call="$emit('call')"/>
     </header>
 </template>
 

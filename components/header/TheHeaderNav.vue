@@ -1,6 +1,6 @@
 <template>
     <nav class="nav container">
-        <HeaderTheHeaderTop class="nav__top" />
+        <HeaderTheHeaderTop class="nav__top" @call="$emit('call')"/>
         <nuxt-link :to="localePath('/')" class="nav__logo">{{ $t("home_title") }}</nuxt-link>
         <ul class="nav__menu">
             <li>
