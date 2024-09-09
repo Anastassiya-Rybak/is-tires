@@ -22,7 +22,7 @@
             "call_placeholder": "Номер телефона",
             "name_placeholder": "Как к Вам обращаться?",
             "email_placeholder": "Эл. почта для связи",
-            "message_placeholder": "Опишите суть запроса",
+            "message_placeholder": "Дополнительная информация",
             "method": "Способ связи",
             "btn_add": "Добавить товар",
             "choose_product": "Выберите товар"

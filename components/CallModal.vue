@@ -78,17 +78,21 @@
     }
 
     const handleSubmit = () => {
+        const messageComplete = `Телефон: ${formData.tel}. Необходимые товары: ${choosenProducts.value.join()}. Дополнительная информация: ${formData.message}`;
+
         const info = {
             name: formData.name,
             email: formData.email,
-            message: formData.message
-        }
+            message: messageComplete
+        };
+
         const res = useHandleSubmit(info);
 
         if (res) {
             for (let key in formData) {
                 key !== 3 ? formData[key] = "" : formData[key] = 'Способ связи';
             }
+            choosenProducts.value.length = 0;
             btnText.value = 'Отправлено';
             setTimeout(() => {
                 btnText.value = 'Отправить';
