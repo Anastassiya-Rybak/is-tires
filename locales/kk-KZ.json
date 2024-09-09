@@ -23,7 +23,9 @@
             "name_placeholder": "Сізге қалай атанса береміз?",
             "email_placeholder": "Байланыс үшін электрондық пошта",
             "message_placeholder": "Сұрау туралы сипаттау",
-            "method": "Байланыс тәсілі"
+            "method": "Байланыс тәсілі",
+            "btn_add": "Қосу",
+            "choose_product": "Таңдаңыз тауар"
         },
         "footer": {
             "title": "БІЗБЕН БАЙЛАНЫСУ",

@@ -23,7 +23,9 @@
             "name_placeholder": "Как к Вам обращаться?",
             "email_placeholder": "Эл. почта для связи",
             "message_placeholder": "Опишите суть запроса",
-            "method": "Способ связи"
+            "method": "Способ связи",
+            "btn_add": "Добавить товар",
+            "choose_product": "Выберите товар"
         },
         "footer": {
             "title": "СВЯЗАТЬСЯ С НАМИ",

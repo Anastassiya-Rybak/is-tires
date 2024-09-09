@@ -1,10 +1,20 @@
 <template>
-    <section class="call-modal-wrapper" @click="$emit('close-modal')">
+    <div class="call-modal-wrapper" @click="$emit('close-modal')">
         <form class="call-modal" target="hidden-iframe" @click.stop>
             <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
             <div class="call-modal__body" v-if="from === 'form'">
                 <input v-model="formData.email" type="email" name="user-email" id="email" :placeholder="$t('layout.modal.email_placeholder')" required>
+                <input class="call-number" v-model="formData.tel" type="tel" name="telephone" id="user-telephone" :placeholder="$t('layout.modal.call_placeholder')">
+                <TheButton :text="$t('layout.modal.btn_add')" colour="black" @click.prevent="openSelectMenu"/>
+                <div class="call-modal__products-list">
+                    <div class="call-modal__product" v-for="(product, idx) in choosenProducts" :key="product"> 
+                        {{ product }}
+                        <div class="call-modal__del" @click="deleteProduct(idx)">
+                            <img src="./../assets/close.png" alt="Закрыть">
+                        </div>
+                    </div>
+                </div>
                 <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.message_placeholder')" required></textarea>
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="">
@@ -16,15 +26,15 @@
                     <option value="WhatsApp">WhatsApp</option>
                     <option value="Telegram">Telegram</option>
                 </select>
-                <input v-model="formData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
+                <input class="call-number" v-model="formData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
             </div>
             <TheButton type="submit" class="call-modal__btn" :text="btnText" colour="green" @click.prevent="submitCallModalData"/>
+            <LazyTheProductsSelect class="call-modal__product-menu" id="product-menu" v-if="openedSelectMenu" @addProduct="addProduct" @closeMenu="openedSelectMenu=false"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
-
-</section>
+    </div>
 </template>
 
 <script setup>
@@ -35,6 +45,9 @@
             type: String,
             required: true,
             default: ""
+        },
+        product: {
+            type: String
         }
     })
 
@@ -47,6 +60,22 @@
     };
 
     const btnText = ref('Отправить');
+    const openedSelectMenu = ref(false);
+    const choosenProducts = ref([]);
+
+    if (props.product) choosenProducts.value.push(props.product);
+
+    const openSelectMenu = () => {
+        openedSelectMenu.value = !openedSelectMenu.value;
+    }
+
+    const addProduct = (product) => {
+        choosenProducts.value.push(product);
+    }
+
+    const deleteProduct = (idx) => {
+        choosenProducts.value.splice(idx, 1);
+    }
 
     const handleSubmit = () => {
         const info = {
@@ -154,11 +183,12 @@
 
     .call-modal {
         position: absolute;
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         row-gap: 20px;
         justify-content: space-between;
-        width: 50%;
+        width: 40%;
         top: 50%; left: 50%;
             -webkit-transform: translate(-50%,-50%);
             -ms-transform: translate(-50%,-50%);
@@ -210,9 +240,27 @@
             justify-content: space-between;
         }
 
+        &__products-list,
         input,
-        textarea:not(#call-number) {
+        textarea:not(.call-number) {
             width: 100%;
+        }
+
+        &__products-list {
+            display: flex;
+            padding: 0 1em;
+            flex-wrap: wrap;
+            row-gap: 1em;
+            column-gap: 2em;
+            color: #000000;
+            font-size: 1.3em;
+        }
+
+        &__product {
+            position: relative;
+            padding: 0.5em 0.7em;
+            border: 0.5px solid black;
+            border-radius: 0.5em;
         }
 
         .select-met {
@@ -239,10 +287,32 @@
             }
         }
 
-        #call-number {
-            width: 65%;
+        .call-number {
+            width: 50%;
             @include media(1140px) {
                 width: 100%;
+            }
+        }
+
+        &__product-menu {
+            position: relative;
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            right: 10%;
+            top: 10%;
+        }
+
+        &__del {
+            position: absolute;
+            width: 20%;
+            right: -10%;
+            top: -20%;
+            cursor: pointer;
+
+            &:hover img {
+                transform: scale(1.1);
+                box-shadow: 0 0 5px  red;
             }
         }
     }

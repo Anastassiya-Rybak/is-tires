@@ -23,7 +23,9 @@
             "name_placeholder": "How should we address you?",
             "email_placeholder": "Email for communication",
             "message_placeholder": "Describe the request",
-            "method": "Contact method"
+            "method": "Contact method",
+            "btn_add": "Add",
+            "choose_product": "Select product"
         },
         "footer": {
             "title": "CONTACT US",
