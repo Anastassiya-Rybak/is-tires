@@ -12,7 +12,7 @@
     .header {
         position: relative;
         position: absolute;
-        top: 6vh;
+        top: 8vh;
         left: 0;
         width: 100%;
         background-color: #0c0c0c69;
