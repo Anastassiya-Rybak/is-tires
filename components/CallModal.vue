@@ -28,7 +28,7 @@
                 </select>
                 <input class="call-number" v-model="formData.tel" type="tel" name="number" id="call-number" :placeholder="$t('layout.modal.call_placeholder')">
             </div>
-            <TheButton type="submit" class="call-modal__btn" :text="btnText" colour="green" @click.prevent="submitCallModalData"/>
+            <TheButton type="submit" class="call-modal__btn" :text="btnText" colour="green" @click.prevent="handleCall"/>
             <LazyTheProductsSelect class="call-modal__product-menu" id="product-menu" v-if="openedSelectMenu" @addProduct="addProduct" @closeMenu="openedSelectMenu=false"/>
             <div class="close-call-window" @click="$emit('close-modal')">
                 <img src="./../assets/close.png" alt="Закрыть">
@@ -77,36 +77,12 @@
         choosenProducts.value.splice(idx, 1);
     }
 
-    const handleSubmit = () => {
-        const messageComplete = `Телефон: ${formData.tel}. Необходимые товары: ${choosenProducts.value.join()}. Дополнительная информация: ${formData.message}`;
-
-        const info = {
-            name: formData.name,
-            email: formData.email,
-            message: messageComplete
-        };
-
-        const res = useHandleSubmit(info);
-
-        if (res) {
-            for (let key in formData) {
-                key !== 3 ? formData[key] = "" : formData[key] = 'Способ связи';
-            }
-            choosenProducts.value.length = 0;
-            btnText.value = 'Отправлено';
-            setTimeout(() => {
-                btnText.value = 'Отправить';
-            }, 2000);
-        } else {
-            btnText.value = 'Ошибка';
-            setTimeout(() => {
-                btnText.value = 'Отправить';
-            }, 2000);
-        }        
-    }
-
     const handleCall = () => {
-        const usersMessage = `${formData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${formData.tel} посредством ${formData.method}`;
+
+        const callbackMessage = `Тема: Обратный звонок \n Имя пользователя: ${formData.name} \n Телефон: ${formData.tel} \n Желательный способ связи: ${(formData.method === "Способ связи" || "Phone") ? "Звонок" : formData.method}`;
+        const applicationMessage = `Тема: Заявка \n Имя пользователя: ${formData.name} \n Телефон: ${formData.tel} \n Необходимые товары: ${choosenProducts.value.join()} \n Дополнительная информация: ${formData.message}`;
+
+        const usersMessage = props.from === "form" ? applicationMessage : callbackMessage;
 
         const res = useManagerCall(usersMessage);
 
@@ -124,14 +100,6 @@
                 btnText.value = 'Отправить';
             }, 2000);
         };        
-    }
-
-    const submitCallModalData = () => {
-        if (props.from === 'form') {
-            handleSubmit();
-        } else {
-            handleCall();
-        }
     }
 </script>
 
