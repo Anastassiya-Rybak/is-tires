@@ -69,12 +69,20 @@
         box-shadow: 0px 10px 8px 0px rgba(197, 197, 197, 0.11);
         cursor: pointer;
 
-        &:hover {
+        @include hover {
             background-color: #ffffff;
-        }
+            .product-card__img {
+                transform: scale(1.3);
+            }
 
-        &:hover>.product-card__img {
-            transform: scale(1.3);
+            h3 {
+                transform: scale(2.2);
+                color: $accent;
+                font-weight: 900;
+                text-shadow: 0px 0.02em 0.05em rgba(0, 0, 0, 0.692);
+                z-index: 5;
+                letter-spacing: 0.1em;
+            }
         }
         
         @include media(1240px) {
