@@ -5,9 +5,9 @@
         </div>
         <div class="product-page container">
             <div class="product-page__img">
-                <img :src='image' :alt="product.name">
+                <ImageMagnifier :imageSrc="image" :zoom="2" :alt="product.name" />
             </div>
-            <div class="product-page__text">
+            <div class="product-page__text" id="gallery-preview">
                 <div class="product-page__name">
                     <h2>{{ product.name }}</h2>
                     <ClientOnly>
