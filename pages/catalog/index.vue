@@ -28,14 +28,14 @@
 </template>
 
 <script setup>
+    import { useBD } from '~/composables/useBD';
     import { useRoute } from 'vue-router';
-    import JSON from '~/server/bd.json';
     import { ref } from 'vue';
 
     const route = useRoute();
     const isSave = ref(false);
 
-    const { products } = JSON;
+    const { products } = await useBD();
     const sortedProducts = ref(products);
     const filterOn = ref(false);
     const nothing = ref(false);

@@ -60,13 +60,13 @@
 
 <script setup>
     import { ref } from 'vue';
-    import JSON from '~/server/bd.json'
+    import { useBD } from '~/composables/useBD';
 
     const { id } = useRoute().params;
     const image = `/tyres/${id}.webp`;
     const visible = ref(false);
-    const product = JSON.products[id-1];
-    const categories = JSON.categories;
+    const product = await useBD().then(n => n.products[id - 1]);
+    const { categories } = await useBD();
 
     const visibleModal = () => {
         visible.value = !visible.value;

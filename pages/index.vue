@@ -53,15 +53,14 @@
 
 <script setup>
     import { ref } from 'vue';
-    import JSON from '~/server/bd.json';
     import { storeToRefs } from 'pinia';
+    import { useBD } from '~/composables/useBD';
     import { useMobileStore } from '~/stores/mobile';
 
     const mobileStore = useMobileStore();
     const { mobile } = storeToRefs(mobileStore);
 
-    const products = JSON.products;
-    const categories = JSON.categories;
+    const { products, categories } = await useBD();
     const visible = ref(false);
 
     const visibleModal = () => {
