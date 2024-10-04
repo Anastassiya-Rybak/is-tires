@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-    import { useHandleCall } from '~/composables/useHandleCall';
+    import { useManagerCall } from '~/composables/useManagerCall';
 
     const props = defineProps({
         from: {
@@ -108,7 +108,7 @@
     const handleCall = () => {
         const usersMessage = `${formData.name} ждёт, чтобы с ним(ней) как можно скорее связались по номеру ${formData.tel} посредством ${formData.method}`;
 
-        const res = useHandleCall(usersMessage);
+        const res = useManagerCall(usersMessage);
 
         if (res) {
             for (let key in formData) {                
