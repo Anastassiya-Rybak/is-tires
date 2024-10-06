@@ -42,16 +42,6 @@
 
     const showResetSerchBtn = ref(false);
 
-    const resetSortQuery = async() => {
-        sortedProducts.value = products;
-        showResetSerchBtn.value = false;
-        reset()
-
-        await navigateTo({
-            path: '/catalog'
-        });
-    }
-
     const openObject = (obj) => {
         const firstDoor = Object.values(obj).flat();
 
@@ -130,7 +120,7 @@
 
     const reset = () => {
         const selectElements = document.querySelectorAll('select');
-        
+
         for (let i = 0; i < selectElements.length; i++) {
             selectElements[i].selectedIndex = 0;
         }
@@ -162,6 +152,17 @@
             saveFilterProperties(check);
             sortedProducts.value = getFilter(route.query.sort);
         };
+    }
+
+    const resetSortQuery = async() => {
+        sortedProducts.value = products;
+        showResetSerchBtn.value = false;
+        document.querySelector('.search__input').value = '';
+        reset()
+
+        await navigateTo({
+            path: '/catalog'
+        });
     }
 
     onBeforeMount(()=>{

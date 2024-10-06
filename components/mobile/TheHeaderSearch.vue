@@ -18,37 +18,66 @@
 </template>
 
 <script setup>
-    import { ref, onBeforeUpdate } from 'vue';
-    import { storeToRefs } from 'pinia';
-    import { useSearchStore } from '~/stores/search';
+    import { ref } from 'vue';
+    import { useRoute } from 'vue-router';
 
-    const searchStore = useSearchStore();
-    const { inpData } = storeToRefs(searchStore);
-    const searchData = ref(inpData);
+    const searchData = ref('');
+    const route = useRoute();
 
-    const localePath = useLocalePath();
-
-    const goSearch = async () => {
-        searchStore.editItem(searchData.value);
-        searchStore.saveState();
-        if (searchData.value !== '') {
+    const goSearch = async () => {        
+        if (searchData.value) {
             await navigateTo({
-                path: localePath('/catalog'),
+                path: '/catalog',
                 query: {
                     type: 'search',
                     sort: searchData.value
                 }
             });
-            location.reload()
         }
     };
 
-    onBeforeUpdate(() => {
-        if (searchData.value === '') {
-            searchStore.editItem(searchData.value);
-            searchStore.saveState();
+    watch(() => route.fullPath, (older, newer) => {     
+        if (!route.query.type || route.query.type !== 'search') {
+            searchData.value = '';
         }
-    });
+    })
+
+    onMounted(() => {
+        if (route.query.type && route.query.type === 'search') {
+            searchData.value = route.query.sort;
+        }
+    })
+
+    // import { ref, onBeforeUpdate } from 'vue';
+    // import { useRoute } from 'vue-router';
+
+    // const searchStore = useSearchStore();
+    // const { inpData } = storeToRefs(searchStore);
+    // const searchData = ref(inpData);
+
+    // const localePath = useLocalePath();
+
+    // const goSearch = async () => {
+    //     searchStore.editItem(searchData.value);
+    //     searchStore.saveState();
+    //     if (searchData.value !== '') {
+    //         await navigateTo({
+    //             path: localePath('/catalog'),
+    //             query: {
+    //                 type: 'search',
+    //                 sort: searchData.value
+    //             }
+    //         });
+    //         location.reload()
+    //     }
+    // };
+
+    // onBeforeUpdate(() => {
+    //     if (searchData.value === '') {
+    //         searchStore.editItem(searchData.value);
+    //         searchStore.saveState();
+    //     }
+    // });
 
 </script>
 
