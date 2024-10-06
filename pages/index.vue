@@ -72,6 +72,7 @@
     .swiper {
         overflow-y: visible;
     }
+
     .frst-block-wrap {
         background-image: url(./../assets/back/1block.png);
         background-position: center;
@@ -270,9 +271,9 @@
 
         &__link {
             width: calc(38% + 10px);
+            height: 10vh;
             border-radius: 10px;
             background-color: #01aa58c9;
-            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -281,10 +282,6 @@
             font-weight: 800;
             opacity: 0.7;
             transition: all 0.3s ease;
-
-            @include media(1370px) {
-                height: 35vh;
-            }
 
             @include media(1150px) {
                 font-size: 80%;
@@ -306,16 +303,15 @@
                 font-size: 2.5vw;
             }
 
-            @media (hover: hover) {
-                &:hover {
-                    opacity: 1;
-                    font-size: 100%;
-                    -webkit-tap-highlight-color: transparent;
+            @include hover {
+                opacity: 1;
+                font-size: 100%;
+                -webkit-tap-highlight-color: transparent;
 
-                    @include media(1150px) {
-                        font-size: 70%;
-                    }
+                @include media(1150px) {
+                    font-size: 70%;
                 }
+
             }
         }
 

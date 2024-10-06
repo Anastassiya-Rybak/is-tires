@@ -41,46 +41,22 @@
         border-radius: 10px;
         cursor: pointer;
 
-        @media (hover: hover) {
-            &:hover {
-                border-radius: 50%;
-                filter: brightness(1.2);
-            }
-        }
+        @include hover {
+            filter: brightness(1.2);
 
-        @media (hover: none) {
-            &:active {
-                border-radius: 50%;
-                filter: brightness(1.2);
-            }
-        }
-
-        @media (hover: hover) {
             &:hover>figcaption {
                 top: 0;
+                backdrop-filter: blur(4px);
                 animation: changePosition 0.4s ease-in-out alternate;
                 text-align: center;
                 padding: 2em 0;
                 height: 100%;
+                color: white;
+                letter-spacing: 0.2em;
 
                 @keyframes changePosition {
                     from { top: 5%; }
                     to { top: 0; }
-                }
-            }
-        }
-
-        @media (hover: none) {
-            &:active>figcaption {
-                top: 40%;
-                animation: changePosition 0.4s ease-in-out alternate;
-                text-align: center;
-                padding: 2em 0;
-                height: fit-content;
-
-                @keyframes changePosition {
-                    from { top: 5%; }
-                    to { top: 40%; }
                 }
             }
         }
@@ -98,8 +74,10 @@
             width: 100%;
             height: 13%;
             font-size: 1vw;
-            font-weight: 800;
-            background-color: #00a857c4;
+            color: white;
+            text-shadow: 0 0 0.4em black;
+            font-weight: 500;
+            background-color: #00a85785;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
