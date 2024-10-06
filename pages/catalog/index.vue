@@ -268,6 +268,10 @@
             display: flex;
             justify-content: space-between;
 
+            @include media(800px) {
+                width: 80%;
+            }
+
             button {
                 padding: 0.7em;
                 font-size: 14px;

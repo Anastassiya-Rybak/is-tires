@@ -236,6 +236,13 @@
             column-gap: 2em;
             color: #000000;
             font-size: 1.3em;
+
+            @include media(800px) {
+                flex-direction: column;
+                width: 100%;
+                font-size: 1em;
+                row-gap: 0.2em;
+            }
         }
 
         &__product {
@@ -243,6 +250,12 @@
             padding: 0.5em 0.7em;
             border: 0.5px solid black;
             border-radius: 0.5em;
+
+            @include media(800px) {
+                border: none;
+                padding: 0.2em;
+                background-color: #01aa582a;
+            }
         }
 
         .select-met {
@@ -292,9 +305,17 @@
             top: -20%;
             cursor: pointer;
 
-            &:hover img {
-                transform: scale(1.1);
-                box-shadow: 0 0 5px  red;
+            @include hover {
+                img {
+                    transform: scale(1.1);
+                    box-shadow: 0 0 5px  red;
+                }
+            } 
+
+            @include media(800px) {
+                right: 0;
+                top: 0;
+                width: 9%;
             }
         }
     }
