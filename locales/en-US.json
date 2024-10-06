@@ -580,6 +580,7 @@
     },
     "contacts": {
         "title": "COMPANY CONTACTS",
+        "desc": "We are open Monday to Friday from 09:00 to 18:00. Send us an e-mail or call us. We will do our best to respond as soon as possible.",
         "message": "LEAVE A MESSAGE",
         "textarea": "Message...",
         "message_btn": "SEND"

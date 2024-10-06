@@ -2,18 +2,16 @@
     <div class="contact-page-wrap">
         <div class="contact-page container">
             <section class="contact-page__info">
-                <h1>{{ $t('contacts.title') }} <span>{{ $t('home_title') }}</span></h1>
+                <h1>{{ $t('contacts.title') }}</h1>
                 <ul>
+                    <li>{{ $t('contacts.desc') }}</li>
                     <li>
-                        <span>{{ $t('layout.footer.adress_alt') }}:</span><br>
                         <a href="https://2gis.kz/karaganda/inside/11822584677016903/firm/11822477302836082?floor=1&m=73.086988%2C49.80103%2F20" target="_blank">{{ $t('layout.footer.adress') }}</a>
                     </li>
                     <li>
-                        <span>{{ $t('layout.footer.tel_alt') }}:</span><br>
                         <a href="tel:8136745677554"> 8136745677554 </a>
                     </li>
                     <li>
-                        <span>{{ $t('layout.footer.email_alt') }}:</span><br>
                         <a href="mailto:email@shelter.com">email@shelter.com</a>
                     </li>
                 </ul>
@@ -62,7 +60,7 @@
 
             h1 {
                 font-size: 30px;
-                text-shadow: 0px 0.1em 0.1em $main-dark;
+                text-shadow: 0px 0.05em 0.05em $main-dark;
 
                 span {
                     font-size: 1.2em;
@@ -76,6 +74,11 @@
                 li {
                     margin-bottom: 3dvh;
 
+                    &:first-child {
+                        letter-spacing: 0.07em;
+                        word-spacing: 0.1em;
+                    }
+
                     span {
                         background-color: rgba(139, 201, 158, 0.123);
                         border: 1px solid $accent;
@@ -88,13 +91,13 @@
                         border-bottom: 1px solid #00BA61;
                         border-left: 1px solid #00BA61;
                         display: inline-block;
-                        padding: 0.4em 0;
+                        padding: 0.2em 0;
                         line-height: 2em;
                         color: black;
                         padding-left: 10%;
                         transition: all 0.3s ease;
 
-                        &:hover {
+                        @include hover {
                             opacity: 0.8;
                             text-shadow: 0px 0.1em 0.1em #00d36da1;
                         }

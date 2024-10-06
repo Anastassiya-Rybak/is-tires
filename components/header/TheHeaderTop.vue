@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style lang="scss" scoped>
@@ -19,6 +18,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         &__list {
             width: 70%;
             display: flex;
@@ -29,7 +29,7 @@
             letter-spacing: 0.2em;
             opacity: 0.7;
 
-            &:hover {
+            @include hover {
                 opacity: 1;
             }
 
