@@ -7,7 +7,7 @@
         <p :class="{full: !noSlide}">{{ productDescription }}</p>
         <div class="product-card__btns">
             <LazyTheButton v-show="noSlide" :text="$t('layout.btns.application')" colour="green" @click.stop @click="visibleModal('form')"/>
-            <LazyCallModal v-if="visible" :from="modalFrom" @close-modal="visibleModal" />
+            <LazyCallModal v-if="visible" :from="modalFrom" :product="productData.name" @close-modal="visibleModal" />
             <nuxt-link :to="localePath(link)" class="product-card__more" :class="{full: !noSlide}">{{ $t('layout.btns.more') }}</nuxt-link>
         </div>
     </article>
@@ -71,6 +71,7 @@
 
         @include hover {
             background-color: #ffffff;
+
             .product-card__img {
                 transform: scale(1.3);
             }
@@ -119,6 +120,7 @@
             color: rgb(22, 22, 22);
             text-shadow: 0px 0.08em 0.28em rgba(0, 0, 0, 0.25);
             margin: 15px 0;
+            transition: 0.5s;
 
             @include media(1240px) {
                 font-size: 28px;

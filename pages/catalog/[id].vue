@@ -52,7 +52,7 @@
                     </table>
                 </ClientOnly>
                 <TheButton :text="$t('layout.btns.application')" colour="green" class="product-page__application" @click="visibleModal"/>
-                <LazyCallModal v-show = "visible" from="form" @close-modal="visibleModal" />
+                <LazyCallModal v-show = "visible" from="form" :product="product.name" @close-modal="visibleModal" />
             </div>
         </div>
     </section>

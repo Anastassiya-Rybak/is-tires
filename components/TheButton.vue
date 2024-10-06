@@ -41,7 +41,7 @@
         }
 
         @include hover() {
-                filter: brightness(90%);
+            filter: brightness(90%);
         }
 
         &:active {
