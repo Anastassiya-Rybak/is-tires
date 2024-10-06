@@ -7,7 +7,7 @@
                 <div class="catalog__selects">
                     <TheFilterSelect v-for="(select, idx) in selects" :key="idx" :index="idx"
                     :aria-label="select.name" :name="select.name" :id="select.name + 'id'" class="filter-item"
-                    :selectData="select" :save="isSave"/>
+                    :selectData="select" :save="isSave" />
                 </div>
                 <div class="catalog__filter-btns">
                     <TheButton class="catalog__apply-btn" :text="$t('layout.btns.filter_go')" colour="green" @click.prevent="getApply"/>
@@ -151,7 +151,7 @@
         const dataToSeaarch = [];
         selectsCollection.forEach(select => {
             dataToSeaarch.push(select.selectedIndex);
-        })
+        });
         return dataToSeaarch;
     }
 
@@ -279,7 +279,7 @@
 
         &__product-cards {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             flex-wrap: wrap;
             row-gap: 3dvh;
             margin-top: 3dvh;

@@ -1,5 +1,5 @@
 <template>
-    <div class="call-modal-wrapper" @click="$emit('close-modal')">
+    <div class="call-modal-wrapper" @click="closeModal">
         <form class="call-modal" target="hidden-iframe" @click.stop>
             <h2>{{ $t('layout.modal.fill_the_form') }}</h2>
             <input v-model="formData.name" name="user-name" type="text" class="user-name" :placeholder="$t('layout.modal.name_placeholder')" required>
@@ -16,8 +16,6 @@
                     </div>
                 </div>
                 <textarea v-model="formData.message" name="user-massege" id="form-text" cols="20" rows="5" :placeholder="$t('layout.modal.message_placeholder')" required></textarea>
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="">
             </div>
             <div class="call-modal__body" v-else>
                 <select v-model="formData.method" aria-label="communication-method" name="call-select" id="call-select" class="select-met">
@@ -30,7 +28,7 @@
             </div>
             <TheButton type="submit" class="call-modal__btn" :text="btnText" colour="green" @click.prevent="handleCall"/>
             <LazyTheProductsSelect class="call-modal__product-menu" id="product-menu" v-if="openedSelectMenu" @addProduct="addProduct" @closeMenu="openedSelectMenu=false"/>
-            <div class="close-call-window" @click="$emit('close-modal')">
+            <div class="close-call-window" @click="closeModal">
                 <img src="./../assets/close.png" alt="Закрыть">
             </div>
         </form>
@@ -49,7 +47,9 @@
         product: {
             type: String
         }
-    })
+    });
+
+    const emit = defineEmits(['closeModal']);
 
     const formData = {
         name: '',
@@ -77,6 +77,13 @@
         choosenProducts.value.splice(idx, 1);
     }
 
+    const cleanFormData = () => {
+        choosenProducts.value.length = 0;
+        for (let key in formData) {                
+            key !== 'method' ? formData[key] = "" : formData[key] = 'Способ связи';
+        }
+    };
+
     const handleCall = () => {
 
         const callbackMessage = `Тема: Обратный звонок \n Имя пользователя: ${formData.name} \n Телефон: ${formData.tel} \n Желательный способ связи: ${(formData.method === "Способ связи" || "Phone") ? "Звонок" : formData.method}`;
@@ -87,10 +94,8 @@
         const res = useManagerCall(usersMessage);
 
         if (res) {
-            for (let key in formData) {                
-                key !== 'method' ? formData[key] = "" : formData[key] = 'Способ связи';
-            }
             btnText.value = 'Отправлено';
+            cleanFormData();
             setTimeout(() => {
                 btnText.value = 'Отправить';
             }, 2000);
@@ -100,6 +105,11 @@
                 btnText.value = 'Отправить';
             }, 2000);
         };        
+    }
+
+    const closeModal = () => {
+        cleanFormData();
+        emit('closeModal');
     }
 </script>
 

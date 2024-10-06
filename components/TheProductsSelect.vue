@@ -18,8 +18,9 @@
 </template>
 
 <script setup>
-    import JSON from '~/server/bd.json';
-    const { categories, products } = JSON;
+    import { useBD } from '#imports';
+
+    const { categories, products } = await useBD();
     const activeCategory = ref(null);
     const categoryProducts = ref(null);
 

@@ -1,5 +1,5 @@
 <template>
-    <select class="filter-select-wrap" v-model="selectedValue" @change="editFilter">
+    <select class="filter-select-wrap" v-model="selectedValue">
         <option v-for="(option, idx) in selectData.options" :key="idx" :value="option">{{ findValue(idx, option) }}</option>
     </select>
 </template>
@@ -23,13 +23,15 @@
     const currentSelect = ref(`selects.${props.index + 1}`);
     const selectedValue = ref(props.selectData.options[props.selectData.selectedLet]);
 
-    const findValue = (idx, option) => {
+    const findValue = (idx, option) => { // find current value and it's translate
         const { t } = useI18n();
         if (idx === 0) { return t(currentSelect.value, 0); }
         else if (props.index === 0) { return t(currentSelect.value, idx); }
         else if (props.index === 1) { return t(`main.second_block.categories.${idx}`) }
         else { return option; }
     };
+
+    
 </script>
 
 <style lang="scss" scoped>
