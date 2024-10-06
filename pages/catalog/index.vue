@@ -35,11 +35,10 @@
     const route = useRoute();
     const isSave = ref(false);
 
-    const { products } = await useBD();
+    const { products, selects } = await useBD();
     const sortedProducts = ref(products);
     const filterOn = ref(false);
     const nothing = ref(false);
-    const selects = JSON.selects;
 
     const showResetSerchBtn = ref(false);
 
